@@ -95,6 +95,21 @@
       "id": "mcp-typescript-sdk",
       "url": "https://github.com/modelcontextprotocol/typescript-sdk",
       "scope": "Official TypeScript SDK for the MCP server."
+    },
+    {
+      "id": "mermaid-docs",
+      "url": "https://mermaid.js.org/intro/syntax-reference",
+      "scope": "Official Mermaid syntax reference for editable flowcharts, sequence diagrams, state diagrams and other diagram types."
+    },
+    {
+      "id": "github-mermaid-rendering",
+      "url": "https://docs.github.com/en/get-started/writing-on-github/working-with-advanced-formatting/creating-diagrams",
+      "scope": "Official GitHub documentation for rendering Mermaid diagrams in Markdown."
+    },
+    {
+      "id": "github-readme-images",
+      "url": "https://docs.github.com/en/get-started/writing-on-github/getting-started-with-writing-and-formatting-on-github/quickstart-for-writing-on-github",
+      "scope": "Official guidance for accessible images and responsive image markup in GitHub Markdown."
     }
   ]
 }
