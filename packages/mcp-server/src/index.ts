@@ -3,7 +3,11 @@ import { serveStdio } from "@modelcontextprotocol/server/stdio";
 import * as z from "zod/v4";
 import { references, skills, templates } from "./catalog.js";
 import { readCatalogFile, searchCatalog } from "./content.js";
-import { validateInlineKeyboard, validateSafirPayload } from "./validators.js";
+import {
+  validateBusinessApiRequest,
+  validateInlineKeyboard,
+  validateSafirPayload
+} from "./validators.js";
 
 function textResult(value: unknown) {
   return { content: [{ type: "text" as const, text: JSON.stringify(value, null, 2) }] };
@@ -119,6 +123,20 @@ function createServer() {
     async ({ payload }) => textResult(validateSafirPayload(payload))
   );
 
+  server.registerTool(
+    "bale_validate_business_api_request",
+    {
+      title: "Validate a Bale Business API request",
+      description: "Check the documented seven-method allowlist, private-chat metadata, required chat identifiers and file_id-only media restrictions. chat_type must be supplied to validate the private-chat restriction; this tool does not call Bale.",
+      inputSchema: z.object({
+        method: z.string().min(1),
+        payload: z.record(z.string(), z.unknown()),
+        chat_type: z.enum(["private", "group", "supergroup", "channel"]).optional()
+      })
+    },
+    async ({ method, payload, chat_type }) => textResult(validateBusinessApiRequest(method, payload, chat_type))
+  );
+
   server.registerPrompt(
     "bale-engineering",
     {
@@ -152,7 +170,7 @@ function createServer() {
       title: "Review a Bale implementation",
       description: "Review a Bale bot, Mini App or Safir implementation against platform facts, security and operational readiness.",
       argsSchema: z.object({
-        target: z.string().min(2).describe("Bot API, Mini App, Safir or hybrid"),
+        target: z.string().min(2).describe("Bot API, Business API, Mini App, Safir or wallet payments"),
         change_summary: z.string().min(5),
         evidence: z.string().optional().describe("Relevant code, diff, logs or test results")
       })
