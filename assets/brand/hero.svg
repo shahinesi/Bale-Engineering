@@ -1,0 +1,29 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="360" viewBox="0 0 1200 360" role="img" aria-labelledby="title desc">
+  <title id="title">Bale Engineering</title>
+  <desc id="desc">An abstract engineering knowledge system connecting Bot API, Mini Apps, Safir, Business API, wallet payments and MCP.</desc>
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#091225"/><stop offset="1" stop-color="#14284A"/></linearGradient>
+    <linearGradient id="accent" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#58E0C1"/><stop offset="1" stop-color="#548DFF"/></linearGradient>
+    <pattern id="grid" width="32" height="32" patternUnits="userSpaceOnUse"><path d="M32 0H0V32" fill="none" stroke="#B9D4FF" stroke-opacity=".07"/></pattern>
+    <filter id="glow"><feGaussianBlur stdDeviation="18"/></filter>
+  </defs>
+  <rect width="1200" height="360" rx="26" fill="url(#bg)"/><rect width="1200" height="360" rx="26" fill="url(#grid)"/>
+  <circle cx="1010" cy="110" r="100" fill="#4C8FFF" opacity=".18" filter="url(#glow)"/><circle cx="880" cy="280" r="90" fill="#4ED7B8" opacity=".14" filter="url(#glow)"/>
+  <g stroke="#78B7FF" stroke-opacity=".32" stroke-width="2" fill="none"><path d="M760 90L875 150L1025 88L1110 170"/><path d="M875 150L850 260L1010 280L1110 170"/><path d="M1025 88L1010 280"/></g>
+  <g fill="#7EE4D0"><circle cx="760" cy="90" r="5"/><circle cx="875" cy="150" r="7"/><circle cx="1025" cy="88" r="5"/><circle cx="1110" cy="170" r="7"/><circle cx="850" cy="260" r="5"/><circle cx="1010" cy="280" r="6"/></g>
+  <g transform="translate(770 68)"><rect width="150" height="64" rx="14" fill="#132747" stroke="#4E8FFF" stroke-opacity=".7"/><text x="75" y="27" fill="#F4F8FF" text-anchor="middle" font-family="Inter,Arial,sans-serif" font-size="13" font-weight="700">BOT API</text><text x="75" y="46" fill="#9DB7D9" text-anchor="middle" font-family="Inter,Arial,sans-serif" font-size="10">Messages · Updates</text></g>
+  <g transform="translate(945 44)"><rect width="180" height="64" rx="14" fill="#132747" stroke="#4E8FFF" stroke-opacity=".7"/><text x="90" y="27" fill="#F4F8FF" text-anchor="middle" font-family="Inter,Arial,sans-serif" font-size="13" font-weight="700">MINI APP</text><text x="90" y="46" fill="#9DB7D9" text-anchor="middle" font-family="Inter,Arial,sans-serif" font-size="10">Rich web experiences</text></g>
+  <g transform="translate(850 230)"><rect width="160" height="64" rx="14" fill="#132747" stroke="#48CDB4" stroke-opacity=".8"/><text x="80" y="27" fill="#F4F8FF" text-anchor="middle" font-family="Inter,Arial,sans-serif" font-size="13" font-weight="700">SAFIR</text><text x="80" y="46" fill="#9DB7D9" text-anchor="middle" font-family="Inter,Arial,sans-serif" font-size="10">Phone delivery · OTP</text></g>
+  <g transform="translate(1025 235)"><rect width="145" height="64" rx="14" fill="#132747" stroke="#F0B45F" stroke-opacity=".85"/><text x="72" y="27" fill="#F4F8FF" text-anchor="middle" font-family="Inter,Arial,sans-serif" font-size="13" font-weight="700">MCP</text><text x="72" y="46" fill="#9DB7D9" text-anchor="middle" font-family="Inter,Arial,sans-serif" font-size="10">Agent knowledge</text></g>
+  <g transform="translate(70 76)">
+    <rect width="62" height="62" rx="18" fill="url(#accent)"/>
+    <path d="M20 14v34M20 17h16c8 0 12 4 12 10s-4 9-12 9H20m16 0c9 0 13 4 13 10s-4 11-13 11H20" fill="none" stroke="#0A1830" stroke-width="5.5" stroke-linecap="round" stroke-linejoin="round"/>
+    <text x="86" y="29" fill="#F6FAFF" font-family="Inter,Arial,sans-serif" font-size="28" font-weight="800" letter-spacing="1.5">BALE ENGINEERING</text>
+    <text x="87" y="62" fill="#AFC4E2" font-family="Inter,Arial,sans-serif" font-size="16">A source-backed engineering knowledge system</text>
+    <rect y="116" width="5" height="100" rx="2.5" fill="url(#accent)"/>
+    <text x="24" y="143" fill="#E7F0FF" font-family="Inter,Arial,sans-serif" font-size="15" font-weight="600">Choose the right platform.</text>
+    <text x="24" y="171" fill="#E7F0FF" font-family="Inter,Arial,sans-serif" font-size="15" font-weight="600">Design secure interactions.</text>
+    <text x="24" y="199" fill="#E7F0FF" font-family="Inter,Arial,sans-serif" font-size="15" font-weight="600">Verify every important behavior.</text>
+  </g>
+  <text x="72" y="326" fill="#7693BA" font-family="Inter,Arial,sans-serif" font-size="11" letter-spacing="2">BOT API · BUSINESS API · MINI APP · SAFIR · WALLET · MCP</text>
+</svg>
