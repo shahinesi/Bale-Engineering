@@ -22,8 +22,25 @@ npx skills add shahinesi/Bale-Engineering --skill bale-engineering-review
 ~~~
 
 <div dir="rtl" align="right">
-<h2>Codex</h2>
-<p>Skill را با Skills CLI نصب کنید یا پوشه موردنیاز را در مسیر <code>.agents/skills</code> پروژه قرار دهید. برای MCP محلی، ابتدا سرور را Build کنید و سپس دستور معرفی‌شده در <a href="../packages/mcp-server/README.fa.md">راهنمای MCP</a> را اجرا کنید.</p>
+<h2>Codex Desktop</h2>
+<p>Skill را با Skills CLI نصب کنید یا پوشه موردنیاز را در مسیر <code>.agents/skills</code> پروژه قرار دهید. برای اتصال MCP بدون Codex CLI:</p>
+<ol>
+<li>در برنامه Codex به مسیر <strong>Settings → Configuration → Open config.toml</strong> بروید.</li>
+<li>این تنظیم را به فایل موجود اضافه کنید:</li>
+</ol>
+</div>
+
+~~~toml
+[mcp_servers.bale_engineering]
+command = "npx"
+args = ["-y", "@bale-engineering/mcp-server@0.1.0"]
+~~~
+
+<div dir="rtl" align="right">
+<ol start="3">
+<li>فایل را ذخیره و Codex را Restart کنید. مسیر پیش‌فرض در macOS برابر <code>~/.codex/config.toml</code> است.</li>
+</ol>
+<p>برای جزئیات بیشتر، <a href="../packages/mcp-server/README.fa.md">راهنمای کامل MCP</a> را ببینید.</p>
 <h2>Claude Code</h2>
 <p>Skill را با Skills CLI نصب کنید یا در مسیر <code>.claude/skills</code> پروژه قرار دهید. برای اتصال MCP محلی از دستور راهنمای MCP استفاده کنید.</p>
 <h2>Cursor و Agentهای دیگر</h2>
