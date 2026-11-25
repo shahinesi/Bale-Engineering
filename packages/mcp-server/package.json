@@ -1,24 +1,62 @@
 {
   "name": "@bale-engineering/mcp-server",
   "version": "0.1.0",
-  "private": true,
+  "private": false,
   "type": "module",
-  "description": "Read-only MCP server for Bale Engineering skills and references",
+  "description": "Read-only MCP server for Bale Engineering skills, references and templates",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/shahinesi/Bale-Engineering.git"
+  },
+  "homepage": "https://github.com/shahinesi/Bale-Engineering#readme",
+  "bugs": {
+    "url": "https://github.com/shahinesi/Bale-Engineering/issues"
+  },
+  "keywords": [
+    "mcp",
+    "model-context-protocol",
+    "bale",
+    "bale-messenger",
+    "agent",
+    "skills",
+    "bot-api",
+    "mini-app",
+    "safir"
+  ],
   "engines": {
     "node": ">=20"
   },
+  "bin": {
+    "bale-engineering-mcp": "./dist/index.js"
+  },
+  "files": [
+    "dist/",
+    "package-data/",
+    "README.md",
+    "README.fa.md",
+    "LICENSE"
+  ],
   "scripts": {
     "build": "tsc -p tsconfig.json",
     "typecheck": "tsc -p tsconfig.json --noEmit",
-    "test": "vitest run"
+    "test": "vitest run",
+    "test:package": "node scripts/test-packaged-server.mjs",
+    "prepack": "node scripts/prepare-package.mjs",
+    "postpack": "node scripts/cleanup-package.mjs"
   },
   "dependencies": {
     "@modelcontextprotocol/server": "2.4.0",
     "zod": "^4.0.0"
   },
   "devDependencies": {
+    "@modelcontextprotocol/client": "2.4.0",
     "@types/node": "^22.15.0",
     "typescript": "^5.9.3",
     "vitest": "^3.2.4"
+  },
+  "publishConfig": {
+    "access": "public",
+    "registry": "https://registry.npmjs.org"
   }
 }
