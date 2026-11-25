@@ -5,7 +5,7 @@
 
 ## Important distinction
 
-Bale says message text is formatted using Markdown, but its formatting differs from standard Markdown. Use the syntax below rather than assuming GitHub-flavored Markdown or HTML support.
+Bale formats message text with a Markdown-like syntax, but it differs from standard Markdown. Use the exact documented syntax rather than assuming GitHub-flavored Markdown or HTML support.
 
 ## Documented syntax
 
@@ -14,17 +14,34 @@ Bale says message text is formatted using Markdown, but its formatting differs f
 | Bold | *متن برجسته* | One asterisk at each end; double asterisks are not supported |
 | Italic | _متن کج_ | One underscore at each end; double underscores are not supported |
 | Link | [عنوان](https://docs.bale.ai) | No space between ] and ( |
-| Code | Triple backticks | Use for source code |
-| Mention | @username | Requires a valid public username |
-| Hashtag | #موضوع | No spaces in the tag |
+| Code | Three backticks around the source | Use for source code |
+| Short text | Three backticks + [عنوان] + full text + three backticks | Displays a short title; touching it opens a preview |
+| Mention | @username | A valid username becomes clickable |
+| Hashtag | #موضوع | Clickable tag |
 | Bot command | /command | Recognized in bot and group messages |
-| Checklist | - [ ] / - [x] | Interactive only when enabled for that message and the user can edit it |
+| Checklist | - [ ] / - [x] | Can be interactive when enabled for the message and the user may edit it |
 | Internal user mention | [نام](uid:12345) | Uses a Bale user ID |
-| Send value to bot | [شروع](send:/start) | Documented for bot messages and groups where the bot is active |
+| Send value to bot | [شروع](send:/start) | Sends the value as a message to the bot in supported bot/group contexts |
 
-## Short text preview
+## Short text: exact syntax
 
-The official page documents a short-text format where a title is shown in the message and the full content opens in a preview when the title is touched. The source describes the title in square brackets and the full content inside a triple-backtick block. Because the rendered documentation's delimiter notation is easy to misread, verify the exact literal delimiters in a real client before generating this format automatically.
+The documented form is a title in square brackets followed by the full content, all enclosed in three backticks:
+
+~~~text
+```[اطلاعات بیشتر]این متن در صفحه پیش‌نمایش نمایش داده می‌شود.```
+~~~
+
+Only the title appears in the chat message. Touching it opens a preview containing the full content.
+
+## Checklists are conditional
+
+The syntax is:
+~~~text
+- [ ] انجام‌نشده
+- [x] انجام‌شده
+~~~
+
+The user can change a checklist item only when checklist functionality is enabled for that message and the user has permission to edit the message. Do not use a checklist as a durable task database.
 
 ## What is not established
 
@@ -35,11 +52,22 @@ Do not tell an agent these are supported. For tabular data, use concise text row
 ## Example message
 
 ~~~text
-*وضعیت سفارش*
-شماره: ۱۰۲۴
-وضعیت: _در حال آماده‌سازی_
+سلام *دوست من*،
 
-[مشاهده سفارش](https://ble.ir/example_bot?startapp=order_1024)
+این یک متن _توضیحی_ با لینک [مستندات بله](https://docs.bale.ai) است.
+
+کد نمونه:
+```
+sendMessage
+```
+
+```[اطلاعات بیشتر]این متن در صفحه پیش‌نمایش نمایش داده می‌شود.```
+
+موارد زیر را بررسی کنید:
+- [ ] مستندات را بخوانید
+- [x] پیام را ارسال کنید
+
+برای ارسال دستور به بازو، [شروع](send:/start) را لمس کنید.
 ~~~
 
 ## Security and escaping
@@ -48,7 +76,7 @@ User-provided content may contain formatting markers or links. Escape, sanitize 
 
 ## Verification
 
-Render examples in the actual Bale clients in scope. Check emphasis, link behavior, code blocks, preview behavior and checklist interactivity separately.
+Render examples in the actual Bale clients in scope. Check emphasis, link behavior, code blocks, preview behavior and checklist interactivity separately. Some additional formats depend on message type, chat type or client version.
 
 ## Source
 
