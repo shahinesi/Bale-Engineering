@@ -7,12 +7,27 @@
       "url": "https://docs.bale.ai/",
       "scope": [
         "Bot API request format",
+        "supported methods",
         "getUpdates",
         "setWebhook",
         "Update",
+        "identifiers",
         "keyboards",
         "button styles",
-        "disabled buttons"
+        "file limits",
+        "payments"
+      ],
+      "authority": "official"
+    },
+    {
+      "id": "bale-business-api",
+      "url": "https://docs.bale.ai/",
+      "scope": [
+        "Business API route",
+        "supported method allowlist",
+        "private chat restriction",
+        "file_id-only file delivery",
+        "separate quota and credit billing"
       ],
       "authority": "official"
     },
@@ -33,11 +48,13 @@
       "url": "https://docs.bale.ai/safir",
       "scope": [
         "REST message sending",
+        "phone number format",
         "request_id idempotency",
         "OTP",
         "secure messages",
         "templates",
-        "file upload"
+        "file upload",
+        "error codes"
       ],
       "authority": "official"
     },
@@ -45,7 +62,10 @@
       "id": "bale-markdown",
       "url": "https://docs.bale.ai/markdown-formatting",
       "scope": [
-        "Bale message formatting syntax"
+        "Bale message formatting syntax",
+        "short text preview",
+        "checklists",
+        "mentions"
       ],
       "authority": "official"
     },
