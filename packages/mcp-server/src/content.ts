@@ -31,7 +31,7 @@ type SearchItem = {
 };
 
 export async function searchCatalog(query: string, limit = 5) {
-  const tokens = query.toLocaleLowerCase().split(/\\s+/).filter(token => token.length > 1);
+  const tokens = query.toLocaleLowerCase().split(/\s+/).filter(token => token.length > 1);
   if (tokens.length === 0) return [];
 
   const items: SearchItem[] = [
@@ -49,7 +49,7 @@ export async function searchCatalog(query: string, limit = 5) {
     const firstToken = tokens.find(token => normalized.includes(token));
     const position = firstToken ? normalized.indexOf(firstToken) : 0;
     const start = Math.max(0, position - 180);
-    const excerpt = content.slice(start, Math.min(content.length, start + 520)).replace(/\\s+/g, " ").trim();
+    const excerpt = content.slice(start, Math.min(content.length, start + 520)).replace(/\s+/g, " ").trim();
 
     return { ...item, score, excerpt };
   }));
