@@ -44,9 +44,9 @@ For dense tables, dashboards, multi-column layouts or diagrams, choose a Mini Ap
 
 ## Example
 ~~~text
-سلام * دوست من *،
+سلام *دوست من* امیدوارم خوب باشید.
 
-این یک متن _ توضیحی _ با لینک [مستندات بله](https://docs.bale.ai) است.
+این یک متن _توضیحی_ با لینک [مستندات بله](https://docs.bale.ai) است.
 
 ```[اطلاعات بیشتر]این متن در صفحه پیش‌نمایش نمایش داده می‌شود.```
 ~~~
