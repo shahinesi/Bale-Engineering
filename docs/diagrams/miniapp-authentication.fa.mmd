@@ -1,0 +1,16 @@
+sequenceDiagram
+    participant U as کاربر
+    participant C as کلاینت بله
+    participant W as Mini App
+    participant A as Backend برنامه
+
+    U->>C: باز کردن Mini App
+    C->>W: ارسال raw initData
+    W->>A: ارسال initData روی HTTPS
+    A->>A: بررسی HMAC و auth_date
+    alt معتبر و تازه
+        A-->>W: ایجاد Session معتبر
+        W->>A: درخواست مجاز
+    else نامعتبر یا منقضی
+        A-->>W: رد احراز هویت
+    end
