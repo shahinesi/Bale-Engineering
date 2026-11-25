@@ -23,17 +23,18 @@ description: Use when generating, validating or choosing Bale ble.ir deep links 
 - mode can be fullscreen or compact where documented.
 - URL-encode query parameter values.
 - Do not construct message links manually. Bale says to copy them from the message menu because message_id and date identify the message.
+- The documented Mini App example includes @ before the bot username. Preserve the exact format generated/configured for the target bot.
 
 ## Examples
 ~~~text
 https://ble.ir/example_bot
 https://ble.ir/example_bot?start=campaign_42
-https://ble.ir/example_bot?startapp=order_1024&mode=compact
+https://ble.ir/@example_bot?startapp=order_1024&mode=compact
 https://ble.ir/join/INVITE_TOKEN
 https://ble.ir/share?url=https%3A%2F%2Fexample.com&text=سلام
 ~~~
 
-Use the documented username format without @ where the link grammar requires it.
+Use the documented username format for each link family; do not blindly add or remove @ across all URL types.
 
 ## Verification
 Open each link in a Bale client and verify destination, parameter delivery and behavior for users who have not started the bot.
