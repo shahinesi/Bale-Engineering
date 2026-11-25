@@ -1,6 +1,6 @@
 ---
 name: bale-engineering
-description: Use when planning, designing, implementing or reviewing a Bale bot, Mini App or Safir integration; choose the right platform capability and guide the work from requirements through verification.
+description: Use when planning, designing, implementing or reviewing a Bale bot, Business API notification, Mini App, Safir integration or wallet-payment flow; choose the right capability and guide the work from requirements through verification.
 ---
 
 # Bale Engineering
@@ -16,9 +16,9 @@ A short answer must not become an incomplete answer.
 
 ## First establish the job
 Identify:
-1. Who is the user: bot chat participant, Mini App user or Safir message recipient?
+1. Who is the user: bot chat participant, Mini App user, Business API recipient or Safir message recipient?
 2. What action must they complete?
-3. Is this a conversation, rich UI, outbound notification or hybrid flow?
+3. Is this a conversation, rich UI, outbound notification, phone-number message or payment flow?
 4. What is the authoritative backend and where does business state live?
 5. What must be authenticated, authorized, confirmed, retried or audited?
 6. Which clients, devices and operational constraints matter?
@@ -30,16 +30,19 @@ Do not ask for information already present. State assumptions when they do not b
 | User need | First choice | Why |
 |---|---|---|
 | Commands, conversation, text input and callback actions | Bale Bot API | The interaction belongs in chat |
+| Notification to an existing private Bale chat outside the active conversation | Bale Business API | Separate higher-quota, credit-funded route for known private chat_id values |
 | Forms, searchable lists, dashboards and dense data | Bale Mini App | A web UI is better than a long chat transcript |
 | Outbound message to a phone number, OTP or approved template | Safir | Separate REST delivery service with organization API key |
+| Wallet payment in chat | Bot API sendInvoice | Documented invoice and pre-checkout lifecycle |
+| Wallet payment in a Mini App | Mini App + createInvoiceLink | The Mini App presents the checkout UI |
 | A message that opens a rich workflow | Bot API + Mini App | Bot is entry point; Mini App is workspace |
-| Outbound notification followed by an in-app task | Safir + Bot API or Mini App | Delivery and interaction are separate concerns |
+| Phone notification followed by an in-app task | Safir + Bot API or Mini App | Delivery and interaction are separate concerns |
 
-Explain the trade-off. Do not choose Safir merely because it sends a message, or a Mini App merely because the task has a form.
+Never confuse Business API with Safir: Business API targets a private Bale chat_id; Safir targets a phone number. Explain the trade-off.
 
 ## Engineering workflow
 1. **Discover:** user jobs, actors, states and measurable outcomes.
-2. **Choose:** compare Bot API, Mini App, Safir and hybrid flow.
+2. **Choose:** compare Bot API, Business API, Mini App, Safir and payment flows.
 3. **Specify:** interaction contract, payloads, states, permissions, errors and acceptance criteria.
 4. **Design:** model state transitions and trust boundaries.
 5. **Implement:** use Bale's documented contract and the repository's conventions.
@@ -54,8 +57,10 @@ For each non-trivial decision state **why**, **when**, **how**, the rejected alt
 - Do not trust initDataUnsafe or browser state as authenticated identity.
 - Treat requestContact callback as a UI signal only. Verify the contact update and compare contact.user_id with from.id.
 - Use a stable Safir request_id for retries of the same business delivery.
+- Business API does not document a provider request_id equivalent to Safir; implement application-level duplicate prevention.
 - Never use callback_data as authorization. Re-check actor, ownership, state and permission on the server.
 - A disabled button is presentation, not access control.
+- A pre_checkout_query is not payment success. Fulfil only after validating SuccessfulPayment.
 - Do not assume standard Markdown tables or Mermaid render in Bale messages.
 - Never put credentials in code, examples, MCP arguments, logs or prompts.
 
@@ -68,7 +73,10 @@ For action buttons:
 - primary: main action.
 - disabled: unavailable action, with server-side enforcement too.
 
-Keep callback payloads short and versioned. Bale documents a 1–64 byte limit, not a character limit.
+Keep callback payloads short and versioned. Bale documents a 1–64 byte limit, not a character limit. Call answerCallbackQuery for every callback; add a fallback for older clients.
+
+## Payments
+For wallet payments, validate pre_checkout_query within 10 seconds, but do not fulfil the order at that stage. Wait for SuccessfulPayment and process it idempotently.
 
 ## Required output for substantial tasks
 1. Recommendation and rationale.
@@ -82,6 +90,9 @@ Keep callback payloads short and versioned. Bale documents a 1–64 byte limit, 
 
 ## Canonical references
 - ../../knowledge/bot-api/overview.md
+- ../../knowledge/bot-api/methods-catalog.md
+- ../../knowledge/bot-api/business-api.md
+- ../../knowledge/bot-api/payments-and-wallet.md
 - ../../knowledge/bot-api/keyboards-and-callbacks.md
 - ../../knowledge/miniapp/overview-and-navigation.md
 - ../../knowledge/miniapp/security-and-identity.md
