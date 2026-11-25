@@ -6,34 +6,36 @@ Package: <code>@bale-engineering/mcp-server</code>
 
 Repository: https://github.com/shahinesi/Bale-Engineering
 
-## What is already prepared
+## Published release
 
-- The MCP package is no longer marked private.
-- Package metadata, executable CLI entry and public access configuration are present.
-- The prepack step bundles the canonical <code>skills/</code>, <code>knowledge/</code>, <code>templates/</code>, <code>docs/</code>, <code>assets/brand/</code> and <code>sources.json</code> files.
-- The runtime selects repository files during development and bundled package data after npm installation.
-- The CI workflow runs typecheck, unit tests, build and a real installed-package MCP STDIO smoke test.
-- The publish workflow uses npm Trusted Publishing (OIDC) when configured.
+The first public release, <code>0.1.0</code>, was successfully published to npm on 2026-11-25.
 
-## Important: npm scope ownership
+- [npm package page](https://www.npmjs.com/package/@bale-engineering/mcp-server)
+- [GitHub repository](https://github.com/shahinesi/Bale-Engineering)
 
-The package name uses the <code>@bale-engineering</code> npm scope. The person publishing must own that npm organization/scope or have publish permission for it. A GitHub repository name does not automatically grant npm scope ownership.
+Verify the registry version:
 
-If that scope is not yours, stop before publishing and choose an npm scope you control or an available unscoped package name. Do not publish under another organization's scope.
+~~~bash
+npm view @bale-engineering/mcp-server version
+~~~
 
-## First publication
+Do not try to publish version <code>0.1.0</code> again. npm versions are immutable; every release needs a new version.
 
-There are two options.
+## What the package contains
 
-### Option A — publish once from an authenticated machine
+- The executable local MCP server.
+- Canonical skills and source-backed knowledge references.
+- Templates, architecture documentation, Mermaid diagrams and brand assets.
+- English and Persian package READMEs.
+- Read-only MCP tools, resources and prompts.
 
-1. Sign in to the npm account that owns the scope:
+The package runs over STDIO. It does not host an HTTP endpoint or call Bale/Safir production APIs.
 
-   ~~~bash
-   npm login
-   ~~~
+## Before preparing the next release
 
-2. From the repository:
+1. Update the package version in <code>packages/mcp-server/package.json</code> using semantic versioning.
+2. Update the changelog/release notes and both language READMEs if behavior or setup changes.
+3. Run the full local verification:
 
    ~~~bash
    cd packages/mcp-server
@@ -42,24 +44,29 @@ There are two options.
    npm test
    npm run build
    npm run test:package
-   npm publish --access public
    ~~~
 
-3. Verify the package page and installed version on npm.
+4. Review dependency security findings. Do not use <code>npm audit fix --force</code> without reviewing the proposed major-version changes and rerunning tests.
+5. Merge the verified changes to the default branch.
 
-### Option B — bootstrap with GitHub Actions
+## Publish from GitHub Actions
 
-1. Create a granular npm access token with publish permission for this package/scope.
-2. Add it to the GitHub repository as an Actions secret named <code>NPM_TOKEN</code>.
-3. Open **Actions → Publish MCP package → Run workflow**.
-4. Set <code>confirm_publish</code> to <code>true</code>.
-5. The workflow repeats typecheck, tests, build and the packaged STDIO smoke test before publishing.
+The publish workflow is <code>.github/workflows/publish.yml</code>. It runs typecheck, unit tests, build and the installed-tarball MCP STDIO smoke test before publishing.
 
-Do not paste the npm token into chat, source code or a committed file.
+### GitHub Actions authentication
 
-## Configure Trusted Publishing after the first package exists
+The current workflow passes the repository secret <code>NPM_TOKEN</code> as <code>NODE_AUTH_TOKEN</code>. If you use this workflow as currently written:
 
-On npmjs.com, open the package settings and add a GitHub Actions trusted publisher:
+1. Create an npm granular access token with publish permission for this package.
+2. Add it under **GitHub repository → Settings → Secrets and variables → Actions** as <code>NPM_TOKEN</code>.
+3. Do not paste the token into source code, issues, chat or committed files.
+4. Keep the secret until the workflow has been changed to use npm Trusted Publishing without a token and that OIDC path has been tested successfully.
+
+The workflow also grants <code>id-token: write</code>. The presence of that permission alone does not prove that tokenless Trusted Publishing is configured or working.
+
+### Configure npm Trusted Publishing
+
+After the package exists, open its npm settings and configure a GitHub Actions trusted publisher:
 
 | Field | Value |
 |---|---|
@@ -67,38 +74,50 @@ On npmjs.com, open the package settings and add a GitHub Actions trusted publish
 | Organization or user | <code>shahinesi</code> |
 | Repository | <code>Bale-Engineering</code> |
 | Workflow filename | <code>publish.yml</code> |
-| Allowed action | <code>npm publish</code> |
+| Environment | Leave empty unless the workflow explicitly uses one |
 
-The workflow grants <code>id-token: write</code> and uses Node.js 24, which satisfies npm's current Trusted Publishing requirements. After a successful OIDC publish, remove the long-lived <code>NPM_TOKEN</code> secret if it was only used for bootstrap.
+For a true OIDC-only release, the workflow must call <code>npm publish</code> without relying on a long-lived <code>NPM_TOKEN</code> secret. Make and verify that workflow change before removing the secret.
 
-## Future releases
+## Release using a version tag
 
-1. Update the version in <code>packages/mcp-server/package.json</code> using semantic versioning.
-2. Commit and push the change.
-3. Create a tag matching the package version, for example:
+The publish workflow accepts tags matching <code>v*</code> and checks that the tag matches the package version.
 
-   ~~~bash
-   git tag v0.1.1
-   git push origin v0.1.1
-   ~~~
-
-4. GitHub Actions verifies the package and publishes the tarball.
-
-The workflow is intentionally not triggered by ordinary pushes. Creating a version tag or explicitly confirming the manual workflow is the release action.
-
-## Local package checks
+For example, after changing the package version to <code>0.1.1</code> and merging the change:
 
 ~~~bash
-cd packages/mcp-server
-npm install
-npm run typecheck
-npm test
-npm run build
-npm run test:package
+git tag v0.1.1
+git push origin v0.1.1
 ~~~
 
-The package smoke test creates a tarball, installs it into a clean temporary consumer, starts the installed server through the official MCP client over STDIO, then checks tools, a Persian reference, a resource and a prompt.
+GitHub Actions then verifies and publishes that version, provided npm authentication is configured.
 
-## Current publication status
+A normal push does not publish a package. The workflow can also be started manually from **Actions → Publish MCP package**, but the <code>confirm_publish</code> input must be explicitly set to <code>true</code>.
 
-The repository contains the publishing configuration, but this does not mean the package is already on npm. The first publish still requires an npm account with permission for the <code>@bale-engineering</code> scope and one-time authentication/bootstrap.
+## First publication (historical)
+
+The initial <code>0.1.0</code> release was published manually from an authenticated developer machine:
+
+~~~bash
+npm login
+npm whoami
+npm publish --access public
+~~~
+
+These commands are included for reference only. Do not rerun the publish command without first incrementing the package version.
+
+## Package verification
+
+After each release, verify the published version:
+
+~~~bash
+npm view @bale-engineering/mcp-server version
+npm view @bale-engineering/mcp-server dist-tags
+~~~
+
+Then install it in a clean MCP client configuration and verify tool discovery, one tool call, a resource and a prompt. The local <code>npm run test:package</code> check covers these package-level behaviors before publication.
+
+## Related guides
+
+- [Complete MCP installation and usage guide](../packages/mcp-server/README.md)
+- [Persian MCP installation and usage guide](../packages/mcp-server/README.fa.md)
+- [Main repository README](../README.md)
