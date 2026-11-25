@@ -155,6 +155,10 @@ flowchart LR
 <li><a href="diagrams/miniapp-authentication.fa.mmd">احراز هویت Mini App</a></li>
 <li><a href="diagrams/wallet-payment-lifecycle.fa.mmd">چرخه پرداخت کیف پول</a></li>
 <li><a href="diagrams/mcp-architecture.fa.mmd">معماری MCP</a></li>
+<li><a href="diagrams/business-api-notification.fa.mmd">ارسال اعلان Business API</a></li>
+<li><a href="diagrams/safir-delivery-lifecycle.fa.mmd">چرخه ارسال سفیر</a></li>
+<li><a href="diagrams/callback-authorization.fa.mmd">اعتبارسنجی Callback</a></li>
+<li><a href="diagrams/deep-link-entrypoints.fa.mmd">مسیرهای Deep Link</a></li>
 </ul>
 <p>برای نسخه انگلیسی، فایل‌های بدون پسوند <code>.fa</code> را ببینید.</p>
 <h2>۱۰. منابع رسمی</h2>
