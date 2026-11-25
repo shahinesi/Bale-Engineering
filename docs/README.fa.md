@@ -21,6 +21,10 @@
 <tr><td>احراز هویت Mini App</td><td><a href="diagrams/miniapp-authentication.fa.mmd">فارسی</a></td><td><a href="diagrams/miniapp-authentication.mmd">English</a></td></tr>
 <tr><td>چرخه پرداخت کیف پول</td><td><a href="diagrams/wallet-payment-lifecycle.fa.mmd">فارسی</a></td><td><a href="diagrams/wallet-payment-lifecycle.mmd">English</a></td></tr>
 <tr><td>معماری MCP</td><td><a href="diagrams/mcp-architecture.fa.mmd">فارسی</a></td><td><a href="diagrams/mcp-architecture.mmd">English</a></td></tr>
+<tr><td>اعلان Business API</td><td><a href="diagrams/business-api-notification.fa.mmd">فارسی</a></td><td><a href="diagrams/business-api-notification.mmd">English</a></td></tr>
+<tr><td>ارسال Safir</td><td><a href="diagrams/safir-delivery-lifecycle.fa.mmd">فارسی</a></td><td><a href="diagrams/safir-delivery-lifecycle.mmd">English</a></td></tr>
+<tr><td>مجوز Callback</td><td><a href="diagrams/callback-authorization.fa.mmd">فارسی</a></td><td><a href="diagrams/callback-authorization.mmd">English</a></td></tr>
+<tr><td>مسیرهای Deep Link</td><td><a href="diagrams/deep-link-entrypoints.fa.mmd">فارسی</a></td><td><a href="diagrams/deep-link-entrypoints.mmd">English</a></td></tr>
 </tbody>
 </table>
 
