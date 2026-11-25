@@ -99,7 +99,7 @@ See [Agent adapters](adapters/README.md) for Codex, Claude Code, Cursor and othe
 
 ## Install the MCP server from npm
 
-The npm package name is registered, but npm currently shows only the <code>0.0.0-stage</code> placeholder. The source release candidate is <code>0.1.0</code>; it becomes installable only after the GitHub OIDC staging workflow succeeds and a maintainer approves it with 2FA. Do not install the placeholder.
+The npm package name is registered, but npm currently shows only the <code>0.0.0-stage</code> placeholder. The source release candidate is <code>0.1.0</code>; it becomes installable only after the GitHub OIDC staging workflow succeeds and a maintainer approves it with 2FA. Do not install the placeholder. The commands below are for use after approval.
 
 For Codex:
 
