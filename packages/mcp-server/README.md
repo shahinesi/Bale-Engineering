@@ -91,13 +91,13 @@ Restart or reload the client after changing its MCP configuration. The exact set
 
 ### Pin an exact version
 
-For reproducible team environments, replace <code>@latest</code> with a tested version, for example:
+For reproducible team environments, pin a tested version. The currently documented published release is:
 
 ~~~text
 @bale-engineering/mcp-server@0.1.0
 ~~~
 
-Using <code>@latest</code> opts into the newest published release when the client launches the package through npx.
+Use <code>@latest</code> only after verifying that npm's <code>latest</code> dist-tag points to the intended stable release. If it points to <code>0.0.0-stage</code>, keep the exact version pin.
 
 ## Verify the installation
 
