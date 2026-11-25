@@ -1,0 +1,16 @@
+sequenceDiagram
+    participant U as User
+    participant C as Bale Client
+    participant W as Mini App
+    participant A as Application Backend
+
+    U->>C: Open Mini App
+    C->>W: Provide raw initData
+    W->>A: Send raw initData over HTTPS
+    A->>A: Verify HMAC and auth_date
+    alt Valid and fresh
+        A-->>W: Issue authenticated app session
+        W->>A: Authorized API request
+    else Invalid or expired
+        A-->>W: Reject authentication
+    end
