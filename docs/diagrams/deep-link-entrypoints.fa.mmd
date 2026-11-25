@@ -1,0 +1,10 @@
+flowchart TD
+    LINK["لینک عمیق بله"] --> KIND{"نوع لینک"}
+    KIND -->|start| BOT["باز کردن گفت‌وگوی ربات"]
+    BOT --> CMD["ارسال /start همراه پارامتر"]
+    KIND -->|startapp| MINI["باز کردن مستقیم Mini App"]
+    MINI --> PARAM["دریافت start_param در زمینه Mini App"]
+    KIND -->|share| SHARE["باز کردن انتخاب‌گر اشتراک"]
+    SHARE --> CONFIRM["بازبینی و تأیید توسط کاربر"]
+    KIND -->|join token| INVITE["پیش‌نمایش و عضویت در گروه یا کانال"]
+    KIND -->|message link| MSG["باز کردن پیام عمومی یا مخصوص اعضا"]
