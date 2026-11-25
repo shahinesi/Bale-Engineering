@@ -70,7 +70,7 @@ Client configuration formats can change. Confirm the current host documentation 
 | bale_search_knowledge | Deterministic keyword search; not semantic search |
 | bale_route_task | Keyword-based first-pass skill routing |
 | bale_validate_inline_keyboard | Validate Bot API inline keyboard structure, styles, disabled and callback_data |
-| bale_validate_safir_payload | Validate Safir send_message shape and warn about documented ambiguities |
+| bale_validate_safir_payload | Validate Safir send_message shape, phone format, template and button fields |
 
 ## Resources
 
