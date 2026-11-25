@@ -9,7 +9,7 @@
 
 A local, read-only [Model Context Protocol (MCP)](https://modelcontextprotocol.io/) server for the Bale Engineering knowledge base. It gives compatible AI coding agents structured access to Bale skills, source-backed references, templates, validators and engineering prompts.
 
-**npm package:** [@bale-engineering/mcp-server](https://www.npmjs.com/package/@bale-engineering/mcp-server) · **Current release:** <code>0.1.0</code>
+**npm package:** [@bale-engineering/mcp-server](https://www.npmjs.com/package/@bale-engineering/mcp-server) · **Source candidate:** <code>0.1.0</code> · **Status:** awaiting staged release approval
 
 ## What it does
 
@@ -342,7 +342,7 @@ To run a source checkout through an MCP client, build it and use this configurat
 
 ## Versioning and publishing
 
-The first public release, <code>0.1.0</code>, is published on npm:
+The source release candidate is <code>0.1.0</code>. npm currently displays the <code>0.0.0-stage</code> placeholder; the functional package is not installable until the staged candidate is approved:
 
 - [View the npm package](https://www.npmjs.com/package/@bale-engineering/mcp-server)
 - [View GitHub Actions](https://github.com/shahinesi/Bale-Engineering/actions)
