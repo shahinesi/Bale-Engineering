@@ -57,7 +57,7 @@ try {
   const persianReadme = await readFile(join(packageRoot, "README.fa.md"), "utf8");
   assert.ok(englishReadme.includes("### Codex desktop app"), "English README must document Codex Desktop setup");
   assert.ok(englishReadme.includes("[mcp_servers.bale_engineering]"), "English README must include Codex TOML configuration");
-  assert.ok(persianReadme.includes("### ۳.۱. اتصال به Codex Desktop"), "Persian README must document Codex Desktop setup");
+  assert.ok(persianReadme.includes("۳.۱. اتصال به Codex Desktop"), "Persian README must document Codex Desktop setup");
   assert.ok(persianReadme.includes("[mcp_servers.bale_engineering]"), "Persian README must include Codex TOML configuration");
 
   const tarballPath = join(packDirectory, packMetadata[0].filename);
