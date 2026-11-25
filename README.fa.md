@@ -89,27 +89,42 @@ npx skills add shahinesi/Bale-Engineering --skill bale-wallet-payments
 
 <div dir="rtl" align="right">
 <h2>نصب MCP Server از npm</h2>
-<p>نام پکیج <code>@bale-engineering/mcp-server</code> در npm ثبت شده، اما فعلاً فقط Placeholder با نسخه <code>0.0.0-stage</code> نمایش داده می‌شود. نسخه کاندید سورس <code>0.1.0</code> است و پس از اجرای موفق Workflow مبتنی بر OIDC و تأیید Maintainer با 2FA قابل نصب خواهد بود. Placeholder را نصب نکنید؛ دستورهای نصب زیر برای بعد از تأیید نسخه واقعی هستند.</p>
+<p>اولین نسخه عمومی یعنی <code>0.1.0</code> به‌صورت دستی در npm منتشر شده است. کاندید بعدی در سورس <code>0.1.1</code> است و برای انتشار مرحله‌ای با OIDC آماده می‌شود. تا زمان تأیید نسخه بعدی، از نسخه مشخص <code>0.1.0</code> استفاده کنید. نسخه <code>0.0.0-stage</code> فقط Placeholder مربوط به Staging در npm است، نه نسخه واقعی برنامه.</p>
 </div>
 
 ~~~bash
-npx -y @bale-engineering/mcp-server
+npx -y @bale-engineering/mcp-server@0.1.0
 ~~~
 
 <div dir="rtl" align="right">
-<h3>اتصال به Codex</h3>
+<h3>اتصال به Codex Desktop (بدون CLI)</h3>
+<p>در برنامه دسکتاپ Codex مک‌بوک:</p>
+<ol>
+<li>وارد <strong>Settings → Configuration → Open config.toml</strong> شوید.</li>
+<li>این بخش را به فایل موجود اضافه کنید؛ تنظیمات قبلی را حذف نکنید.</li>
+</ol>
 </div>
 
-~~~bash
-codex mcp add bale-engineering -- npx -y @bale-engineering/mcp-server@latest
+~~~toml
+[mcp_servers.bale_engineering]
+command = "npx"
+args = ["-y", "@bale-engineering/mcp-server@0.1.0"]
 ~~~
+
+<div dir="rtl" align="right">
+<ol start="3">
+<li>فایل را ذخیره کنید و Codex را Restart کنید.</li>
+</ol>
+<p>مسیر پیش‌فرض فایل در macOS برابر <code>~/.codex/config.toml</code> است. نیازی به نصب Codex CLI ندارید؛ <code>npx</code> فقط پکیج MCP را اجرا می‌کند.</p>
+</div>
+
 
 <div dir="rtl" align="right">
 <h3>اتصال به Claude Code</h3>
 </div>
 
 ~~~bash
-claude mcp add bale-engineering -- npx -y @bale-engineering/mcp-server@latest
+claude mcp add bale-engineering -- npx -y @bale-engineering/mcp-server@0.1.0
 ~~~
 
 <div dir="rtl" align="right">
@@ -122,7 +137,7 @@ claude mcp add bale-engineering -- npx -y @bale-engineering/mcp-server@latest
   "mcpServers": {
     "bale-engineering": {
       "command": "npx",
-      "args": ["-y", "@bale-engineering/mcp-server@latest"]
+      "args": ["-y", "@bale-engineering/mcp-server@0.1.0"]
     }
   }
 }
@@ -204,8 +219,8 @@ AGENTS.md                قواعد نگهداری و مشارکت
 <li>نمودارهای معماری این مخزن، الگوی پیشنهادی هستند و اسکرین‌شات محصول عملیاتی محسوب نمی‌شوند.</li>
 </ul>
 <h2>وضعیت پروژه</h2>
-<p><strong>Foundation Release Candidate — v0.1.0</strong></p>
-<p>نام پکیج در npm ثبت شده است. نسخه قابل‌مشاهده <code>0.0.0-stage</code> فقط Placeholder npm است؛ نسخه عملیاتی پس از Stage موفق با OIDC و تأیید Maintainer منتشر خواهد شد. مخزن شامل Skillهای اصلی، مراجع فنی مبتنی بر منابع، MCP محلی فقط‌خواندنی، مستندات دوزبانه، نمودارهای Mermaid و تصاویر SVG است.</p>
+<p><strong>Published Foundation Release — v0.1.0</strong></p>
+<p>اولین نسخه پکیج به‌صورت دستی در npm منتشر شده است. مخزن در حال آماده‌سازی نسخه <code>0.1.1</code> برای انتشار مرحله‌ای با GitHub OIDC است. نسخه <code>0.0.0-stage</code> فقط Placeholder مربوط به Staging در npm است. پروژه شامل Skillهای اصلی، مراجع فنی مبتنی بر منابع، MCP محلی فقط‌خواندنی، مستندات دوزبانه، نمودارهای Mermaid و تصاویر SVG است.</p>
 <h2>منابع</h2>
 <ul>
 <li><a href="https://docs.bale.ai/">مستندات رسمی بله</a></li>
