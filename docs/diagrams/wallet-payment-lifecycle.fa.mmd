@@ -1,0 +1,12 @@
+stateDiagram-v2
+    [*] --> PendingOrder
+    PendingOrder --> InvoiceCreated: ساخت فاکتور
+    InvoiceCreated --> PreCheckout: شروع پرداخت
+    PreCheckout --> Rejected: سفارش یا مبلغ نامعتبر
+    PreCheckout --> AwaitingPayment: تأیید PreCheckout
+    AwaitingPayment --> Paid: اعتبارسنجی SuccessfulPayment
+    AwaitingPayment --> Expired: انقضا یا نتیجه نامشخص
+    Paid --> Fulfilled: تکمیل Idempotent
+    Rejected --> [*]
+    Expired --> [*]
+    Fulfilled --> [*]
