@@ -19,7 +19,7 @@ Bale Engineering is more than an API notes repository. It helps developers and c
   <a href="README.fa.md">فارسی</a> ·
   <a href="docs/architecture.md">Architecture</a> ·
   <a href="packages/mcp-server/README.md">MCP Server</a> ·
-  <a href="adapters/README.md">Agent setup</a>
+  <a href="adapters/README.md">Agent setup</a> · <a href="CONTRIBUTING.md">Contributing</a>
 </p>
 
 ## At a glance
