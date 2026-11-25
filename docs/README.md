@@ -2,13 +2,20 @@
 
 [فارسی](README.fa.md) · **English**
 
-This directory contains the architecture guide and editable diagrams for Bale Engineering.
+This directory contains architecture guidance, editable diagrams and release documentation for Bale Engineering.
 
 ## Start here
 
 - [System architecture](architecture.md)
 - [Persian architecture guide](architecture.fa.md)
 - [Diagram source files](diagrams/)
+
+## MCP and release guides
+
+- [Complete MCP installation and usage guide](../packages/mcp-server/README.md)
+- [Persian MCP installation and usage guide](../packages/mcp-server/README.fa.md)
+- [npm release guide](releasing.md)
+- [راهنمای انتشار npm](releasing.fa.md)
 
 ## Diagram catalogue
 
