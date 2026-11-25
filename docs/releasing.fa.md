@@ -3,35 +3,42 @@
 <p align="left"><a href="releasing.md">English</a> · <strong>فارسی</strong></p>
 
 <h1>راهنمای انتشار پکیج npm</h1>
-<p>نام پکیج: <code>@bale-engineering/mcp-server</code></p>
-<p>مخزن: <a href="https://github.com/shahinesi/Bale-Engineering">Bale-Engineering</a></p>
+<p><strong>نام پکیج:</strong> <code>@bale-engineering/mcp-server</code></p>
+<p><strong>مخزن:</strong> <a href="https://github.com/shahinesi/Bale-Engineering">Bale-Engineering</a></p>
 
-<h2>چه چیزهایی آماده شده‌اند؟</h2>
+<h2>نسخه منتشرشده</h2>
+<p>اولین نسخه عمومی یعنی <code>0.1.0</code> در تاریخ ۲۵ نوامبر ۲۰۲۶ با موفقیت در npm منتشر شده است.</p>
 <ul>
-<li>پکیج MCP دیگر <code>private</code> نیست.</li>
-<li>اطلاعات پکیج، CLI اجرایی و تنظیمات انتشار عمومی اضافه شده‌اند.</li>
-<li>هنگام ساخت پکیج، Skillها، Knowledge، Templateها، مستندات، تصاویر و <code>sources.json</code> داخل بسته قرار می‌گیرند.</li>
-<li>در حالت توسعه، فایل‌ها از ریشه مخزن خوانده می‌شوند؛ در نصب npm، از داده‌های همراه پکیج.</li>
-<li>CI شامل Typecheck، تست واحد، Build و تست واقعی پکیج نصب‌شده با MCP STDIO است.</li>
-<li>Workflow انتشار از Trusted Publishing و OIDC پشتیبانی می‌کند.</li>
+<li><a href="https://www.npmjs.com/package/@bale-engineering/mcp-server">صفحه پکیج در npm</a></li>
+<li><a href="https://github.com/shahinesi/Bale-Engineering">مخزن GitHub</a></li>
 </ul>
-
-<h2>نکته مهم: مالکیت Scope در npm</h2>
-<p>نام پکیج از Scope با نام <code>@bale-engineering</code> استفاده می‌کند. حساب منتشرکننده باید مالک این Organization/Scope باشد یا مجوز انتشار در آن را داشته باشد. نام مخزن GitHub به‌تنهایی مالکیت Scope در npm را ایجاد نمی‌کند.</p>
-<p>اگر این Scope متعلق به تو نیست، قبل از انتشار باید نام پکیج را به Scope متعلق به خودت یا یک نام آزاد بدون Scope تغییر دهیم. تحت نام سازمان دیگری منتشر نکن.</p>
-
-<h2>انتشار اولیه</h2>
-<p>دو روش وجود دارد:</p>
-
-<h3>روش اول: انتشار از سیستم خودت</h3>
-<p>ابتدا وارد حساب npm شو:</p>
+<p>برای بررسی نسخه ثبت‌شده در Registry:</p>
 </div>
 
 ~~~bash
-npm login
+npm view @bale-engineering/mcp-server version
 ~~~
 
-<div dir="rtl" align="right"><p>سپس از ریشه مخزن:</p></div>
+<div dir="rtl" align="right">
+<p>نسخه <code>0.1.0</code> را دوباره منتشر نکنید. نسخه‌های npm تغییرناپذیر هستند؛ برای هر انتشار باید شماره نسخه جدیدی انتخاب شود.</p>
+
+<h2>محتوای پکیج</h2>
+<ul>
+<li>فایل اجرایی سرور MCP محلی</li>
+<li>Skillهای اصلی و مراجع فنی مبتنی بر منابع</li>
+<li>Templateها، مستندات معماری، نمودارهای Mermaid و تصاویر برند</li>
+<li>README فارسی و انگلیسی</li>
+<li>Toolها، Resourceها و Promptهای MCP به‌صورت فقط‌خواندنی</li>
+</ul>
+<p>پکیج از طریق STDIO اجرا می‌شود؛ Endpoint مبتنی بر HTTP ایجاد نمی‌کند و API عملیاتی بله یا سفیر را فراخوانی نمی‌کند.</p>
+
+<h2>پیش از آماده‌سازی نسخه بعدی</h2>
+<ol>
+<li>شماره نسخه را در <code>packages/mcp-server/package.json</code> با رعایت Semantic Versioning افزایش دهید.</li>
+<li>Release Notes و READMEهای فارسی و انگلیسی را در صورت تغییر رفتار یا روش نصب به‌روزرسانی کنید.</li>
+<li>تمام بررسی‌های محلی را اجرا کنید:</li>
+</ol>
+</div>
 
 ~~~bash
 cd packages/mcp-server
@@ -40,24 +47,29 @@ npm run typecheck
 npm test
 npm run build
 npm run test:package
-npm publish --access public
 ~~~
 
 <div dir="rtl" align="right">
-<p>بعد از انتشار، صفحه پکیج و نسخه نصب‌شده را در npm بررسی کن.</p>
-
-<h3>روش دوم: انتشار از GitHub Actions</h3>
-<ol>
-<li>یک Granular Access Token در npm بساز که مجوز انتشار این Scope را داشته باشد.</li>
-<li>در تنظیمات مخزن GitHub، آن را با نام <code>NPM_TOKEN</code> در Actions Secrets قرار بده.</li>
-<li>به بخش Actions برو و Workflow با نام <strong>Publish MCP package</strong> را انتخاب کن.</li>
-<li>گزینه <code>confirm_publish</code> را روی <code>true</code> بگذار و اجرا کن.</li>
-<li>Workflow قبل از انتشار، Typecheck، تست‌ها، Build و تست نصب واقعی پکیج را دوباره اجرا می‌کند.</li>
+<ol start="4">
+<li>گزارش آسیب‌پذیری وابستگی‌ها را بررسی کنید. بدون بررسی تغییرات Major و اجرای مجدد تست‌ها از <code>npm audit fix --force</code> استفاده نکنید.</li>
+<li>تغییرات تأییدشده را در Branch اصلی Merge کنید.</li>
 </ol>
-<p>توکن npm را در چت، کد یا فایل Commit‌شده قرار نده.</p>
 
-<h2>فعال‌سازی Trusted Publishing بعد از انتشار اولیه</h2>
-<p>پس از اینکه پکیج برای اولین بار در npm ایجاد شد، در npmjs.com وارد تنظیمات همان پکیج شو و یک Trusted Publisher از نوع GitHub Actions اضافه کن:</p>
+<h2>انتشار از GitHub Actions</h2>
+<p>Workflow انتشار در فایل <code>.github/workflows/publish.yml</code> قرار دارد. پیش از Publish، Typecheck، تست واحد، Build و تست واقعی بسته نصب‌شده از طریق MCP STDIO اجرا می‌شوند.</p>
+
+<h3>احراز هویت GitHub Actions</h3>
+<p>Workflow فعلی Secret با نام <code>NPM_TOKEN</code> را به‌عنوان <code>NODE_AUTH_TOKEN</code> به npm می‌دهد. اگر از همین Workflow بدون تغییر استفاده می‌کنید:</p>
+<ol>
+<li>یک Granular Access Token در npm بسازید که مجوز انتشار این پکیج را داشته باشد.</li>
+<li>در مسیر <strong>GitHub repository → Settings → Secrets and variables → Actions</strong> آن را با نام <code>NPM_TOKEN</code> ثبت کنید.</li>
+<li>توکن را در سورس کد، Issue، چت یا فایل Commit‌شده قرار ندهید.</li>
+<li>تا زمانی که Workflow برای Trusted Publishing بدون توکن تغییر نکرده و مسیر OIDC با موفقیت تست نشده است، Secret را حذف نکنید.</li>
+</ol>
+<p>Workflow مجوز <code>id-token: write</code> نیز دارد؛ اما وجود این Permission به‌تنهایی به معنی فعال بودن انتشار بدون توکن از طریق Trusted Publishing نیست.</p>
+
+<h3>تنظیم npm Trusted Publishing</h3>
+<p>پس از ایجاد پکیج، در تنظیمات همان پکیج در npm یک Trusted Publisher از نوع GitHub Actions تعریف کنید:</p>
 </div>
 
 | فیلد | مقدار |
@@ -66,17 +78,14 @@ npm publish --access public
 | Organization or user | <code>shahinesi</code> |
 | Repository | <code>Bale-Engineering</code> |
 | Workflow filename | <code>publish.yml</code> |
-| Allowed action | <code>npm publish</code> |
+| Environment | خالی؛ مگر اینکه Workflow صراحتاً از آن استفاده کند |
 
 <div dir="rtl" align="right">
-<p>Workflow مجوز <code>id-token: write</code> دارد و با Node.js 24 اجرا می‌شود. پس از موفقیت اولین انتشار با OIDC، اگر توکن بلندمدت فقط برای انتشار اولیه ساخته شده بود، Secret مربوط به <code>NPM_TOKEN</code> را حذف کن.</p>
+<p>برای انتشار واقعی مبتنی بر OIDC و بدون توکن، Workflow باید <code>npm publish</code> را بدون وابستگی به Secret بلندمدت <code>NPM_TOKEN</code> اجرا کند. قبل از حذف Secret، این تغییر را اعمال و با یک انتشار آزمایشی معتبر کنید.</p>
 
-<h2>انتشار نسخه‌های بعدی</h2>
-<ol>
-<li>نسخه <code>packages/mcp-server/package.json</code> را با رعایت Semantic Versioning افزایش بده.</li>
-<li>تغییر را Commit و Push کن.</li>
-<li>یک Tag مطابق نسخه بساز؛ مثلاً:</li>
-</ol>
+<h2>انتشار با Version Tag</h2>
+<p>Workflow انتشار Tagهایی با الگوی <code>v*</code> را می‌پذیرد و بررسی می‌کند نسخه Tag با نسخه داخل پکیج یکسان باشد.</p>
+<p>برای مثال، پس از تغییر نسخه به <code>0.1.1</code> و Merge شدن تغییرات:</p>
 </div>
 
 ~~~bash
@@ -85,25 +94,39 @@ git push origin v0.1.1
 ~~~
 
 <div dir="rtl" align="right">
-<p>GitHub Actions بسته را اعتبارسنجی و سپس منتشر می‌کند.</p>
-<p>انتشار با Push معمولی انجام نمی‌شود؛ باید نسخه Tag شود یا Workflow دستی با تأیید صریح اجرا شود.</p>
+<p>در صورت تنظیم بودن احراز هویت npm، GitHub Actions نسخه را بررسی و منتشر می‌کند.</p>
+<p>Push معمولی باعث انتشار پکیج نمی‌شود. همچنین می‌توان Workflow را از مسیر <strong>Actions → Publish MCP package</strong> به‌صورت دستی اجرا کرد؛ در این حالت ورودی <code>confirm_publish</code> باید صراحتاً <code>true</code> باشد.</p>
 
-<h2>تست محلی پکیج</h2>
+<h2>انتشار اولیه (سوابق)</h2>
+<p>نسخه اولیه <code>0.1.0</code> از یک سیستم توسعه‌دهنده که به npm احراز هویت شده بود، به‌صورت دستی منتشر شد:</p>
 </div>
 
 ~~~bash
-cd packages/mcp-server
-npm install
-npm run typecheck
-npm test
-npm run build
-npm run test:package
+npm login
+npm whoami
+npm publish --access public
 ~~~
 
 <div dir="rtl" align="right">
-<p>تست پکیج یک فایل npm می‌سازد، آن را در یک پروژه موقت نصب می‌کند، سرور نصب‌شده را با MCP Client رسمی از طریق STDIO اجرا می‌کند و ابزارها، یک مرجع فارسی، یک Resource و یک Prompt را بررسی می‌کند.</p>
+<p>این دستورها صرفاً برای ثبت روش انتشار اولیه هستند. بدون افزایش شماره نسخه، دستور Publish را دوباره اجرا نکنید.</p>
 
-<h2>وضعیت فعلی انتشار</h2>
-<p>تنظیمات انتشار در مخزن آماده شده‌اند؛ اما این به معنی انتشار پکیج در npm نیست. انتشار اول همچنان به حساب npm دارای مجوز Scope <code>@bale-engineering</code> و احراز هویت اولیه نیاز دارد.</p>
+<h2>بررسی نسخه منتشرشده</h2>
+<p>بعد از هر انتشار، نسخه و Tagهای ثبت‌شده در npm را بررسی کنید:</p>
+</div>
+
+~~~bash
+npm view @bale-engineering/mcp-server version
+npm view @bale-engineering/mcp-server dist-tags
+~~~
+
+<div dir="rtl" align="right">
+<p>سپس پکیج را در یک تنظیم MCP تمیز نصب کنید و شناسایی Tool، اجرای یک Tool، خواندن یک Resource و اجرای یک Prompt را بررسی کنید. تست <code>npm run test:package</code> همین رفتارهای سطح پکیج را پیش از انتشار بررسی می‌کند.</p>
+
+<h2>راهنماهای مرتبط</h2>
+<ul>
+<li><a href="../packages/mcp-server/README.fa.md">راهنمای کامل نصب و استفاده MCP به فارسی</a></li>
+<li><a href="../packages/mcp-server/README.md">Complete MCP guide in English</a></li>
+<li><a href="../README.fa.md">صفحه اصلی فارسی مخزن</a></li>
+</ul>
 
 </div>
