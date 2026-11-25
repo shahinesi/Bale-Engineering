@@ -27,8 +27,21 @@ npx skills add shahinesi/Bale-Engineering --skill bale-business-api
 npx skills add shahinesi/Bale-Engineering --skill bale-wallet-payments
 ~~~
 
-## Codex
-Install the skill with the Skills CLI or copy it to the project's .agents/skills directory. For local MCP, build the package and add the command shown in ../packages/mcp-server/README.md.
+## Codex desktop app
+Install the skill with the Skills CLI or copy it to the project's `.agents/skills` directory. To connect the published local MCP server without Codex CLI:
+
+1. Open Codex → Settings → Configuration → Open config.toml.
+2. Add the following to the existing file:
+
+~~~toml
+[mcp_servers.bale_engineering]
+command = "npx"
+args = ["-y", "@bale-engineering/mcp-server@0.1.0"]
+~~~
+
+3. Save and restart Codex. The default macOS config path is `~/.codex/config.toml`.
+
+See the [complete MCP guide](../packages/mcp-server/README.md) for details.
 
 ## Claude Code
 Install the skill with the Skills CLI or copy it to the project's .claude/skills directory. Add the local MCP server using the command in ../packages/mcp-server/README.md.
