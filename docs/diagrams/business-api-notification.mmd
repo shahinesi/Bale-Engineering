@@ -1,0 +1,14 @@
+sequenceDiagram
+    participant A as Application Backend
+    participant B as Bale Business API
+    participant C as Existing private chat
+
+    A->>A: Resolve known private chat_id
+    A->>A: Check intent, recipient and application idempotency
+    A->>B: sendMessage or another documented method
+    B->>C: Deliver notification
+    B-->>A: Provider response
+    A->>A: Persist delivery result and correlation data
+
+    Note over A,B: No Safir-style provider request_id is documented for Business API
+    Note over B,C: Business API supports private chats and file_id-only media
