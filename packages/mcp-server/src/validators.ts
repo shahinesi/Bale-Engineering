@@ -148,8 +148,8 @@ export function validateSafirPayload(payload: unknown): ValidationResult {
     issue(issues, "error", "bot_id", "bot_id must be a positive integer.");
   }
 
-  if (typeof payload.phone_number !== "string" || !/^98[0-9]+$/.test(payload.phone_number)) {
-    issue(issues, "error", "phone_number", "phone_number must start with 98 and contain digits only, without extra characters.");
+  if (typeof payload.phone_number !== "string" || !/^\+?98[0-9]{10}$/.test(payload.phone_number)) {
+    issue(issues, "error", "phone_number", "phone_number must be 98 or +98 followed by exactly ten digits, without separators.");
   }
 
   if (!isRecord(payload.message_data)) {
@@ -185,6 +185,15 @@ export function validateSafirPayload(payload: unknown): ValidationResult {
       if (!["text", "file_id", "copy_text", "reply_markup"].some(key => message[key] !== undefined)) {
         issue(issues, "error", "message_data.message", "Provide at least one documented message field.");
       }
+      if (message.text !== undefined && typeof message.text !== "string") {
+        issue(issues, "error", "message_data.message.text", "text must be a string.");
+      }
+      if (message.file_id !== undefined && typeof message.file_id !== "string") {
+        issue(issues, "error", "message_data.message.file_id", "file_id must be a string returned by upload_file.");
+      }
+      if (message.copy_text !== undefined && typeof message.copy_text !== "string") {
+        issue(issues, "error", "message_data.message.copy_text", "Safir message-level copy_text must be a string.");
+      }
       if (message.reply_markup !== undefined) {
         if (!isRecord(message.reply_markup) || !Array.isArray(message.reply_markup.inline_keyboard)) {
           issue(issues, "error", "message_data.message.reply_markup", "Safir reply_markup must contain an inline_keyboard array.");
@@ -204,6 +213,15 @@ export function validateSafirPayload(payload: unknown): ValidationResult {
               if (actions.length === 0) {
                 issue(issues, "error", path, "Safir documents at least one of url, web_app or copy_text.");
               }
+              if (button.url !== undefined && typeof button.url !== "string") {
+                issue(issues, "error", path + ".url", "Safir button url must be a string.");
+              }
+              if (button.web_app !== undefined && (!isRecord(button.web_app) || typeof button.web_app.url !== "string")) {
+                issue(issues, "error", path + ".web_app", "Safir web_app must contain a URL string.");
+              }
+              if (button.copy_text !== undefined && typeof button.copy_text !== "string") {
+                issue(issues, "error", path + ".copy_text", "Safir button copy_text must be a string.");
+              }
               if (button.callback_data !== undefined || button.style !== undefined || button.disabled !== undefined) {
                 issue(issues, "warning", path, "callback_data, style and disabled are not listed in Safir's InlineKeyboardButton schema; do not assume Bot API parity.");
               }
@@ -215,9 +233,17 @@ export function validateSafirPayload(payload: unknown): ValidationResult {
   }
 
   if (messageData.template_message !== undefined) {
-    issue(issues, "warning", "message_data.template_message", "The official page shows template_message examples but omits it from the MessageData summary table; verify current provider behavior.");
-    if (!isRecord(messageData.template_message) || typeof messageData.template_message.template_id !== "string") {
-      issue(issues, "error", "message_data.template_message", "Expected template_id as shown in the official example.");
+    if (!isRecord(messageData.template_message)) {
+      issue(issues, "error", "message_data.template_message", "template_message must be an object.");
+    } else {
+      const template = messageData.template_message;
+      if (typeof template.template_id !== "string" || template.template_id.trim() === "") {
+        issue(issues, "error", "message_data.template_message.template_id", "template_id is required.");
+      }
+      if (!isRecord(template.text_fields)) {
+        issue(issues, "error", "message_data.template_message.text_fields", "text_fields must be an object whose keys match the approved template fields.");
+      }
+      issue(issues, "warning", "message_data.template_message", "template_message is documented in a dedicated Safir section but omitted from the MessageData summary table; ensure the template is approved and field names match exactly.");
     }
   }
 
