@@ -42,6 +42,26 @@ describe("validateInlineKeyboard", () => {
 
     expect(result.valid).toBe(false);
   });
+
+  it("validates copy_text as an object with 1 to 256 characters", () => {
+    const accepted = validateInlineKeyboard({
+      inline_keyboard: [[{ text: "Copy", copy_text: { text: "شماره سفارش ۱۲۳" } }]]
+    });
+    const rejected = validateInlineKeyboard({
+      inline_keyboard: [[{ text: "Copy", copy_text: { text: "" } }]]
+    });
+
+    expect(accepted.valid).toBe(true);
+    expect(rejected.valid).toBe(false);
+  });
+
+  it("requires HTTPS for Mini App buttons", () => {
+    const result = validateInlineKeyboard({
+      inline_keyboard: [[{ text: "Open app", web_app: { url: "http://example.com" } }]]
+    });
+
+    expect(result.valid).toBe(false);
+  });
 });
 
 describe("validateSafirPayload", () => {
@@ -77,5 +97,24 @@ describe("validateSafirPayload", () => {
     });
 
     expect(result.valid).toBe(false);
+  });
+
+  it("warns when Bot API-only callback fields are used in Safir buttons", () => {
+    const result = validateSafirPayload({
+      request_id: "safir-1",
+      bot_id: 123456789,
+      phone_number: "989000000000",
+      message_data: {
+        message: {
+          text: "Open",
+          reply_markup: {
+            inline_keyboard: [[{ text: "Action", callback_data: "go" }]]
+          }
+        }
+      }
+    });
+
+    expect(result.valid).toBe(false);
+    expect(result.issues.some(item => item.message.includes("not listed in Safir"))).toBe(true);
   });
 });
