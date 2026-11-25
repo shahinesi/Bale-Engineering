@@ -1,0 +1,16 @@
+sequenceDiagram
+    participant B as بله
+    participant I as Webhook یا Poller
+    participant Q as صف پایدار
+    participant H as پردازشگر Update
+    participant D as سرویس دامنه
+    participant DB as دیتابیس برنامه
+
+    B->>I: Update
+    I->>H: اعتبارسنجی و Deduplicate
+    H->>Q: ثبت کار
+    Q->>H: تحویل کار
+    H->>D: اجرای Use Case مجاز
+    D->>DB: ثبت وضعیت و Audit
+    DB-->>H: نتیجه Commit
+    H-->>B: پاسخ Callback در صورت نیاز
