@@ -1,0 +1,16 @@
+sequenceDiagram
+    participant APP as Application
+    participant API as Application Backend
+    participant S as Bale Safir
+
+    APP->>API: Create delivery intent
+    API->>API: Persist intent and stable request_id
+    API->>S: POST /api/v3/send_message
+    Note over API,S: api-access-key is sent server-side only
+    S-->>API: Provider response
+    API->>API: Persist delivery result
+
+    opt Retry of the same logical message
+        API->>S: Retry with the same request_id
+        S-->>API: Idempotent provider handling
+    end
