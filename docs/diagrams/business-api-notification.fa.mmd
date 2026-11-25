@@ -1,0 +1,14 @@
+sequenceDiagram
+    participant A as Backend برنامه
+    participant B as Business API بله
+    participant C as چت خصوصی موجود
+
+    A->>A: بازیابی chat_id خصوصی معتبر
+    A->>A: بررسی مقصد و Idempotency برنامه
+    A->>B: sendMessage یا یکی از متدهای مجاز
+    B->>C: تحویل اعلان
+    B-->>A: پاسخ سرویس‌دهنده
+    A->>A: ثبت نتیجه ارسال و شناسه پیگیری
+
+    Note over A,B: request_id مشابه Safir برای Business API مستند نشده است
+    Note over B,C: فقط چت خصوصی و رسانه با file_id
