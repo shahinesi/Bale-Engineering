@@ -88,6 +88,17 @@ npx skills add shahinesi/Bale-Engineering --skill bale-wallet-payments
 ~~~
 
 <div dir="rtl" align="right">
+<h2>نصب MCP Server از npm</h2>
+<p>پس از انتشار عمومی نسخه اول:</p>
+</div>
+
+~~~bash
+npx -y @bale-engineering/mcp-server
+~~~
+
+<div dir="rtl" align="right">
+<p>برای انتشار اولیه و نسخه‌های بعدی، <a href="docs/releasing.fa.md">راهنمای انتشار npm</a> را ببین.</p>
+
 <h2>اجرای MCP Server</h2>
 <p>پیش‌نیاز: Node.js نسخه ۲۰ یا بالاتر و pnpm.</p>
 </div>
@@ -161,7 +172,7 @@ AGENTS.md                قواعد نگهداری و مشارکت
 </ul>
 <h2>وضعیت پروژه</h2>
 <p><strong>Foundation Release — v0.1.0</strong></p>
-<p>ساختار مخزن، Skillها، مراجع پایه، مستندات دوزبانه، نمودارها و MCP محلی فراهم شده‌اند. انتشار npm، میزبانی Remote MCP و اتصال عملیاتی به سرویس‌های بله در محدوده این نسخه نیستند.</p>
+<p>ساختار مخزن، Skillها، مراجع پایه، مستندات دوزبانه، نمودارها و MCP محلی فراهم شده‌اند. متادیتا و Workflow انتشار npm آماده‌اند، اما انتشار اولیه به مالکیت Scope و احراز هویت npm نیاز دارد. میزبانی Remote MCP و اتصال عملیاتی به سرویس‌های بله در محدوده این نسخه نیستند.</p>
 <h2>منابع</h2>
 <ul>
 <li><a href="https://docs.bale.ai/">مستندات رسمی بله</a></li>
