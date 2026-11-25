@@ -80,7 +80,7 @@ function createServer() {
         { skill_id: "bale-bot-api", terms: ["bot", "callback", "keyboard", "webhook", "polling", "دکمه", "کالبک", "وبهوک", "بازو"] },
         { skill_id: "bale-miniapp", terms: ["mini app", "miniapp", "webapp", "initdata", "startapp", "مینی اپ", "مینی‌اپ"] },
         { skill_id: "bale-safir", terms: ["safir", "otp", "request_id", "سفیر", "رمز یکبار مصرف"] },
-        { skill_id: "bale-message-formatting", terms: ["markdown", "format", "formatting", "مرمید", "markdown", "قالب‌بندی", "قالب بندی"] },
+        { skill_id: "bale-message-formatting", terms: ["markdown", "format", "formatting", "مرمید", "قالب‌بندی", "قالب بندی"] },
         { skill_id: "bale-links", terms: ["deep link", "startapp", "ble.ir", "لینک", "پیوند"] },
         { skill_id: "bale-engineering-review", terms: ["review", "audit", "security", "test", "بازبینی", "ممیزی", "امنیت", "تست"] }
       ];
@@ -111,7 +111,7 @@ function createServer() {
     "bale_validate_safir_payload",
     {
       title: "Validate a Safir send payload",
-      description: "Check documented Safir send_message fields, phone number prefix, numeric OTP and request_id recommendation. Flags the documented template_message schema inconsistency; does not call Safir.",
+      description: "Check Safir send_message fields, 98/+98 phone format, numeric OTP, template shape, request_id recommendation and Safir-specific button fields. Flags the summary-table omission for template_message; does not call Safir.",
       inputSchema: z.object({ payload: z.record(z.string(), z.unknown()) })
     },
     async ({ payload }) => textResult(validateSafirPayload(payload))
