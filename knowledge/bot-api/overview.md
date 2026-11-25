@@ -28,6 +28,16 @@ The response is JSON. A successful response has ok=true and result. A failed res
 - Handle both HTTP/network failures and the API's ok=false response.
 - Do not assume a Telegram SDK's type declarations exactly match Bale.
 
+## Identifier width
+
+Bale documents that User.id and Chat.id can exceed the signed 32-bit range. The documentation says these identifiers can use up to 52 significant bits.
+
+Engineering implications:
+- Do not store Bale user or chat IDs in 32-bit integer columns.
+- Use a database BIGINT or a lossless decimal-string representation.
+- In JavaScript, keep IDs as Number only while they remain within Number.MAX_SAFE_INTEGER; avoid lossy conversions through 32-bit bitwise operators.
+- Do not use a floating-point display formatter that changes the identifier.
+
 ## Update delivery
 
 Bale documents two ways to receive updates: getUpdates (long polling) and webhook.
@@ -52,6 +62,12 @@ Bale documents that update_id can be used to ignore duplicate webhook updates or
 
 The docs state that up to 2,000 latest messages are retained for 24 hours. This is a delivery buffer, not a durable application event store.
 
+## Rate limiting
+
+The Bot API documentation describes interactive rate limits and business messaging APIs with separate, higher quotas and account credit. When a rate limit error includes ResponseParameters.retry_after, use that value to determine when a retry may be attempted.
+
+Do not invent a fixed global messages-per-second limit. The documented interactive capacity depends on the bot's private-chat interaction activity.
+
 ## Polling or webhook?
 
 | Situation | Recommendation | Reason |
@@ -70,6 +86,7 @@ The last two recommendations are engineering guidance, not guarantees about Bale
 - A Telegram-only method is used without checking Bale support.
 - Token-bearing URLs leak through HTTP logs or tracing.
 - A worker assumes update.message always exists.
+- User or chat IDs are truncated to 32 bits.
 
 ## Verification checklist
 
@@ -79,7 +96,8 @@ The last two recommendations are engineering guidance, not guarantees about Bale
 - Restart the worker during processing and verify recovery.
 - Verify the chosen update mechanism is the only active consumer.
 - Confirm secrets are redacted in logs.
+- Round-trip IDs larger than 2^31 through the database without loss.
 
 ## Source
 
-- https://docs.bale.ai/ (Bot API, creating requests, getUpdates, setWebhook, Update)
+- https://docs.bale.ai/ (creating requests, getUpdates, setWebhook, Update, User and Chat)
