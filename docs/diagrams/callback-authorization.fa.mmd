@@ -1,0 +1,20 @@
+sequenceDiagram
+    participant U as کاربر
+    participant B as بله
+    participant H as Handler ربات
+    participant D as سرویس دامنه
+    participant DB as دیتابیس برنامه
+
+    U->>B: فشردن دکمه Inline
+    B->>H: ارسال callback_query
+    H->>H: Parse کردن callback_data غیرقابل‌اعتماد
+    H->>D: بارگذاری منبع و Actor احراز‌شده
+    D->>D: بررسی مالکیت، مجوز و وضعیت فعلی
+    alt عملیات مجاز است
+        D->>DB: ثبت تراکنشی تغییر وضعیت و Audit
+        DB-->>D: نتیجه Commit
+        D-->>H: نتیجه عملیات
+    else عملیات مجاز نیست
+        D-->>H: رد عملیات
+    end
+    H->>B: answerCallbackQuery
