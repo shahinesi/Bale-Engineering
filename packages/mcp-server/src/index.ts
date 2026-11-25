@@ -11,6 +11,9 @@ import {
   validateSafirPayload
 } from "./validators.js";
 
+const require = createRequire(import.meta.url);
+const packageMetadata = require("../package.json") as { version: string };
+
 function textResult(value: unknown) {
   return { content: [{ type: "text" as const, text: JSON.stringify(value, null, 2) }] };
 }
