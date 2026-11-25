@@ -144,6 +144,10 @@ The catalog is explicit and local. Tools are deterministic: keyword search and v
 - [Mini App authentication](diagrams/miniapp-authentication.mmd)
 - [Wallet payment lifecycle](diagrams/wallet-payment-lifecycle.mmd)
 - [MCP architecture](diagrams/mcp-architecture.mmd)
+- [Business API notification](diagrams/business-api-notification.mmd)
+- [Safir delivery lifecycle](diagrams/safir-delivery-lifecycle.mmd)
+- [Callback authorization](diagrams/callback-authorization.mmd)
+- [Deep-link entry points](diagrams/deep-link-entrypoints.mmd)
 
 Persian source files use the <code>.fa.mmd</code> suffix.
 
