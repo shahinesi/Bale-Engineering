@@ -15,13 +15,17 @@ Bale formats message text with a Markdown-like syntax, but it differs from stand
 | Italic | _متن کج_ | One underscore at each end; double underscores are not supported |
 | Link | [عنوان](https://docs.bale.ai) | No space between ] and ( |
 | Code | Three backticks around the source | Use for source code |
-| Short text | Three backticks + [عنوان] + full text + three backticks | Displays a short title; touching it opens a preview |
+| Short text / نمایش آنی | Three backticks + [عنوان] + full text + three backticks | Displays a short title; touching it opens a preview |
 | Mention | @username | A valid username becomes clickable |
 | Hashtag | #موضوع | Clickable tag |
 | Bot command | /command | Recognized in bot and group messages |
 | Checklist | - [ ] / - [x] | Can be interactive when enabled for the message and the user may edit it |
 | Internal user mention | [نام](uid:12345) | Uses a Bale user ID |
 | Send value to bot | [شروع](send:/start) | Sends the value as a message to the bot in supported bot/group contexts |
+
+## Bold and italic spacing
+
+Bale's guide says to put a space before the opening marker and after the closing marker. Keep formatting markers separated from adjacent words; do not attach them directly to the surrounding Persian or Latin text.
 
 ## Short text: exact syntax
 
@@ -31,7 +35,7 @@ The documented form is a title in square brackets followed by the full content, 
 ```[اطلاعات بیشتر]این متن در صفحه پیش‌نمایش نمایش داده می‌شود.```
 ~~~
 
-Only the title appears in the chat message. Touching it opens a preview containing the full content.
+Only the title appears in the chat message. Touching it opens a preview containing the full content. This is the feature commonly described as نمایش آنی.
 
 ## Checklists are conditional
 
@@ -52,9 +56,9 @@ Do not tell an agent these are supported. For tabular data, use concise text row
 ## Example message
 
 ~~~text
-سلام *دوست من*،
+سلام * دوست من *،
 
-این یک متن _توضیحی_ با لینک [مستندات بله](https://docs.bale.ai) است.
+این یک متن _ توضیحی _ با لینک [مستندات بله](https://docs.bale.ai) است.
 
 کد نمونه:
 ```
