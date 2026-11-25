@@ -13,7 +13,8 @@
 <p>یک سرور محلی و فقط‌خواندنی بر پایه <a href="https://modelcontextprotocol.io/">Model Context Protocol (MCP)</a> برای دسترسی Agentهای هوش مصنوعی به دانش مهندسی بله است. این سرور Skillها، مراجع فنی مبتنی بر مستندات، قالب‌ها، Validatorها و Promptهای مهندسی را در اختیار Agent قرار می‌دهد.</p>
 
 <p><strong>نام پکیج:</strong> <code>@bale-engineering/mcp-server</code><br>
-<strong>نسخه منتشرشده:</strong> <code>0.1.0</code><br>
+<strong>نسخه کاندید سورس:</strong> <code>0.1.0</code><br>
+<strong>وضعیت انتشار:</strong> در انتظار تأیید نسخه Stageشده<br>
 <strong>صفحه npm:</strong> <a href="https://www.npmjs.com/package/@bale-engineering/mcp-server">مشاهده پکیج</a></p>
 
 <h2>۱. این MCP چه کاری انجام می‌دهد؟</h2>
@@ -378,7 +379,7 @@ npm run test:package
 
 <div dir="rtl" align="right">
 <h2>۱۳. نسخه‌ها و انتشار</h2>
-<p>اولین نسخه عمومی یعنی <code>0.1.0</code> در npm منتشر شده است.</p>
+<p>نسخه کاندید سورس <code>0.1.0</code> است. npm فعلاً Placeholder با نسخه <code>0.0.0-stage</code> را نمایش می‌دهد؛ نسخه عملیاتی تا زمان تأیید نسخه Stageشده قابل نصب نیست.</p>
 <ul>
 <li><a href="https://www.npmjs.com/package/@bale-engineering/mcp-server">مشاهده پکیج در npm</a></li>
 <li><a href="https://github.com/shahinesi/Bale-Engineering/actions">مشاهده GitHub Actions</a></li>
