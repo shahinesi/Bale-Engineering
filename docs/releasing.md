@@ -6,20 +6,12 @@ Package: <code>@bale-engineering/mcp-server</code>
 
 Repository: https://github.com/shahinesi/Bale-Engineering
 
-## Published release
+## Current publication state
 
-The first public release, <code>0.1.0</code>, was successfully published to npm on 2026-11-25.
+The source package version is <code>0.1.0</code>. The npm package name is registered, but the visible <code>0.0.0-stage</code> version is only npm's placeholder for a newly staged package; it is not the functional MCP release. A staged candidate becomes installable only after a maintainer reviews and approves it with 2FA.
 
 - [npm package page](https://www.npmjs.com/package/@bale-engineering/mcp-server)
 - [GitHub repository](https://github.com/shahinesi/Bale-Engineering)
-
-Verify the registry version:
-
-~~~bash
-npm view @bale-engineering/mcp-server version
-~~~
-
-Do not try to publish version <code>0.1.0</code> again. npm versions are immutable; every release needs a new version.
 
 ## What the package contains
 
@@ -31,42 +23,19 @@ Do not try to publish version <code>0.1.0</code> again. npm versions are immutab
 
 The package runs over STDIO. It does not host an HTTP endpoint or call Bale/Safir production APIs.
 
-## Before preparing the next release
+## Requirements for release automation
 
-1. Update the package version in <code>packages/mcp-server/package.json</code> using semantic versioning.
-2. Update the changelog/release notes and both language READMEs if behavior or setup changes.
-3. Run the full local verification:
+- GitHub-hosted Actions runner.
+- Node.js 22.14.0 or newer (workflow uses Node.js 24).
+- npm CLI 11.15.0 or newer (workflow pins 11.15.0 for staged publishing).
+- An npm Trusted Publisher configured for this exact repository and workflow.
+- The trusted publisher must allow <code>npm stage publish</code>.
 
-   ~~~bash
-   cd packages/mcp-server
-   npm install
-   npm run typecheck
-   npm test
-   npm run build
-   npm run test:package
-   ~~~
+The workflow does not use an npm access token. OIDC authentication is provided by GitHub Actions through the <code>id-token: write</code> permission.
 
-4. Review dependency security findings. Do not use <code>npm audit fix --force</code> without reviewing the proposed major-version changes and rerunning tests.
-5. Merge the verified changes to the default branch.
+## npm Trusted Publisher configuration
 
-## Publish from GitHub Actions
-
-The publish workflow is <code>.github/workflows/publish.yml</code>. It runs typecheck, unit tests, build and the installed-tarball MCP STDIO smoke test before publishing.
-
-### GitHub Actions authentication
-
-The current workflow passes the repository secret <code>NPM_TOKEN</code> as <code>NODE_AUTH_TOKEN</code>. If you use this workflow as currently written:
-
-1. Create an npm granular access token with publish permission for this package.
-2. Add it under **GitHub repository → Settings → Secrets and variables → Actions** as <code>NPM_TOKEN</code>.
-3. Do not paste the token into source code, issues, chat or committed files.
-4. Keep the secret until the workflow has been changed to use npm Trusted Publishing without a token and that OIDC path has been tested successfully.
-
-The workflow also grants <code>id-token: write</code>. The presence of that permission alone does not prove that tokenless Trusted Publishing is configured or working.
-
-### Configure npm Trusted Publishing
-
-After the package exists, open its npm settings and configure a GitHub Actions trusted publisher:
+In npm package settings → Trusted Publisher, use:
 
 | Field | Value |
 |---|---|
@@ -74,47 +43,105 @@ After the package exists, open its npm settings and configure a GitHub Actions t
 | Organization or user | <code>shahinesi</code> |
 | Repository | <code>Bale-Engineering</code> |
 | Workflow filename | <code>publish.yml</code> |
-| Environment | Leave empty unless the workflow explicitly uses one |
+| Environment | Leave empty |
 
-For a true OIDC-only release, the workflow must call <code>npm publish</code> without relying on a long-lived <code>NPM_TOKEN</code> secret. Make and verify that workflow change before removing the secret.
+For least privilege, allow **npm stage publish** and disable direct **npm publish** for this trusted publisher. Staging lets CI submit a candidate, while a maintainer must still approve the exact package with 2FA before it becomes available to users.
 
-## Release using a version tag
+A newly created trusted publisher must complete its first successful OIDC publish within two days. The current workflow uses <code>npm stage publish</code>, which is an OIDC-supported publishing action.
 
-The publish workflow accepts tags matching <code>v*</code> and checks that the tag matches the package version.
+## Before preparing a release
 
-For example, after changing the package version to <code>0.1.1</code> and merging the change:
-
-~~~bash
-git tag v0.1.1
-git push origin v0.1.1
-~~~
-
-GitHub Actions then verifies and publishes that version, provided npm authentication is configured.
-
-A normal push does not publish a package. The workflow can also be started manually from **Actions → Publish MCP package**, but the <code>confirm_publish</code> input must be explicitly set to <code>true</code>.
-
-## First publication (historical)
-
-The initial <code>0.1.0</code> release was published manually from an authenticated developer machine:
+1. Check the current package version in <code>packages/mcp-server/package.json</code>.
+2. Check whether that version is already staged or published. Staged and published versions share the same version uniqueness rule.
+3. If the version is unused, keep it. Otherwise choose the next unused semantic version; never try to stage the same version twice.
+4. Update release notes and both language READMEs if behavior or setup changes.
+5. Run local verification:
 
 ~~~bash
-npm login
-npm whoami
-npm publish --access public
+cd packages/mcp-server
+npm install
+npm run typecheck
+npm test
+npm run build
+npm run test:package
 ~~~
 
-These commands are included for reference only. Do not rerun the publish command without first incrementing the package version.
+6. Review dependency security findings. Do not use <code>npm audit fix --force</code> without reviewing breaking changes and rerunning tests.
+7. Merge the verified changes to the default branch.
 
-## Package verification
+## Stage a release from GitHub Actions
 
-After each release, verify the published version:
+The workflow is <code>.github/workflows/publish.yml</code>. It:
+
+1. Runs on a version tag (<code>v*</code>) or a manually confirmed workflow dispatch.
+2. Installs npm CLI 11.15.0, required for staged publishing.
+3. Runs typecheck, unit tests, build and the packaged MCP STDIO smoke test.
+4. Calls <code>npm stage publish --access public</code> using GitHub OIDC, without <code>NPM_TOKEN</code>.
+
+### Option A — publish using a version tag
+
+After confirming that the version in <code>package.json</code> is unused, create a matching tag. For example, for version <code>0.1.0</code>:
+
+~~~bash
+git tag v0.1.0
+git push origin v0.1.0
+~~~
+
+The tag must exactly match the version in <code>packages/mcp-server/package.json</code>.
+
+### Option B — run manually
+
+1. Open **GitHub → Actions → Stage MCP package**.
+2. Choose **Run workflow** on the <code>main</code> branch.
+3. Set <code>confirm_stage</code> to <code>true</code>.
+4. Start the workflow.
+
+A normal push does not stage a package.
+
+## Review and approve the staged package
+
+After the OIDC workflow succeeds:
+
+1. Open npm → your account → **Staged Packages**, or run:
+
+~~~bash
+npm stage list @bale-engineering/mcp-server
+~~~
+
+2. Inspect the stage details:
+
+~~~bash
+npm stage view <stage-id>
+npm stage download <stage-id>
+~~~
+
+3. Review the package name, version, contents, publisher and provenance.
+4. Approve the exact candidate with 2FA, either in npmjs.com or with:
+
+~~~bash
+npm stage approve <stage-id>
+~~~
+
+Only after approval does the staged version become a normal installable npm release.
+
+## Verify the release
+
+After approval:
 
 ~~~bash
 npm view @bale-engineering/mcp-server version
 npm view @bale-engineering/mcp-server dist-tags
 ~~~
 
-Then install it in a clean MCP client configuration and verify tool discovery, one tool call, a resource and a prompt. The local <code>npm run test:package</code> check covers these package-level behaviors before publication.
+Then install it in a clean MCP client configuration and verify tool discovery, one tool call, a resource and a prompt. The local <code>npm run test:package</code> check covers these package-level behaviors before staging.
+
+## Security notes
+
+- Do not add an <code>NPM_TOKEN</code> secret to GitHub Actions for this workflow.
+- Do not restore <code>NODE_AUTH_TOKEN</code> to the publish step.
+- Keep the npm trusted publisher restricted to the exact repository and <code>publish.yml</code> workflow.
+- Prefer stage-only permission. Do not grant direct OIDC publishing unless there is a deliberate reason to bypass maintainer approval.
+- After OIDC is validated, remove obsolete npm automation tokens that are no longer needed.
 
 ## Related guides
 
