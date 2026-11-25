@@ -89,7 +89,7 @@ npx skills add shahinesi/Bale-Engineering --skill bale-wallet-payments
 
 <div dir="rtl" align="right">
 <h2>نصب MCP Server از npm</h2>
-<p>پس از انتشار عمومی نسخه اول:</p>
+<p>پکیج عمومی <code>@bale-engineering/mcp-server</code> با نسخه فعلی <code>0.1.0</code> منتشر شده است. پیش‌نیاز: Node.js نسخه ۲۰ یا بالاتر و یک MCP Client سازگار.</p>
 </div>
 
 ~~~bash
@@ -97,9 +97,42 @@ npx -y @bale-engineering/mcp-server
 ~~~
 
 <div dir="rtl" align="right">
-<p>برای انتشار اولیه و نسخه‌های بعدی، <a href="docs/releasing.fa.md">راهنمای انتشار npm</a> را ببین.</p>
+<h3>اتصال به Codex</h3>
+</div>
 
-<h2>اجرای MCP Server</h2>
+~~~bash
+codex mcp add bale-engineering -- npx -y @bale-engineering/mcp-server@latest
+~~~
+
+<div dir="rtl" align="right">
+<h3>اتصال به Claude Code</h3>
+</div>
+
+~~~bash
+claude mcp add bale-engineering -- npx -y @bale-engineering/mcp-server@latest
+~~~
+
+<div dir="rtl" align="right">
+<h3>اتصال به Cursor</h3>
+<p>این تنظیم را در MCP Settings یا فایل <code>.cursor/mcp.json</code> قرار دهید:</p>
+</div>
+
+~~~json
+{
+  "mcpServers": {
+    "bale-engineering": {
+      "command": "npx",
+      "args": ["-y", "@bale-engineering/mcp-server@latest"]
+    }
+  }
+}
+~~~
+
+<div dir="rtl" align="right">
+<p>Agent پکیج را به‌صورت محلی و از طریق STDIO اجرا می‌کند؛ به پورت سرور یا اطلاعات محرمانه بله نیاز نیست. برای جزئیات ابزارها، Resourceها، Promptها، مثال‌ها و رفع اشکال، <a href="packages/mcp-server/README.fa.md">راهنمای کامل نصب و استفاده MCP</a> را ببینید.</p>
+<p><a href="https://www.npmjs.com/package/@bale-engineering/mcp-server">صفحه پکیج در npm</a> · <a href="docs/releasing.fa.md">راهنمای انتشار نسخه‌های بعدی</a></p>
+
+<h2>اجرای MCP Server از روی سورس</h2>
 <p>پیش‌نیاز: Node.js نسخه ۲۰ یا بالاتر و pnpm.</p>
 </div>
 
@@ -172,7 +205,7 @@ AGENTS.md                قواعد نگهداری و مشارکت
 </ul>
 <h2>وضعیت پروژه</h2>
 <p><strong>Foundation Release — v0.1.0</strong></p>
-<p>ساختار مخزن، Skillها، مراجع پایه، مستندات دوزبانه، نمودارها و MCP محلی فراهم شده‌اند. متادیتا و Workflow انتشار npm آماده‌اند، اما انتشار اولیه به مالکیت Scope و احراز هویت npm نیاز دارد. میزبانی Remote MCP و اتصال عملیاتی به سرویس‌های بله در محدوده این نسخه نیستند.</p>
+<p>نسخه عمومی <code>0.1.0</code> از پکیج <code>@bale-engineering/mcp-server</code> در npm منتشر شده است. مخزن شامل Skillهای اصلی، مراجع فنی مبتنی بر منابع، MCP محلی فقط‌خواندنی، مستندات دوزبانه، نمودارهای Mermaid و تصاویر SVG است. میزبانی Remote MCP و اتصال عملیاتی به APIهای بله در محدوده این نسخه نیستند.</p>
 <h2>منابع</h2>
 <ul>
 <li><a href="https://docs.bale.ai/">مستندات رسمی بله</a></li>
