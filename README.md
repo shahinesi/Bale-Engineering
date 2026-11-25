@@ -149,6 +149,10 @@ The documentation is maintained in Persian and English. Mermaid source files are
 | Mini App authentication | [MMD](docs/diagrams/miniapp-authentication.mmd) | [MMD](docs/diagrams/miniapp-authentication.fa.mmd) |
 | Wallet payment lifecycle | [MMD](docs/diagrams/wallet-payment-lifecycle.mmd) | [MMD](docs/diagrams/wallet-payment-lifecycle.fa.mmd) |
 | MCP architecture | [MMD](docs/diagrams/mcp-architecture.mmd) | [MMD](docs/diagrams/mcp-architecture.fa.mmd) |
+| Business API notification | [MMD](docs/diagrams/business-api-notification.mmd) | [MMD](docs/diagrams/business-api-notification.fa.mmd) |
+| Safir delivery | [MMD](docs/diagrams/safir-delivery-lifecycle.mmd) | [MMD](docs/diagrams/safir-delivery-lifecycle.fa.mmd) |
+| Callback authorization | [MMD](docs/diagrams/callback-authorization.mmd) | [MMD](docs/diagrams/callback-authorization.fa.mmd) |
+| Deep-link entry points | [MMD](docs/diagrams/deep-link-entrypoints.mmd) | [MMD](docs/diagrams/deep-link-entrypoints.fa.mmd) |
 
 ## Repository layout
 
