@@ -1,4 +1,4 @@
-name: Publish MCP package
+name: Stage MCP package
 
 on:
   push:
@@ -6,8 +6,8 @@ on:
       - "v*"
   workflow_dispatch:
     inputs:
-      confirm_publish:
-        description: "Confirm publishing the verified package to the public npm registry"
+      confirm_stage:
+        description: "Confirm staging the verified package for maintainer review on npm"
         required: true
         type: boolean
         default: false
@@ -17,9 +17,9 @@ permissions:
   id-token: write
 
 jobs:
-  publish:
-    if: github.event_name == 'push' || inputs.confirm_publish == true
-    name: Verify and publish to npm
+  stage:
+    if: github.event_name == 'push' || inputs.confirm_stage == true
+    name: Verify and stage package through npm OIDC
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
@@ -31,6 +31,11 @@ jobs:
           node-version: 24
           registry-url: https://registry.npmjs.org
           package-manager-cache: false
+
+      - name: Install npm CLI with staged publishing and OIDC support
+        run: |
+          npm install --global npm@11.15.0
+          npm --version
 
       - name: Install MCP package dependencies
         working-directory: packages/mcp-server
@@ -64,19 +69,6 @@ jobs:
         working-directory: packages/mcp-server
         run: npm run test:package
 
-      - name: Create the release tarball
+      - name: Stage package with npm Trusted Publishing (OIDC)
         working-directory: packages/mcp-server
-        shell: bash
-        run: |
-          mkdir -p "$RUNNER_TEMP/bale-engineering-package"
-          npm run prepack
-          trap 'npm run postpack' EXIT
-          PACK_JSON="$(npm pack --json --ignore-scripts --pack-destination "$RUNNER_TEMP/bale-engineering-package")"
-          FILE_NAME="$(node -e 'const result = JSON.parse(process.argv[1]); process.stdout.write(result[0].filename);' "$PACK_JSON")"
-          echo "NPM_TARBALL=$RUNNER_TEMP/bale-engineering-package/$FILE_NAME" >> "$GITHUB_ENV"
-
-      - name: Publish with npm Trusted Publishing (OIDC)
-        working-directory: packages/mcp-server
-        run: npm publish "$NPM_TARBALL" --access public
-        env:
-          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+        run: npm stage publish --access public
