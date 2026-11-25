@@ -55,7 +55,10 @@ Only one action field should be used on an InlineKeyboardButton. callback_data i
 4. Check ownership, permission and current state.
 5. Apply the state transition transactionally.
 6. Make duplicate callbacks harmless.
-7. Answer the callback query and update the original message when appropriate.
+7. Call answerCallbackQuery for every callback, even when no user-facing notification is needed.
+8. Update the original message or keyboard when appropriate.
+
+Bale says a pressed inline button remains in a waiting state until answerCallbackQuery is called. Treat callback data as untrusted: the docs note that data may arrive even when the message no longer has a button with that data.
 
 Never encode secrets, personal data or authoritative permissions in callback_data.
 
@@ -82,6 +85,7 @@ The callback format is an application convention, not a Bale-defined syntax. The
 - Expired business state.
 - User does not own the target object.
 - callback_data outside the 1–64 byte limit.
+- Callback query never answered, leaving the button in a waiting state.
 - Unsupported method copied from Telegram.
 - Webhook timeout, restart or out-of-order updates.
 - File upload encoded as JSON instead of multipart/form-data.
