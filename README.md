@@ -99,18 +99,24 @@ See [Agent adapters](adapters/README.md) for Codex, Claude Code, Cursor and othe
 
 ## Install the MCP server from npm
 
-The npm package name is registered, but npm currently shows only the <code>0.0.0-stage</code> placeholder. The source release candidate is <code>0.1.0</code>; it becomes installable only after the GitHub OIDC staging workflow succeeds and a maintainer approves it with 2FA. Do not install the placeholder. The commands below are for use after approval.
+The first public release, <code>0.1.0</code>, was published manually. The next source candidate is <code>0.1.1</code> and is being prepared for OIDC staged publishing. Until that candidate is approved, use the pinned <code>0.1.0</code> release below. The <code>0.0.0-stage</code> version is npm's staging placeholder, not the application release.
 
-For Codex:
+### Codex desktop app
 
-~~~bash
-codex mcp add bale-engineering -- npx -y @bale-engineering/mcp-server@latest
+No Codex CLI is required. In Codex on macOS, open **Settings → Configuration → Open config.toml** and append this block without replacing your existing settings:
+
+~~~toml
+[mcp_servers.bale_engineering]
+command = "npx"
+args = ["-y", "@bale-engineering/mcp-server@0.1.0"]
 ~~~
+
+Save the file and restart Codex. The app reads `~/.codex/config.toml`; `npx` only launches the local MCP package.
 
 For Claude Code:
 
 ~~~bash
-claude mcp add bale-engineering -- npx -y @bale-engineering/mcp-server@latest
+claude mcp add bale-engineering -- npx -y @bale-engineering/mcp-server@0.1.0
 ~~~
 
 For Cursor, add the following entry in MCP settings or <code>.cursor/mcp.json</code>:
@@ -120,7 +126,7 @@ For Cursor, add the following entry in MCP settings or <code>.cursor/mcp.json</c
   "mcpServers": {
     "bale-engineering": {
       "command": "npx",
-      "args": ["-y", "@bale-engineering/mcp-server@latest"]
+      "args": ["-y", "@bale-engineering/mcp-server@0.1.0"]
     }
   }
 }
@@ -212,7 +218,7 @@ AGENTS.md                Contributor and coding-agent rules
 
 ## Project status
 
-**Foundation release candidate — v0.1.0.** The npm package name is registered. The visible <code>0.0.0-stage</code> version is only npm's placeholder; the functional package awaits OIDC staging and maintainer approval. The repository includes canonical skills, source-backed references, a local read-only MCP server, bilingual architecture guides, Mermaid sources and SVG visuals.
+**Published foundation release — v0.1.0.** The first npm release was published manually. The repository now prepares <code>0.1.1</code> for OIDC staged publishing. The <code>0.0.0-stage</code> version is only npm's staging placeholder. The project includes canonical skills, source-backed references, a local read-only MCP server, bilingual architecture guides, Mermaid sources and SVG visuals.
 
 ## Sources and attribution
 
