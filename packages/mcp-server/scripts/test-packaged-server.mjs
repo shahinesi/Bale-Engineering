@@ -1,6 +1,6 @@
 import assert from "node:assert/strict";
 import { existsSync } from "node:fs";
-import { mkdir, mkdtemp, rm } from "node:fs/promises";
+import { mkdir, mkdtemp, readFile, rm } from "node:fs/promises";
 import { spawnSync } from "node:child_process";
 import { tmpdir } from "node:os";
 import { dirname, join, resolve } from "node:path";
@@ -45,6 +45,20 @@ try {
   }
   const packMetadata = JSON.parse(packOutput);
   assert.equal(packMetadata.length, 1, "npm pack should produce exactly one tarball");
+
+  const packageManifest = JSON.parse(await readFile(join(packageRoot, "package.json"), "utf8"));
+  assert.equal(packMetadata[0].version, packageManifest.version, "tarball version must match package.json");
+
+  const packedPaths = new Set(packMetadata[0].files.map(file => file.path));
+  assert.ok(packedPaths.has("README.md"), "English README must be included in the npm package");
+  assert.ok(packedPaths.has("README.fa.md"), "Persian README must be included in the npm package");
+
+  const englishReadme = await readFile(join(packageRoot, "README.md"), "utf8");
+  const persianReadme = await readFile(join(packageRoot, "README.fa.md"), "utf8");
+  assert.ok(englishReadme.includes("### Codex desktop app"), "English README must document Codex Desktop setup");
+  assert.ok(englishReadme.includes("[mcp_servers.bale_engineering]"), "English README must include Codex TOML configuration");
+  assert.ok(persianReadme.includes("### ۳.۱. اتصال به Codex Desktop"), "Persian README must document Codex Desktop setup");
+  assert.ok(persianReadme.includes("[mcp_servers.bale_engineering]"), "Persian README must include Codex TOML configuration");
 
   const tarballPath = join(packDirectory, packMetadata[0].filename);
   assert.ok(existsSync(tarballPath), "npm tarball should exist");
@@ -114,11 +128,11 @@ try {
   );
 
   console.log(JSON.stringify({
-    package: "@bale-engineering/mcp-server",
+    package: packageManifest.name,
     version: packMetadata[0].version,
     transport: "stdio",
     toolsDiscovered: toolNames.length,
-    checks: ["npm pack", "install tarball", "MCP initialize", "tools/list", "tool call", "Persian reference", "resource read", "prompt read"]
+    checks: ["npm pack", "package version consistency", "bilingual README contents", "install tarball", "MCP initialize", "tools/list", "tool call", "Persian reference", "resource read", "prompt read"]
   }, null, 2));
 } finally {
   if (client) {
