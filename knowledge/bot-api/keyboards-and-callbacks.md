@@ -110,7 +110,7 @@ A callback is delivered as callback_query in an Update. The data field contains 
 
 Recommended server workflow:
 1. Parse the bounded callback payload.
-2. Identify the actor from the authenticated update.
+2. Authenticate the actor from the incoming update.
 3. Load the referenced resource.
 4. Check actor permission and resource ownership.
 5. Check the current state allows the transition.
@@ -119,7 +119,9 @@ Recommended server workflow:
 8. Call answerCallbackQuery for every callback, even when no user-facing notification is needed.
 9. Update the original message or keyboard when appropriate.
 
-Bale says a pressed inline button remains in a waiting state until answerCallbackQuery is called. Never assume that a button click is proof of permission.
+Bale says a pressed inline button remains in a waiting state until answerCallbackQuery is called. The method is unavailable in older clients; the docs say callback_query_id beginning with 1 indicates an older client. Provide an alternate user-visible message for those clients.
+
+Never assume that a button click is proof of permission.
 
 ## Mini App data from a bot update
 
