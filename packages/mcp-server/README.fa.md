@@ -13,8 +13,8 @@
 <p>یک سرور محلی و فقط‌خواندنی بر پایه <a href="https://modelcontextprotocol.io/">Model Context Protocol (MCP)</a> برای دسترسی Agentهای هوش مصنوعی به دانش مهندسی بله است. این سرور Skillها، مراجع فنی مبتنی بر مستندات، قالب‌ها، Validatorها و Promptهای مهندسی را در اختیار Agent قرار می‌دهد.</p>
 
 <p><strong>نام پکیج:</strong> <code>@bale-engineering/mcp-server</code><br>
-<strong>نسخه کاندید سورس:</strong> <code>0.1.0</code><br>
-<strong>وضعیت انتشار:</strong> در انتظار تأیید نسخه Stageشده<br>
+<strong>نسخه منتشرشده npm:</strong> <code>0.1.0</code><br>
+<strong>کاندید بعدی در سورس:</strong> <code>0.1.1</code><br>
 <strong>صفحه npm:</strong> <a href="https://www.npmjs.com/package/@bale-engineering/mcp-server">مشاهده پکیج</a></p>
 
 <h2>۱. این MCP چه کاری انجام می‌دهد؟</h2>
@@ -42,27 +42,33 @@
 <h2>۳. نصب سریع و اتصال به Agent</h2>
 <p>روش نصب به Agent بستگی دارد. دستور را در ترمینال اجرا کنید؛ خود Agent هنگام نیاز، فرایند MCP را اجرا می‌کند. <strong>دستور STDIO را به‌عنوان سرویس دائمی یا پردازش پس‌زمینه اجرا نکنید.</strong></p>
 
-<h3>۳.۱. اتصال به Codex</h3>
+<h3>۳.۱. اتصال به Codex Desktop</h3>
+<p>برای نسخه دسکتاپ Codex در مک‌بوک، نیازی به نصب Codex CLI یا اجرای دستور <code>codex</code> ندارید:</p>
+<ol>
+<li>Codex را باز کنید.</li>
+<li>به مسیر <strong>Settings → Configuration → Open config.toml</strong> بروید.</li>
+<li>این بخش را به فایل موجود اضافه کنید؛ تنظیمات قبلی را پاک نکنید:</li>
+</ol>
 </div>
 
-~~~bash
-codex mcp add bale-engineering -- npx -y @bale-engineering/mcp-server@latest
+~~~toml
+[mcp_servers.bale_engineering]
+command = "npx"
+args = ["-y", "@bale-engineering/mcp-server@0.1.0"]
 ~~~
 
 <div dir="rtl" align="right">
-<p>برای بررسی ثبت شدن سرور:</p>
+<ol start="4">
+<li>فایل را ذخیره و Codex را Restart کنید.</li>
+</ol>
+<p>فایل تنظیمات پیش‌فرض در macOS برابر <code>~/.codex/config.toml</code> است. دستور <code>npx</code> فقط پکیج MCP را اجرا می‌کند و به معنی نیاز به Codex CLI نیست.</p>
 </div>
 
-~~~bash
-codex mcp list
-~~~
-
-<div dir="rtl" align="right">
 <h3>۳.۲. اتصال به Claude Code</h3>
 </div>
 
 ~~~bash
-claude mcp add bale-engineering -- npx -y @bale-engineering/mcp-server@latest
+claude mcp add bale-engineering -- npx -y @bale-engineering/mcp-server@0.1.0
 ~~~
 
 <div dir="rtl" align="right">
@@ -83,7 +89,7 @@ claude mcp list
   "mcpServers": {
     "bale-engineering": {
       "command": "npx",
-      "args": ["-y", "@bale-engineering/mcp-server@latest"]
+      "args": ["-y", "@bale-engineering/mcp-server@0.1.0"]
     }
   }
 }
@@ -94,7 +100,7 @@ claude mcp list
 <p>در تنظیمات MCP ابزار موردنظر، همین Command و Arguments را وارد کنید:</p>
 <ul>
 <li><strong>Command:</strong> <code>npx</code></li>
-<li><strong>Arguments:</strong> <code>-y</code> و <code>@bale-engineering/mcp-server@latest</code></li>
+<li><strong>Arguments:</strong> <code>-y</code> و <code>@bale-engineering/mcp-server@0.1.0</code></li>
 <li><strong>Transport:</strong> <code>stdio</code></li>
 </ul>
 <p>پس از تغییر تنظیمات، Agent را Restart یا Reload کنید. محل دقیق تنظیمات به نسخه Client بستگی دارد.</p>
@@ -121,7 +127,7 @@ npm view @bale-engineering/mcp-server version
 <div dir="rtl" align="right">
 <p>سپس وضعیت MCP را در Agent بررسی کنید:</p>
 <ul>
-<li>Codex: دستور <code>codex mcp list</code></li>
+<li>Codex Desktop: پس از Restart، در محیط Codex از Agent بخواهید ابزارهای MCP سرور <code>bale_engineering</code> را فهرست کند.</li>
 <li>Claude Code: دستور <code>claude mcp list</code></li>
 <li>Cursor: بخش MCP Settings و وضعیت اتصال <code>bale-engineering</code></li>
 </ul>
@@ -338,7 +344,7 @@ npx --version
 <ol>
 <li>ساختار تنظیمات MCP را بررسی کنید.</li>
 <li>در Codex دستور <code>codex mcp list</code> یا در Claude Code دستور <code>claude mcp list</code> را اجرا کنید.</li>
-<li>مطمئن شوید Command برابر <code>npx</code> و Arguments شامل <code>-y</code> و <code>@bale-engineering/mcp-server@latest</code> است.</li>
+<li>مطمئن شوید Command برابر <code>npx</code> و Arguments شامل <code>-y</code> و <code>@bale-engineering/mcp-server@0.1.0</code> است.</li>
 <li>Agent را Restart یا Reload کنید.</li>
 <li>لاگ‌های MCP Client را برای خطای اجرای فرایند بررسی کنید.</li>
 </ol>
@@ -379,12 +385,20 @@ npm run test:package
 
 <div dir="rtl" align="right">
 <h2>۱۳. نسخه‌ها و انتشار</h2>
-<p>نسخه کاندید سورس <code>0.1.0</code> است. npm فعلاً Placeholder با نسخه <code>0.0.0-stage</code> را نمایش می‌دهد؛ نسخه عملیاتی تا زمان تأیید نسخه Stageشده قابل نصب نیست.</p>
+<ul>
+<li><strong>نسخه منتشرشده npm:</strong> <code>0.1.0</code>؛ انتشار دستی توسط Maintainer انجام شده است.</li>
+<li><strong>کاندید بعدی در سورس:</strong> <code>0.1.1</code>؛ برای انتشار مرحله‌ای با GitHub OIDC آماده شده است.</li>
+<li>نسخه‌ای که MCP در پاسخ Initialize اعلام می‌کند مستقیماً از <code>package.json</code> خوانده می‌شود؛ بنابراین نسخه پکیج و سرور از هم جدا نمی‌شوند.</li>
+<li><code>0.0.0-stage</code> فقط Placeholder مربوط به Staging در npm است، نه نسخه واقعی Bale Engineering؛ آن را نصب نکنید.</li>
+<li>تا زمان Stage، بررسی و تأیید نسخه <code>0.1.1</code>، برای نصب از نسخه منتشرشده <code>@bale-engineering/mcp-server@0.1.0</code> استفاده کنید.</li>
+<li>دستور <code>npm view @bale-engineering/mcp-server version</code> مقدار Dist-tag به نام <code>latest</code> را نشان می‌دهد. برای بررسی نسخه مشخص از <code>npm view @bale-engineering/mcp-server@0.1.0 version</code> استفاده کنید.</li>
+</ul>
 <ul>
 <li><a href="https://www.npmjs.com/package/@bale-engineering/mcp-server">مشاهده پکیج در npm</a></li>
 <li><a href="https://github.com/shahinesi/Bale-Engineering/actions">مشاهده GitHub Actions</a></li>
 <li><a href="../../docs/releasing.fa.md">راهنمای انتشار نسخه‌های بعدی</a></li>
 </ul>
+</div>
 
 <h2>مستندات مرتبط</h2>
 <ul>
