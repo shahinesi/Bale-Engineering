@@ -32,7 +32,7 @@ describe("validateInlineKeyboard", () => {
 
   it("counts callback_data as UTF-8 bytes", () => {
     const result = validateInlineKeyboard({
-      inline_keyboard: [[{ text: "Continue", callback_data: "سلام".repeat(6) }]]
+      inline_keyboard: [[{ text: "Continue", callback_data: "سلام".repeat(9) }]]
     });
 
     expect(result.valid).toBe(false);
