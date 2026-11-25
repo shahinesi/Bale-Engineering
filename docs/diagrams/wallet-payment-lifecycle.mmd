@@ -1,0 +1,12 @@
+stateDiagram-v2
+    [*] --> PendingOrder
+    PendingOrder --> InvoiceCreated: Create invoice
+    InvoiceCreated --> PreCheckout: User starts checkout
+    PreCheckout --> Rejected: Invalid order or amount
+    PreCheckout --> AwaitingPayment: Pre-checkout accepted
+    AwaitingPayment --> Paid: SuccessfulPayment validated
+    AwaitingPayment --> Expired: Expiry or unresolved outcome
+    Paid --> Fulfilled: Idempotent fulfilment
+    Rejected --> [*]
+    Expired --> [*]
+    Fulfilled --> [*]
