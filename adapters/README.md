@@ -1,3 +1,5 @@
+<p align="right"><a href="README.fa.md">فارسی</a> · <strong>English</strong></p>
+
 # Agent adapters
 
 The canonical skills live under ../skills. Install skill folders directly or connect the MCP server. Do not maintain separate forks of the knowledge.
@@ -35,3 +37,5 @@ Install the skill with the Skills CLI or copy it to the project's .claude/skills
 Use the Skills CLI if the agent is supported. Otherwise copy the selected skill folder to the agent's documented skills/rules directory. Keep the skill content canonical in this repository.
 
 Agent configuration formats change. Check the target agent's current documentation before committing a generated config file.
+
+[Persian adapter guide](README.fa.md)
