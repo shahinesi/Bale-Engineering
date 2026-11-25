@@ -1,6 +1,6 @@
 ---
 name: bale-message-formatting
-description: Use when composing, formatting or validating text sent through Bale messages, including bold, italic, links, code, short text, checklists, mentions and Markdown compatibility assumptions.
+description: Use when composing, formatting or validating text sent through Bale messages, including bold, italic, links, code, short text preview, checklists, mentions and Markdown compatibility assumptions.
 ---
 
 # Bale Message Formatting
@@ -11,15 +11,23 @@ Bale's message formatting is Markdown-like but is not standard Markdown. Use exa
 ## Supported patterns documented by Bale
 - Bold uses one asterisk at each end: *متن برجسته*.
 - Italic uses one underscore at each end: _متن کج_.
+- Leave a space before the opening bold/italic marker and after the closing marker. Do not attach the markers directly to adjacent words.
 - Links use [عنوان](https://example.com) with no space between the closing bracket and opening parenthesis.
-- Code uses triple backticks.
-- Short text opens a longer preview; follow the exact syntax in the knowledge reference and verify delimiter behavior.
+- Code uses triple backticks around the source.
+- Short text / preview uses three backticks, followed by [عنوان] and the full text, followed by three backticks. Only the title appears in chat; touching it opens the preview.
 - Mentions can use @username.
 - Hashtags use #موضوع.
 - Bot commands start with /.
 - Checklists use - [ ] and - [x] when enabled for that message and editable by the user.
 - Internal user mentions can use [نام](uid:12345).
 - A send action can use [شروع](send:/start) in supported bot messages and groups.
+
+## Exact short-text example
+~~~text
+```[اطلاعات بیشتر]این متن در صفحه پیش‌نمایش نمایش داده می‌شود.```
+~~~
+
+This is the feature sometimes described as نمایش آنی. It is a preview affordance, not an automatically rendered Markdown table or diagram.
 
 ## Avoid standard Markdown assumptions
 The docs explicitly state that double-asterisk bold and double-underscore italic are not supported. Do not assume Markdown tables, Mermaid, HTML or arbitrary extensions render.
@@ -36,11 +44,11 @@ For dense tables, dashboards, multi-column layouts or diagrams, choose a Mini Ap
 
 ## Example
 ~~~text
-*وضعیت سفارش*
-شماره: ۱۰۲۴
-وضعیت: _در حال آماده‌سازی_
+سلام * دوست من *،
 
-[مشاهده سفارش](https://ble.ir/example_bot?startapp=order_1024)
+این یک متن _ توضیحی _ با لینک [مستندات بله](https://docs.bale.ai) است.
+
+```[اطلاعات بیشتر]این متن در صفحه پیش‌نمایش نمایش داده می‌شود.```
 ~~~
 
 ## Verification
