@@ -19,6 +19,10 @@ This directory contains the architecture guide and editable diagrams for Bale En
 | Mini App authentication | [miniapp-authentication.mmd](diagrams/miniapp-authentication.mmd) | [miniapp-authentication.fa.mmd](diagrams/miniapp-authentication.fa.mmd) |
 | Wallet payment lifecycle | [wallet-payment-lifecycle.mmd](diagrams/wallet-payment-lifecycle.mmd) | [wallet-payment-lifecycle.fa.mmd](diagrams/wallet-payment-lifecycle.fa.mmd) |
 | MCP architecture | [mcp-architecture.mmd](diagrams/mcp-architecture.mmd) | [mcp-architecture.fa.mmd](diagrams/mcp-architecture.fa.mmd) |
+| Business API notification | [business-api-notification.mmd](diagrams/business-api-notification.mmd) | [business-api-notification.fa.mmd](diagrams/business-api-notification.fa.mmd) |
+| Safir delivery | [safir-delivery-lifecycle.mmd](diagrams/safir-delivery-lifecycle.mmd) | [safir-delivery-lifecycle.fa.mmd](diagrams/safir-delivery-lifecycle.fa.mmd) |
+| Callback authorization | [callback-authorization.mmd](diagrams/callback-authorization.mmd) | [callback-authorization.fa.mmd](diagrams/callback-authorization.fa.mmd) |
+| Deep-link entry points | [deep-link-entrypoints.mmd](diagrams/deep-link-entrypoints.mmd) | [deep-link-entrypoints.fa.mmd](diagrams/deep-link-entrypoints.fa.mmd) |
 
 ## Visual assets
 
