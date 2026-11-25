@@ -45,18 +45,19 @@ Opens the bot conversation and sends /start with the optional parameter. Use it 
 ~~~text
 https://ble.ir/<bot_username>?startapp
 https://ble.ir/<bot_username>?startapp=<start_param>
-https://ble.ir/<bot_username>?startapp=<start_param>&mode=<mode>
+https://ble.ir/@example_bot?startapp=order_1024&mode=compact
 ~~~
 
-Opens the Mini App directly. start_param is available as tgWebAppStartParam and in initData.start_param. mode is documented as fullscreen or compact.
+Opens the Mini App directly. start_param is available as tgWebAppStartParam and in initData.start_param. mode is documented as fullscreen or compact. Bale's example for this form includes @ before the bot username; use the exact link form produced by the bot configuration and verify it in a client.
 
 ### Share
 
 ~~~text
 https://ble.ir/share?url=<url>&text=<text>
+https://ble.ir/share/url?url=<url>&text=<text>
 ~~~
 
-Opens the user's conversation list and pre-fills a share message. The user can edit it; the message is not sent without user confirmation.
+Opens the user's conversation list and pre-fills a share message. The user can edit it; the message is not sent without user confirmation. Both share URL forms are documented.
 
 ## URL encoding
 
