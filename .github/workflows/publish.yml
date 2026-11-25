@@ -1,0 +1,68 @@
+name: Publish MCP package
+
+on:
+  push:
+    tags:
+      - "v*"
+  workflow_dispatch:
+    inputs:
+      confirm_publish:
+        description: "Confirm publishing the verified package to the public npm registry"
+        required: true
+        type: boolean
+        default: false
+
+permissions:
+  contents: read
+  id-token: write
+
+jobs:
+  publish:
+    if: github.event_name == 'push' || inputs.confirm_publish == true
+    name: Verify and publish to npm
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v6
+
+      - name: Set up Node.js and npm registry
+        uses: actions/setup-node@v6
+        with:
+          node-version: 24
+          registry-url: https://registry.npmjs.org
+          package-manager-cache: false
+
+      - name: Install MCP package dependencies
+        working-directory: packages/mcp-server
+        run: npm install --no-audit --no-fund
+
+      - name: Typecheck
+        working-directory: packages/mcp-server
+        run: npm run typecheck
+
+      - name: Unit tests
+        working-directory: packages/mcp-server
+        run: npm test
+
+      - name: Build
+        working-directory: packages/mcp-server
+        run: npm run build
+
+      - name: Verify the exact package layout and MCP STDIO behavior
+        working-directory: packages/mcp-server
+        run: npm run test:package
+
+      - name: Create the release tarball
+        working-directory: packages/mcp-server
+        shell: bash
+        run: |
+          mkdir -p "$RUNNER_TEMP/bale-engineering-package"
+          PACK_JSON="$(npm pack --json --pack-destination "$RUNNER_TEMP/bale-engineering-package")"
+          FILE_NAME="$(node -e 'const result = JSON.parse(process.argv[1]); process.stdout.write(result[0].filename);' "$PACK_JSON")"
+          echo "NPM_TARBALL=$RUNNER_TEMP/bale-engineering-package/$FILE_NAME" >> "$GITHUB_ENV"
+
+      - name: Publish with npm Trusted Publishing (OIDC)
+        working-directory: packages/mcp-server
+        run: npm publish "$NPM_TARBALL" --access public
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
