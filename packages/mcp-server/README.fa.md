@@ -343,7 +343,7 @@ npx --version
 <h3>سرور نمایش داده نمی‌شود یا Toolها در دسترس نیستند</h3>
 <ol>
 <li>ساختار تنظیمات MCP را بررسی کنید.</li>
-<li>در Codex دستور <code>codex mcp list</code> یا در Claude Code دستور <code>claude mcp list</code> را اجرا کنید.</li>
+<li>در Codex Desktop برنامه را Restart کنید و از Agent بخواهید ابزارهای <code>bale_engineering</code> را فهرست کند؛ در Claude Code دستور <code>claude mcp list</code> را اجرا کنید.</li>
 <li>مطمئن شوید Command برابر <code>npx</code> و Arguments شامل <code>-y</code> و <code>@bale-engineering/mcp-server@0.1.0</code> است.</li>
 <li>Agent را Restart یا Reload کنید.</li>
 <li>لاگ‌های MCP Client را برای خطای اجرای فرایند بررسی کنید.</li>
