@@ -1,0 +1,10 @@
+flowchart TD
+    LINK["Bale deep link"] --> KIND{"Link type"}
+    KIND -->|start| BOT["Open bot conversation"]
+    BOT --> CMD["Deliver /start with parameter"]
+    KIND -->|startapp| MINI["Open Mini App directly"]
+    MINI --> PARAM["Expose start_param in Mini App context"]
+    KIND -->|share| SHARE["Open share chooser"]
+    SHARE --> CONFIRM["User reviews and confirms"]
+    KIND -->|join token| INVITE["Preview and join group/channel"]
+    KIND -->|message link| MSG["Open a public or member-only message"]
