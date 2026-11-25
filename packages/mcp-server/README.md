@@ -9,7 +9,7 @@
 
 A local, read-only [Model Context Protocol (MCP)](https://modelcontextprotocol.io/) server for the Bale Engineering knowledge base. It gives compatible AI coding agents structured access to Bale skills, source-backed references, templates, validators and engineering prompts.
 
-**npm package:** [@bale-engineering/mcp-server](https://www.npmjs.com/package/@bale-engineering/mcp-server) · **Source candidate:** <code>0.1.0</code> · **Status:** awaiting staged release approval
+**npm package:** [@bale-engineering/mcp-server](https://www.npmjs.com/package/@bale-engineering/mcp-server) · **Published release:** <code>0.1.0</code> · **Next source candidate:** <code>0.1.1</code>
 
 ## What it does
 
@@ -35,22 +35,27 @@ No npm login, Bale bot token, Safir API key or production credential is needed t
 
 Choose your MCP client and register the server. The client starts the process when it needs it; **do not run the STDIO command as a standalone background service**.
 
-### Codex
+### Codex desktop app
 
-~~~bash
-codex mcp add bale-engineering -- npx -y @bale-engineering/mcp-server@latest
+No Codex CLI is required. In the Codex desktop app on macOS:
+
+1. Open **Codex → Settings → Configuration → Open config.toml**.
+2. Add this block to the existing file. Keep your other settings intact:
+
+~~~toml
+[mcp_servers.bale_engineering]
+command = "npx"
+args = ["-y", "@bale-engineering/mcp-server@0.1.0"]
 ~~~
 
-Verify the registration:
+3. Save the file and restart Codex.
 
-~~~bash
-codex mcp list
-~~~
+The app reads the user configuration from `~/.codex/config.toml`. Here, `npx` only launches the local MCP package; it does not mean you need Codex CLI.
 
 ### Claude Code
 
 ~~~bash
-claude mcp add bale-engineering -- npx -y @bale-engineering/mcp-server@latest
+claude mcp add bale-engineering -- npx -y @bale-engineering/mcp-server@0.1.0
 ~~~
 
 Verify the registration:
@@ -68,7 +73,7 @@ Add the following server entry in Cursor's MCP settings, or place it in your pro
   "mcpServers": {
     "bale-engineering": {
       "command": "npx",
-      "args": ["-y", "@bale-engineering/mcp-server@latest"]
+      "args": ["-y", "@bale-engineering/mcp-server@0.1.0"]
     }
   }
 }
@@ -79,7 +84,7 @@ Add the following server entry in Cursor's MCP settings, or place it in your pro
 Use the same command and arguments in the client's MCP server configuration:
 
 - **Command:** <code>npx</code>
-- **Arguments:** <code>-y</code>, <code>@bale-engineering/mcp-server@latest</code>
+- **Arguments:** <code>-y</code>, <code>@bale-engineering/mcp-server@0.1.0</code>
 - **Transport:** <code>stdio</code>
 
 Restart or reload the client after changing its MCP configuration. The exact settings screen depends on the client and its version.
@@ -104,7 +109,7 @@ npm view @bale-engineering/mcp-server version
 
 Then check the MCP server list in your client:
 
-- Codex: <code>codex mcp list</code>
+- **Codex desktop app:** restart Codex and ask it to list the tools exposed by `bale_engineering`.
 - Claude Code: <code>claude mcp list</code>
 - Cursor: open the MCP settings and confirm that <code>bale-engineering</code> is enabled and connected.
 
@@ -303,7 +308,7 @@ Node.js must be version 20 or newer. Restart the MCP client after installing Nod
 
 1. Check the MCP configuration syntax.
 2. Run <code>codex mcp list</code> or <code>claude mcp list</code>, as applicable.
-3. Confirm the command is <code>npx</code> and the arguments are <code>-y</code> and <code>@bale-engineering/mcp-server@latest</code>.
+3. Confirm the command is <code>npx</code> and the arguments are <code>-y</code> and <code>@bale-engineering/mcp-server@0.1.0</code>.
 4. Restart or reload the client.
 5. Inspect the MCP client's logs for process-startup errors.
 
@@ -342,12 +347,14 @@ To run a source checkout through an MCP client, build it and use this configurat
 
 ## Versioning and publishing
 
-The source release candidate is <code>0.1.0</code>. npm currently displays the <code>0.0.0-stage</code> placeholder; the functional package is not installable until the staged candidate is approved:
+- **Published npm release:** `0.1.0` (published manually by the maintainer).
+- **Next source candidate:** `0.1.1` (prepared in this repository for OIDC staged publishing).
+- The MCP server reads its reported version directly from the package manifest, so the package and MCP initialize metadata stay aligned.
+- `0.0.0-stage` is npm's staging placeholder, not the Bale Engineering release. Do not pin installations to it.
+- Until `0.1.1` is staged, reviewed and approved, use the known published version explicitly: `@bale-engineering/mcp-server@0.1.0`.
+- `npm view @bale-engineering/mcp-server version` resolves the `latest` dist-tag. To verify a specific release, use `npm view @bale-engineering/mcp-server@0.1.0 version`.
 
-- [View the npm package](https://www.npmjs.com/package/@bale-engineering/mcp-server)
-- [View GitHub Actions](https://github.com/shahinesi/Bale-Engineering/actions)
-
-For maintainers preparing a future release, see the [release guide](../../docs/releasing.md).
+For maintainers preparing the next release, see the [release guide](../../docs/releasing.md).
 
 ## Related documentation
 
