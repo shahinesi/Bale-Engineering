@@ -1,0 +1,20 @@
+sequenceDiagram
+    participant U as User
+    participant B as Bale
+    participant H as Bot Handler
+    participant D as Domain Service
+    participant DB as Application DB
+
+    U->>B: Press inline button
+    B->>H: callback_query update
+    H->>H: Parse bounded untrusted callback_data
+    H->>D: Load resource and authenticated actor
+    D->>D: Check ownership, permission and current state
+    alt Action is allowed
+        D->>DB: Commit state transition and audit
+        DB-->>D: Commit result
+        D-->>H: Action result
+    else Action is denied
+        D-->>H: Reject action
+    end
+    H->>B: answerCallbackQuery
