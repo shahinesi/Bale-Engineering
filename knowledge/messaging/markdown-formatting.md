@@ -25,7 +25,7 @@ Bale formats message text with a Markdown-like syntax, but it differs from stand
 
 ## Bold and italic spacing
 
-Bale's guide says to put a space before the opening marker and after the closing marker. Keep formatting markers separated from adjacent words; do not attach them directly to the surrounding Persian or Latin text.
+Bale's guide says to put a space before the opening marker and after the closing marker. Keep formatting markers separated from adjacent words; do not attach them directly to surrounding Persian or Latin text.
 
 ## Short text: exact syntax
 
@@ -56,9 +56,9 @@ Do not tell an agent these are supported. For tabular data, use concise text row
 ## Example message
 
 ~~~text
-سلام * دوست من *،
+سلام *دوست من* ،
 
-این یک متن _ توضیحی _ با لینک [مستندات بله](https://docs.bale.ai) است.
+این یک متن _توضیحی_ با لینک [مستندات بله](https://docs.bale.ai) است.
 
 کد نمونه:
 ```
