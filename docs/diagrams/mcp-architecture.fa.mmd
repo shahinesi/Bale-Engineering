@@ -1,0 +1,7 @@
+flowchart LR
+    AGENT["Codex / Claude Code / Cursor"] <-->|"MCP روی STDIO"| SERVER["MCP Server محلی"]
+    SERVER --> CATALOG["کاتالوگ مجاز"]
+    CATALOG --> SKILLS["Skillها"]
+    CATALOG --> KNOWLEDGE["مراجع فنی"]
+    CATALOG --> TEMPLATES["قالب‌های مهندسی"]
+    SERVER -.->|"بدون دسترسی Production"| DENY["بدون API بله / دیتابیس / ارسال پیام"]
