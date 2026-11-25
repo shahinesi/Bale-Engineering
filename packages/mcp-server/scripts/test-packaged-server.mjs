@@ -26,7 +26,7 @@ function runNpm(args, cwd) {
       "Command failed: npm " + args.join(" "),
       result.stdout,
       result.stderr
-    ].join("\\n"));
+    ].join("\n"));
   }
   return result.stdout;
 }
@@ -82,7 +82,7 @@ try {
   const skillText = skillResult.content
     .filter(block => block.type === "text")
     .map(block => block.text)
-    .join("\\n");
+    .join("\n");
   assert.ok(skillText.includes("Bale Engineering"), "packaged server must read canonical skill files");
 
   const referenceResult = await client.callTool({
@@ -92,7 +92,7 @@ try {
   const referenceText = referenceResult.content
     .filter(block => block.type === "text")
     .map(block => block.text)
-    .join("\\n");
+    .join("\n");
   assert.ok(referenceText.includes("معماری"), "packaged server must read Persian architecture references");
 
   const { contents } = await client.readResource({ uri: "bale://catalog" });
