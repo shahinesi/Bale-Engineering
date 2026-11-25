@@ -1,5 +1,9 @@
 import { describe, expect, it } from "vitest";
-import { validateInlineKeyboard, validateSafirPayload } from "../src/validators.js";
+import {
+  validateBusinessApiRequest,
+  validateInlineKeyboard,
+  validateSafirPayload
+} from "../src/validators.js";
 
 describe("validateInlineKeyboard", () => {
   it("accepts success and danger actions plus a disabled button", () => {
@@ -151,5 +155,61 @@ describe("validateSafirPayload", () => {
 
     expect(result.valid).toBe(false);
     expect(result.issues.some(item => item.message.includes("not listed in Safir"))).toBe(true);
+  });
+});
+
+describe("validateBusinessApiRequest", () => {
+  it("accepts a supported private-chat text message", () => {
+    const result = validateBusinessApiRequest(
+      "sendMessage",
+      { chat_id: 123456789, text: "گزارش آماده است." },
+      "private"
+    );
+
+    expect(result.valid).toBe(true);
+    expect(result.issues).toHaveLength(0);
+  });
+
+  it("rejects a non-private destination", () => {
+    const result = validateBusinessApiRequest(
+      "sendMessage",
+      { chat_id: -100123, text: "Notification" },
+      "group"
+    );
+
+    expect(result.valid).toBe(false);
+    expect(result.issues.some(item => item.path === "chat_type")).toBe(true);
+  });
+
+  it("rejects methods outside the documented allowlist", () => {
+    const result = validateBusinessApiRequest(
+      "copyMessage",
+      { chat_id: 123456789 },
+      "private"
+    );
+
+    expect(result.valid).toBe(false);
+    expect(result.issues.some(item => item.path === "method")).toBe(true);
+  });
+
+  it("rejects URL media because Business API supports file_id only", () => {
+    const result = validateBusinessApiRequest(
+      "sendPhoto",
+      { chat_id: 123456789, photo: "https://example.com/photo.jpg" },
+      "private"
+    );
+
+    expect(result.valid).toBe(false);
+    expect(result.issues.some(item => item.path === "payload.photo")).toBe(true);
+  });
+
+  it("warns when private chat type was not supplied", () => {
+    const result = validateBusinessApiRequest(
+      "sendMessage",
+      { chat_id: 123456789, text: "Notification" }
+    );
+
+    expect(result.valid).toBe(true);
+    expect(result.issues.some(item => item.severity === "warning")).toBe(true);
   });
 });
