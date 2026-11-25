@@ -95,6 +95,16 @@ npx skills add shahinesi/Bale-Engineering --skill bale-wallet-payments
 
 See [Agent adapters](adapters/README.md) for Codex, Claude Code, Cursor and other setup guidance.
 
+## Install the MCP server from npm
+
+After the first public release:
+
+~~~bash
+npx -y @bale-engineering/mcp-server
+~~~
+
+The package runs locally over STDIO. See the [npm release guide](docs/releasing.md) for first publication and future version releases.
+
 ## Run the MCP server locally
 
 Requirements: Node.js 20 or newer and pnpm.
@@ -179,7 +189,7 @@ AGENTS.md                Contributor and coding-agent rules
 
 ## Project status
 
-**Foundation release — v0.1.0.** The repository includes canonical skills, source-backed references, a local read-only MCP server, bilingual architecture guides, Mermaid sources and SVG visuals. The npm package is not published. Remote MCP hosting and live Bale API integrations are not part of this release.
+**Foundation release — v0.1.0.** The repository includes canonical skills, source-backed references, a local read-only MCP server, bilingual architecture guides, Mermaid sources and SVG visuals. The npm package metadata and release workflow are prepared, but the first public npm publication is still pending npm scope ownership and authentication. Remote MCP hosting and live Bale API integrations are not part of this release.
 
 ## Sources and attribution
 
