@@ -78,8 +78,10 @@ function createServer() {
       const normalized = task.toLocaleLowerCase();
       const rules = [
         { skill_id: "bale-bot-api", terms: ["bot", "callback", "keyboard", "webhook", "polling", "دکمه", "کالبک", "وبهوک", "بازو"] },
+        { skill_id: "bale-business-api", terms: ["business api", "business", "bulk", "notification", "پیام انبوه", "ارسال انبوه", "اطلاع‌رسانی خارج", "پیام خارج از گفتگو"] },
         { skill_id: "bale-miniapp", terms: ["mini app", "miniapp", "webapp", "initdata", "startapp", "مینی اپ", "مینی‌اپ"] },
-        { skill_id: "bale-safir", terms: ["safir", "otp", "request_id", "سفیر", "رمز یکبار مصرف"] },
+        { skill_id: "bale-safir", terms: ["safir", "otp", "request_id", "سفیر", "رمز یکبار مصرف", "شماره تلفن"] },
+        { skill_id: "bale-wallet-payments", terms: ["payment", "wallet", "invoice", "pre_checkout", "successfulpayment", "پرداخت", "کیف پول", "فاکتور"] },
         { skill_id: "bale-message-formatting", terms: ["markdown", "format", "formatting", "مرمید", "قالب‌بندی", "قالب بندی"] },
         { skill_id: "bale-links", terms: ["deep link", "startapp", "ble.ir", "لینک", "پیوند"] },
         { skill_id: "bale-engineering-review", terms: ["review", "audit", "security", "test", "بازبینی", "ممیزی", "امنیت", "تست"] }
@@ -92,7 +94,7 @@ function createServer() {
         suggested_skills: matched,
         note: matched.length === 0
           ? "No specialist matched by the deterministic keyword rules. Start with bale-engineering and inspect the task."
-          : "Keyword routing is a hint only. The main engineering skill must still decide whether Bot API, Mini App, Safir or a hybrid is appropriate."
+          : "Keyword routing is a hint only. The main engineering skill must still decide between Bot API, Business API, Mini App, Safir and wallet-payment flows."
       });
     }
   );
