@@ -89,7 +89,7 @@ npx skills add shahinesi/Bale-Engineering --skill bale-wallet-payments
 
 <div dir="rtl" align="right">
 <h2>نصب MCP Server از npm</h2>
-<p>پکیج عمومی <code>@bale-engineering/mcp-server</code> با نسخه فعلی <code>0.1.0</code> منتشر شده است. پیش‌نیاز: Node.js نسخه ۲۰ یا بالاتر و یک MCP Client سازگار.</p>
+<p>نام پکیج <code>@bale-engineering/mcp-server</code> در npm ثبت شده، اما فعلاً فقط Placeholder با نسخه <code>0.0.0-stage</code> نمایش داده می‌شود. نسخه کاندید سورس <code>0.1.0</code> است و پس از اجرای موفق Workflow مبتنی بر OIDC و تأیید Maintainer با 2FA قابل نصب خواهد بود. Placeholder را نصب نکنید.</p>
 </div>
 
 ~~~bash
@@ -204,8 +204,8 @@ AGENTS.md                قواعد نگهداری و مشارکت
 <li>نمودارهای معماری این مخزن، الگوی پیشنهادی هستند و اسکرین‌شات محصول عملیاتی محسوب نمی‌شوند.</li>
 </ul>
 <h2>وضعیت پروژه</h2>
-<p><strong>Foundation Release — v0.1.0</strong></p>
-<p>نسخه عمومی <code>0.1.0</code> از پکیج <code>@bale-engineering/mcp-server</code> در npm منتشر شده است. مخزن شامل Skillهای اصلی، مراجع فنی مبتنی بر منابع، MCP محلی فقط‌خواندنی، مستندات دوزبانه، نمودارهای Mermaid و تصاویر SVG است. میزبانی Remote MCP و اتصال عملیاتی به APIهای بله در محدوده این نسخه نیستند.</p>
+<p><strong>Foundation Release Candidate — v0.1.0</strong></p>
+<p>نام پکیج در npm ثبت شده است. نسخه قابل‌مشاهده <code>0.0.0-stage</code> فقط Placeholder npm است؛ نسخه عملیاتی پس از Stage موفق با OIDC و تأیید Maintainer منتشر خواهد شد. مخزن شامل Skillهای اصلی، مراجع فنی مبتنی بر منابع، MCP محلی فقط‌خواندنی، مستندات دوزبانه، نمودارهای Mermaid و تصاویر SVG است.</p>
 <h2>منابع</h2>
 <ul>
 <li><a href="https://docs.bale.ai/">مستندات رسمی بله</a></li>
