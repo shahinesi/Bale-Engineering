@@ -2,12 +2,20 @@
 
 <p align="left"><a href="README.md">English</a> · <strong>فارسی</strong></p>
 <h1>مستندات پروژه</h1>
-<p>این پوشه شامل راهنمای معماری و نمودارهای قابل‌ویرایش Bale Engineering است.</p>
+<p>این پوشه شامل راهنمای معماری، نمودارهای قابل‌ویرایش و مستندات انتشار Bale Engineering است.</p>
 
 <h2>از اینجا شروع کنید</h2>
 <ul>
 <li><a href="architecture.fa.md">معماری پروژه به فارسی</a></li>
 <li><a href="architecture.md">Architecture in English</a></li>
+</ul>
+
+<h2>راهنمای MCP و انتشار</h2>
+<ul>
+<li><a href="../packages/mcp-server/README.fa.md">راهنمای کامل نصب و استفاده MCP به فارسی</a></li>
+<li><a href="../packages/mcp-server/README.md">Complete MCP installation and usage guide</a></li>
+<li><a href="releasing.fa.md">راهنمای انتشار npm</a></li>
+<li><a href="releasing.md">npm release guide</a></li>
 </ul>
 
 <h2>فهرست نمودارها</h2>
