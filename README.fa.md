@@ -129,6 +129,10 @@ node packages/mcp-server/dist/index.js
 <li><a href="docs/diagrams/miniapp-authentication.fa.mmd">اعتبارسنجی هویت Mini App</a></li>
 <li><a href="docs/diagrams/wallet-payment-lifecycle.fa.mmd">چرخه پرداخت کیف پول</a></li>
 <li><a href="docs/diagrams/mcp-architecture.fa.mmd">معماری MCP</a></li>
+<li><a href="docs/diagrams/business-api-notification.fa.mmd">ارسال اعلان با Business API</a></li>
+<li><a href="docs/diagrams/safir-delivery-lifecycle.fa.mmd">چرخه ارسال سفیر</a></li>
+<li><a href="docs/diagrams/callback-authorization.fa.mmd">اعتبارسنجی Callback</a></li>
+<li><a href="docs/diagrams/deep-link-entrypoints.fa.mmd">مسیرهای Deep Link</a></li>
 </ul>
 <h2>ساختار مخزن</h2>
 </div>
