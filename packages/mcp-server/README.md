@@ -71,6 +71,7 @@ Client configuration formats can change. Confirm the current host documentation 
 | bale_route_task | Keyword-based first-pass skill routing |
 | bale_validate_inline_keyboard | Validate Bot API inline keyboard structure, styles, disabled and callback_data |
 | bale_validate_safir_payload | Validate Safir send_message shape, phone format, template and button fields |
+| bale_validate_business_api_request | Validate Business API method allowlist, private-chat metadata and file_id-only media |
 
 ## Resources
 
@@ -88,4 +89,4 @@ The server:
 - Reads only allowlisted files from this repository.
 - Performs local validation and keyword search only.
 
-The keyboard validator does not check application authorization. The Safir validator does not prove that a payload is accepted by the live provider. The keyword router is not semantic reasoning.
+The keyboard validator does not check application authorization. The Business API validator cannot prove the real chat type unless the caller supplies verified chat_type metadata. The Safir validator does not prove that a payload is accepted by the live provider. The keyword router is not semantic reasoning.
