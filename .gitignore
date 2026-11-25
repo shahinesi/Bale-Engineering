@@ -6,3 +6,7 @@ coverage/
 !.env.example
 .DS_Store
 *.log
+
+# Generated only while creating the npm tarball
+packages/mcp-server/package-data/
+packages/mcp-server/LICENSE
