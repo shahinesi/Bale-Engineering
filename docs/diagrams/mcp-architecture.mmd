@@ -1,0 +1,7 @@
+flowchart LR
+    AGENT["Codex / Claude Code / Cursor"] <-->|MCP over STDIO| SERVER["Local MCP Server"]
+    SERVER --> CATALOG["Allowlisted Catalog"]
+    CATALOG --> SKILLS["Skills"]
+    CATALOG --> KNOWLEDGE["Knowledge References"]
+    CATALOG --> TEMPLATES["Engineering Templates"]
+    SERVER -.->|No production access| DENY["No Bale API / no database / no message sending"]
