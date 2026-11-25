@@ -9,6 +9,8 @@
 <h1 align="center">Bale Engineering</h1>
 <p align="center"><strong>A source-backed engineering knowledge system for building reliable software on Bale.</strong></p>
 
+<p align="center"><a href="https://www.npmjs.com/package/@bale-engineering/mcp-server"><img src="https://img.shields.io/npm/v/%40bale-engineering%2Fmcp-server" alt="npm version"></a> <a href="https://github.com/shahinesi/Bale-Engineering/actions/workflows/ci.yml"><img src="https://github.com/shahinesi/Bale-Engineering/actions/workflows/ci.yml/badge.svg" alt="CI"></a> <a href="LICENSE"><img src="https://img.shields.io/badge/License-MIT-blue.svg" alt="MIT License"></a></p>
+
 <p align="center">
   <img src="assets/brand/hero.svg" alt="Bale Engineering: Bot API, Business API, Mini App, Safir, wallet payments and MCP" width="100%">
 </p>
@@ -97,13 +99,34 @@ See [Agent adapters](adapters/README.md) for Codex, Claude Code, Cursor and othe
 
 ## Install the MCP server from npm
 
-After the first public release:
+The public npm package is available as <code>@bale-engineering/mcp-server</code> (current release: <code>0.1.0</code>). It requires Node.js 20+ and an MCP-compatible client.
+
+For Codex:
 
 ~~~bash
-npx -y @bale-engineering/mcp-server
+codex mcp add bale-engineering -- npx -y @bale-engineering/mcp-server@latest
 ~~~
 
-The package runs locally over STDIO. See the [npm release guide](docs/releasing.md) for first publication and future version releases.
+For Claude Code:
+
+~~~bash
+claude mcp add bale-engineering -- npx -y @bale-engineering/mcp-server@latest
+~~~
+
+For Cursor, add the following entry in MCP settings or <code>.cursor/mcp.json</code>:
+
+~~~json
+{
+  "mcpServers": {
+    "bale-engineering": {
+      "command": "npx",
+      "args": ["-y", "@bale-engineering/mcp-server@latest"]
+    }
+  }
+}
+~~~
+
+The client launches the package locally over STDIO; no server port or Bale credentials are required. See the [complete MCP installation and usage guide](packages/mcp-server/README.md) for tools, resources, prompts, examples, security boundaries and troubleshooting.
 
 ## Run the MCP server locally
 
@@ -189,7 +212,7 @@ AGENTS.md                Contributor and coding-agent rules
 
 ## Project status
 
-**Foundation release — v0.1.0.** The repository includes canonical skills, source-backed references, a local read-only MCP server, bilingual architecture guides, Mermaid sources and SVG visuals. The npm package metadata and release workflow are prepared, but the first public npm publication is still pending npm scope ownership and authentication. Remote MCP hosting and live Bale API integrations are not part of this release.
+**Foundation release — v0.1.0.** The public npm package <code>@bale-engineering/mcp-server</code> is published. The repository includes canonical skills, source-backed references, a local read-only MCP server, bilingual architecture guides, Mermaid sources and SVG visuals. Remote MCP hosting and live Bale API integrations are not part of this release.
 
 ## Sources and attribution
 
