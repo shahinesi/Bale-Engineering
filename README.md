@@ -1,50 +1,89 @@
 # Bale Engineering
 
-**The engineering knowledge system for building reliable Bale bots, Business API notifications, Mini Apps, Safir integrations and wallet-payment flows.**
+<p align="right"><a href="README.fa.md">نسخه فارسی</a> · <strong>English</strong></p>
 
-Bale Engineering is an open-source collection of agent skills, verified platform knowledge, engineering decision guides, reusable templates and a read-only MCP server.
+<p align="center">
+  <img src="assets/brand/mark.svg" width="72" alt="Bale Engineering mark">
+</p>
 
-این پروژه قرار نیست فقط مستندات API بله را به Markdown تبدیل کند. هدف آن کمک به Agent برای تصمیم‌گیری مهندسی است: چه چیزی بسازد، چرا آن مسیر را انتخاب کند، چه زمانی از هر قابلیت استفاده کند، چگونه آن را امن پیاده‌سازی کند و با چه شواهدی صحت کار را بررسی کند.
+<h1 align="center">Bale Engineering</h1>
+<p align="center"><strong>A source-backed engineering knowledge system for building reliable software on Bale.</strong></p>
 
-## What it provides
+<p align="center">
+  <img src="assets/brand/hero.svg" alt="Bale Engineering: Bot API, Business API, Mini App, Safir, wallet payments and MCP" width="100%">
+</p>
 
-- **Skills:** a main engineering orchestrator and focused skills for Bot API, Business API, Mini Apps, Safir, wallet payments, message formatting and deep links.
-- **Knowledge:** source-backed reference documents with examples, constraints, failure modes and implementation guidance.
-- **MCP:** read-only tools, prompts and resources so an MCP-compatible agent can discover and retrieve the same canonical knowledge.
-- **Templates:** PRD, architecture decision record (ADR), API contract and test matrix.
-- **Adapters:** installation guidance for Codex, Claude Code, Cursor and other skill-capable agents.
+Bale Engineering is more than an API notes repository. It helps developers and coding agents choose the correct Bale surface, design secure interactions, understand provider constraints, and verify implementations with explicit evidence.
 
-## Engineering principles
+<p align="center">
+  <a href="README.fa.md">فارسی</a> ·
+  <a href="docs/architecture.md">Architecture</a> ·
+  <a href="packages/mcp-server/README.md">MCP Server</a> ·
+  <a href="adapters/README.md">Agent setup</a>
+</p>
 
-1. **Bale is not Telegram.** The Bot API is based on Telegram's API, but every capability must be checked against Bale's own documentation before use.
-2. **Choose the correct delivery surface.** Bot API, Business API, Mini App and Safir have different recipient identities, quotas, security models and constraints.
-3. **Documented facts and engineering recommendations stay distinct.** Each reference identifies what Bale documents, what this project recommends, and what is not documented.
-4. **Every important rule explains why, when and how.** Examples include valid JSON, rejected alternatives, edge cases and verification steps.
-5. **Security is not optional.** Mini App initData is verified server-side; client-supplied identity and contact data are not trusted.
-6. **The MCP server is read-only.** It never sends messages, changes a bot, deploys code, accesses a user's database or handles production credentials.
-7. **One source of truth.** Skills and MCP resources read the same files; the project does not maintain duplicated copies of the same guidance.
+## At a glance
 
-## Repository layout
+![Conceptual architecture of Bale Engineering](docs/images/architecture-overview-en.svg)
 
-~~~text
-skills/                 Agent skills (canonical instructions)
-knowledge/              Detailed, source-backed Bale references
-packages/mcp-server/    Read-only MCP server (stdio in v0.1)
-templates/              Engineering artifact templates
-adapters/               Agent-specific installation guidance
-sources.json            Official documentation and upstream provenance
-AGENTS.md               Rules for contributors and coding agents
+| Component | Purpose |
+|---|---|
+| Skills | Focused engineering workflows for coding agents |
+| Knowledge | Source-backed API facts, constraints, examples and failure modes |
+| MCP server | Local, read-only access to the canonical knowledge |
+| Templates | PRD, ADR, API contract and test matrix |
+| Diagrams and visuals | Editable Mermaid sources and bilingual SVG illustrations |
+
+## Why this project exists
+
+1. **Bale is not Telegram.** Bale's Bot API is based on Telegram's API, but compatibility must never be assumed method by method.
+2. **Choose the correct surface.** Bot API, Business API, Mini App and Safir have different recipients, identities, quotas and security boundaries.
+3. **Separate facts from recommendations.** Platform-documented behavior, engineering recommendations and unknown behavior are labelled distinctly.
+4. **Design for failure.** Authorization, idempotency, retries, reconciliation, observability and tests are part of the design.
+5. **One source of truth.** Agent skills and MCP resources read the same canonical files.
+6. **Safe by default.** The MCP server is read-only and does not call Bale, Safir or production systems.
+
+## Supported platform surfaces
+
+| Surface | Use it for |
+|---|---|
+| Bot API | Bot conversations, messages, updates, keyboards, callbacks and chat workflows |
+| Business API | Outbound notifications to existing private Bale chats |
+| Mini App | Rich forms, dashboards, searchable lists and web workflows inside Bale |
+| Safir | Phone-number messaging, OTP and approved templates |
+| Wallet payments | Bale wallet invoices, pre-checkout validation and payment confirmation |
+| Deep links | Bot, message, invitation, share and Mini App entry points |
+| Message formatting | Bale-specific formatting syntax and client limitations |
+
+### Platform selection at a glance
+
+~~~mermaid
+flowchart TD
+    U[User need] --> D{Interaction type}
+    D -->|Chat and callbacks| BOT[Bot API]
+    D -->|Rich forms and dashboards| MINI[Mini App]
+    D -->|Existing private chat notification| BIZ[Business API]
+    D -->|Phone number and OTP| SAFIR[Safir]
+    D -->|Wallet checkout| PAY[Bot API or Mini App invoice]
+    BOT --> CORE[Application-owned backend]
+    MINI --> CORE
+    BIZ --> CORE
+    SAFIR --> CORE
+    PAY --> CORE
+    CORE --> DB[(Application state and audit)]
 ~~~
 
-## Use the skills
+The application backend owns business rules, authorization, durable state and idempotency. Bale channels are adapters, not the source of truth for business completion.
 
-Install the main skill into a supported agent project with the Skills CLI:
+## Install the main skill
+
+Requirements depend on the target agent and Skills CLI version. For supported agents:
 
 ~~~bash
 npx skills add shahinesi/Bale-Engineering --skill bale-engineering
 ~~~
 
-Focused skills can be installed individually:
+Focused skills can be installed independently:
 
 ~~~bash
 npx skills add shahinesi/Bale-Engineering --skill bale-bot-api
@@ -54,7 +93,7 @@ npx skills add shahinesi/Bale-Engineering --skill bale-safir
 npx skills add shahinesi/Bale-Engineering --skill bale-wallet-payments
 ~~~
 
-The exact installation options depend on the installed version of the Skills CLI and the target agent. See [adapters](adapters/README.md).
+See [Agent adapters](adapters/README.md) for Codex, Claude Code, Cursor and other setup guidance.
 
 ## Run the MCP server locally
 
@@ -66,53 +105,85 @@ pnpm --filter @bale-engineering/mcp-server build
 node packages/mcp-server/dist/index.js
 ~~~
 
-The first release uses **stdio** for local MCP clients. It exposes read-only knowledge and deterministic validators. Remote Streamable HTTP, authentication and hosted deployment are deliberately out of scope for this foundation release.
+The foundation release uses **stdio** for local MCP clients. It exposes read-only knowledge, deterministic keyword routing and local validators. Remote Streamable HTTP, hosted deployment and production API access are deliberately out of scope.
 
-See [MCP server setup](packages/mcp-server/README.md) for client configuration examples.
+See [MCP server setup](packages/mcp-server/README.md).
 
-## What the MCP exposes
+## MCP capabilities
 
-| Capability | Purpose |
-|---|---|
-| Prompts | Start an engineering task or a focused review with the right workflow |
-| Resources | Read the skill catalog, complete skills and reference documents |
-| Tools | List, retrieve, search and validate Bale-related artifacts |
+### Prompts
+- `bale-engineering` — start a task with platform selection, security, failure handling and verification.
+- `bale-engineering-review` — review a Bale implementation against the canonical quality checklist.
 
-Initial tools include:
-- bale_list_skills
-- bale_get_skill
-- bale_get_reference
-- bale_search_knowledge
-- bale_route_task
-- bale_validate_inline_keyboard
-- bale_validate_safir_payload
-- bale_validate_business_api_request
+### Resources
+- `bale://catalog`
+- `bale://skills/{id}`
+- `bale://knowledge/{id}`
+- `bale://sources`
 
-## Important knowledge already covered
+### Tools
+- `bale_list_skills`
+- `bale_get_skill`
+- `bale_get_reference`
+- `bale_search_knowledge`
+- `bale_route_task`
+- `bale_validate_inline_keyboard`
+- `bale_validate_safir_payload`
+- `bale_validate_business_api_request`
 
-- Inline and reply keyboards, including primary, success, danger button styles and disabled buttons.
-- Callback payload limits, callback handling, answerCallbackQuery and server-side authorization.
-- Bot API and Business API differences, method catalog and file constraints.
-- Mini App entry points, start versus startapp, SDK integration, theme behavior and server-side initData verification.
-- requestContact trust boundary and contact.user_id comparison.
-- Safir phone format, request_id idempotency, OTP, templates, secure messages, file upload and error codes.
-- Wallet invoice, pre-checkout and SuccessfulPayment lifecycle.
-- Bale's Markdown-like formatting, نمایش آنی, checklists and unsupported Markdown assumptions.
-- Bale deep links for bots, messages, invitations, Mini Apps and sharing.
+The keyword router is a deterministic first-pass hint, not semantic reasoning. Validators check local payload shape; they do not prove that a live provider will accept a request.
 
-## Sources and attribution
+## Documentation and diagrams
 
-Platform behavior is grounded in the official [Bale documentation](https://docs.bale.ai/). See [sources.json](sources.json) and the source links inside each knowledge document.
+The documentation is maintained in Persian and English. Mermaid source files are editable text and are rendered by GitHub in Markdown and supported diagram files. SVGs provide crisp, accessible visual summaries and are presentation assets rather than the source of truth.
 
-The engineering structure takes inspiration from:
-- [Ponytail](https://github.com/DietrichGebert/ponytail) — one canonical skill distributed through agent adapters.
-- [Product Engineering](https://github.com/phuryn/product-engineering) — focused skills, workflows, quality gates and source-aware maintenance.
+- [English architecture guide](docs/architecture.md)
+- [راهنمای معماری فارسی](docs/architecture.fa.md)
+- [Documentation index](docs/README.md)
+- [فهرست مستندات فارسی](docs/README.fa.md)
 
-This project does not copy their skill content or implementation.
+| Diagram | English | فارسی |
+|---|---|---|
+| Platform selection | [MMD](docs/diagrams/platform-selection.mmd) | [MMD](docs/diagrams/platform-selection.fa.mmd) |
+| Bot update lifecycle | [MMD](docs/diagrams/bot-update-lifecycle.mmd) | [MMD](docs/diagrams/bot-update-lifecycle.fa.mmd) |
+| Mini App authentication | [MMD](docs/diagrams/miniapp-authentication.mmd) | [MMD](docs/diagrams/miniapp-authentication.fa.mmd) |
+| Wallet payment lifecycle | [MMD](docs/diagrams/wallet-payment-lifecycle.mmd) | [MMD](docs/diagrams/wallet-payment-lifecycle.fa.mmd) |
+| MCP architecture | [MMD](docs/diagrams/mcp-architecture.mmd) | [MMD](docs/diagrams/mcp-architecture.fa.mmd) |
+
+## Repository layout
+
+~~~text
+skills/                  Canonical agent skills
+knowledge/               Source-backed Bale references
+packages/mcp-server/     Local read-only MCP server
+templates/               Reusable engineering artifacts
+adapters/                Agent installation guidance
+docs/                    Bilingual architecture and Mermaid diagrams
+assets/                  Brand mark and README artwork
+sources.json             Official sources and engineering references
+AGENTS.md                Contributor and coding-agent rules
+~~~
+
+## Security boundaries
+
+- The MCP server does not send messages, modify bots or call Bale/Safir APIs.
+- Never place bot tokens, Safir API keys, OTPs or production secrets in code, prompts, logs or MCP arguments.
+- Verify raw Mini App `initData` on the backend before trusting identity.
+- Callback payloads and disabled buttons are not authorization.
+- A pre-checkout event is not proof of payment; fulfil only after validating the successful-payment event.
+- Architecture illustrations are conceptual references, not screenshots or claims about a live production deployment.
 
 ## Project status
 
-**Foundation release — v0.1.0.** The repository structure, canonical skills, core references and local read-only MCP are being established. The npm package is not published yet; use the repository checkout for now.
+**Foundation release — v0.1.0.** The repository includes canonical skills, source-backed references, a local read-only MCP server, bilingual architecture guides, Mermaid sources and SVG visuals. The npm package is not published. Remote MCP hosting and live Bale API integrations are not part of this release.
+
+## Sources and attribution
+
+Platform behavior is grounded in the [official Bale documentation](https://docs.bale.ai/). See [sources.json](sources.json) and the source links in each knowledge reference.
+
+Visual documentation follows the official [GitHub Mermaid rendering guide](https://docs.github.com/en/get-started/writing-on-github/working-with-advanced-formatting/creating-diagrams) and [Mermaid syntax reference](https://mermaid.js.org/intro/syntax-reference).
+
+The engineering structure takes inspiration from [Ponytail](https://github.com/DietrichGebert/ponytail) and [Product Engineering](https://github.com/phuryn/product-engineering). No skill content or implementation is copied from those projects.
 
 ## License
 
