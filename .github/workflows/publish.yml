@@ -1,13 +1,14 @@
 name: Stage MCP package
 
 on:
-  push:
-    tags:
-      - "v*"
   workflow_dispatch:
     inputs:
+      release_version:
+        description: "Must exactly match packages/mcp-server/package.json"
+        required: true
+        type: string
       confirm_stage:
-        description: "Confirm staging the verified package for maintainer review on npm"
+        description: "Confirm staging this verified version for maintainer review on npm"
         required: true
         type: boolean
         default: false
@@ -16,11 +17,16 @@ permissions:
   contents: read
   id-token: write
 
+concurrency:
+  group: bale-engineering-npm-stage
+  cancel-in-progress: false
+
 jobs:
   stage:
-    if: github.event_name == 'push' || inputs.confirm_stage == true
+    if: inputs.confirm_stage == true
     name: Verify and stage package through npm OIDC
     runs-on: ubuntu-latest
+    timeout-minutes: 20
     steps:
       - name: Checkout
         uses: actions/checkout@v6
@@ -41,17 +47,35 @@ jobs:
         working-directory: packages/mcp-server
         run: npm install --no-audit --no-fund
 
-      - name: Verify tag matches package version
-        if: github.event_name == 'push'
+      - name: Validate release version and check npm registry
         working-directory: packages/mcp-server
+        env:
+          REQUESTED_RELEASE_VERSION: ${{ inputs.release_version }}
         shell: bash
         run: |
+          PACKAGE_NAME="$(node -p "require('./package.json').name")"
           PACKAGE_VERSION="$(node -p "require('./package.json').version")"
-          TAG_VERSION="${GITHUB_REF_NAME#v}"
-          test "$TAG_VERSION" = "$PACKAGE_VERSION" || {
-            echo "Tag v$TAG_VERSION does not match package version $PACKAGE_VERSION"
+
+          if [[ "$PACKAGE_VERSION" != "$REQUESTED_RELEASE_VERSION" ]]; then
+            echo "::error::Requested version $REQUESTED_RELEASE_VERSION does not match package.json version $PACKAGE_VERSION"
             exit 1
+          fi
+
+          npm view "$PACKAGE_NAME" versions --json > "$RUNNER_TEMP/npm-published-versions.json"
+
+          node - "$PACKAGE_VERSION" "$RUNNER_TEMP/npm-published-versions.json" <<'NODE'
+          const fs = require("node:fs");
+          const [targetVersion, versionsPath] = process.argv.slice(2);
+          const value = JSON.parse(fs.readFileSync(versionsPath, "utf8"));
+          const versions = Array.isArray(value) ? value : [value];
+
+          if (versions.includes(targetVersion)) {
+            console.error(`::error::Version ${targetVersion} already exists in the npm registry. Choose a new version.`);
+            process.exit(1);
           }
+
+          console.log(`Version ${targetVersion} is not currently published. Continuing to staged publishing.`);
+          NODE
 
       - name: Typecheck
         working-directory: packages/mcp-server
