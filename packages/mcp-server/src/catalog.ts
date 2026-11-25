@@ -103,6 +103,8 @@ export const references: ReferenceEntry[] = [
   { id: "deep-links", title: "Bale deep links", area: "links", path: "knowledge/links/deep-links.md", source: "https://docs.bale.ai/links" },
   { id: "platform-selection", title: "Bot API, Business API, Mini App and Safir selection", area: "engineering", path: "knowledge/engineering/platform-selection.md", source: "https://docs.bale.ai/" },
   { id: "glossary", title: "Bale Engineering glossary", area: "engineering", path: "knowledge/engineering/glossary.md", source: "https://docs.bale.ai/" }
+  ,{ id: "architecture-overview-en", title: "Bale Engineering architecture (English)", area: "architecture", path: "docs/architecture.md", source: "https://github.com/shahinesi/Bale-Engineering" }
+  ,{ id: "architecture-overview-fa", title: "معماری Bale Engineering (فارسی)", area: "architecture", path: "docs/architecture.fa.md", source: "https://github.com/shahinesi/Bale-Engineering" }
 ];
 
 export const templates = [
