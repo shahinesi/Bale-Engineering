@@ -7,7 +7,16 @@
 
 ### Reply keyboard
 
-Use a reply keyboard when the user is expected to send a choice as a chat message, or share contact/location through a keyboard action. The keyboard can remain visible until another custom keyboard replaces it or it is explicitly removed.
+Use a reply keyboard when the user is expected to send a choice as a chat message, or share contact/location through a keyboard action.
+
+A KeyboardButton can be a plain string for simple text. The object form supports:
+- text: visible button label.
+- request_contact: ask the user to share a contact.
+- request_location: ask the user to share a location.
+- web_app: open a Mini App.
+- style: choose a documented button color.
+
+A custom reply keyboard remains visible until another custom keyboard replaces it or the bot sends ReplyKeyboardRemove with remove_keyboard=true.
 
 ### Inline keyboard
 
@@ -49,9 +58,16 @@ The documented disabled field is an empty object. Bale says a disabled button ap
 
 ## Inline button action fields
 
-The official Bot API reference lists url, callback_data, web_app and copy_text as optional action fields and says only one optional field should be used.
+The official Bot API reference says only one optional action field should be used on an InlineKeyboardButton:
 
-callback_data has a documented size of 1–64 bytes. Measure UTF-8 bytes. Persian text can use multiple bytes per visible character.
+- url: open a URL.
+- callback_data: send data to the bot when pressed; documented size is 1–64 bytes.
+- web_app: open a Mini App; WebAppInfo.url must use HTTPS.
+- copy_text: copy the configured text; its text field is documented as 1–256 characters.
+
+style and disabled are additional presentation fields, not action fields.
+
+Measure callback_data in UTF-8 bytes. Persian text can use multiple bytes per visible character.
 
 ### Good callback payload
 
@@ -64,6 +80,17 @@ callback_data has a documented size of 1–64 bytes. Measure UTF-8 bytes. Persia
 ~~~
 
 The order:v1:confirm:1024 convention is an application design example, not a Bale-defined syntax.
+
+### Disabled action
+
+~~~json
+{
+  "text": "ظرفیت تکمیل است",
+  "disabled": {}
+}
+~~~
+
+Do not attach an active action to a disabled button. Even if the UI disables it, the backend must enforce the rule independently.
 
 ### Bad callback payload
 
@@ -79,23 +106,28 @@ Do not put personal information, secrets or permissions in callback_data. Keep i
 
 ## Callback processing
 
-A callback is delivered as callback_query in an Update. The data field contains the callback_data value configured on the button.
+A callback is delivered as callback_query in an Update. The data field contains the callback_data value configured on the button. Bale notes that callback data may arrive even when the message no longer has a button with that data, so treat it as untrusted input.
 
 Recommended server workflow:
 1. Parse the bounded callback payload.
-2. Authenticate the actor from the incoming update.
+2. Identify the actor from the authenticated update.
 3. Load the referenced resource.
 4. Check actor permission and resource ownership.
 5. Check the current state allows the transition.
 6. Apply the state transition transactionally.
 7. Make repeated callbacks harmless.
-8. Answer the callback query and update the original message when appropriate.
+8. Call answerCallbackQuery for every callback, even when no user-facing notification is needed.
+9. Update the original message or keyboard when appropriate.
 
-Never assume that a button click is proof of permission.
+Bale says a pressed inline button remains in a waiting state until answerCallbackQuery is called. Never assume that a button click is proof of permission.
+
+## Mini App data from a bot update
+
+The Bot API WebAppData object contains data sent from the Mini App. Bale explicitly warns that this field can contain fabricated data. Validate it on the backend; do not treat it as proof of identity or authorization.
 
 ## Safir is different
 
-Do not copy this entire schema into Safir. Safir's documented InlineKeyboardButton schema lists url, web_app and copy_text; it does not list callback_data in that section. Read the Safir reference separately.
+Do not copy this entire schema into Safir. Safir's documented InlineKeyboardButton schema lists url, web_app and copy_text; it does not list callback_data, style or disabled in that section. Read the Safir reference separately.
 
 ## Verification
 
@@ -103,10 +135,13 @@ Do not copy this entire schema into Safir. Safir's documented InlineKeyboardButt
 - Exactly one action field is used for Bot API inline buttons.
 - callback_data is between 1 and 64 UTF-8 bytes.
 - style is one of primary, success or danger.
-- disabled is an empty object.
+- disabled is an empty object and has no active action.
+- web_app.url uses HTTPS.
+- copy_text.text is between 1 and 256 characters.
 - Backend authorization works even if a user forges or replays callback data.
+- Every callback is answered.
 - Repeated confirm/cancel callbacks do not repeat a business transition.
 
 ## Source
 
-- https://docs.bale.ai/ (ReplyKeyboardMarkup, KeyboardButton, InlineKeyboardMarkup, InlineKeyboardButton, style)
+- https://docs.bale.ai/ (KeyboardButton, InlineKeyboardButton, style, CallbackQuery, WebAppData, WebAppInfo, CopyTextButton)
