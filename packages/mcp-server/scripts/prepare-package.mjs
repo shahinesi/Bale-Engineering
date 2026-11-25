@@ -19,4 +19,3 @@ for (const directory of ["skills", "knowledge", "templates", "docs", "assets/bra
 await copyFile(resolve(repositoryRoot, "sources.json"), resolve(dataRoot, "sources.json"));
 await copyFile(resolve(repositoryRoot, "LICENSE"), resolve(packageRoot, "LICENSE"));
 
-console.log("Prepared canonical skills, knowledge, templates, docs, assets and sources for npm packaging.");
