@@ -8,7 +8,22 @@ The canonical skills live under ../skills. Install skill folders directly or con
 npx skills add shahinesi/Bale-Engineering --skill bale-engineering
 ~~~
 
-To install a focused skill, replace the name with bale-bot-api, bale-miniapp, bale-safir, bale-message-formatting, bale-links or bale-engineering-review.
+Focused skills can be installed individually:
+- bale-bot-api
+- bale-business-api
+- bale-miniapp
+- bale-safir
+- bale-wallet-payments
+- bale-message-formatting
+- bale-links
+- bale-engineering-review
+
+Example:
+
+~~~bash
+npx skills add shahinesi/Bale-Engineering --skill bale-business-api
+npx skills add shahinesi/Bale-Engineering --skill bale-wallet-payments
+~~~
 
 ## Codex
 Install the skill with the Skills CLI or copy it to the project's .agents/skills directory. For local MCP, build the package and add the command shown in ../packages/mcp-server/README.md.
