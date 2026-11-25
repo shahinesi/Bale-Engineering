@@ -1,3 +1,5 @@
+<p align="right"><a href="README.fa.md">فارسی</a> · <strong>English</strong></p>
+
 # Bale Engineering MCP Server
 
 The MCP server exposes the repository's canonical skills and knowledge. It is deliberately read-only.
@@ -90,3 +92,5 @@ The server:
 - Performs local validation and keyword search only.
 
 The keyboard validator does not check application authorization. The Business API validator cannot prove the real chat type unless the caller supplies verified chat_type metadata. The Safir validator does not prove that a payload is accepted by the live provider. The keyword router is not semantic reasoning.
+
+[Persian setup guide](README.fa.md)
