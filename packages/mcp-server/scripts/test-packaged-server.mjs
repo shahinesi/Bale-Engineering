@@ -36,7 +36,13 @@ try {
   await mkdir(packDirectory, { recursive: true });
   await mkdir(installDirectory, { recursive: true });
 
-  const packOutput = runNpm(["pack", "--json", "--pack-destination", packDirectory], packageRoot);
+  runNpm(["run", "prepack"], packageRoot);
+  let packOutput;
+  try {
+    packOutput = runNpm(["pack", "--json", "--ignore-scripts", "--pack-destination", packDirectory], packageRoot);
+  } finally {
+    runNpm(["run", "postpack"], packageRoot);
+  }
   const packMetadata = JSON.parse(packOutput);
   assert.equal(packMetadata.length, 1, "npm pack should produce exactly one tarball");
 
