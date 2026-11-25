@@ -23,7 +23,7 @@
 
 ## تصاویر
 
-- <code>assets/brand/</code>: نشان پروژه و تصویر معرفی README.
+- <code>../assets/brand/</code>: نشان پروژه و تصویر معرفی README.
 - <code>docs/images/</code>: تصاویر مفهومی معماری به فارسی و انگلیسی.
 
 ## قواعد مشارکت در مستندات
