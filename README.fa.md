@@ -92,9 +92,9 @@ npx skills add shahinesi/Bale-Engineering --skill bale-wallet-payments
 <p>اولین نسخه عمومی یعنی <code>0.1.0</code> به‌صورت دستی در npm منتشر شده است. کاندید بعدی در سورس <code>0.1.1</code> است و برای انتشار مرحله‌ای با OIDC آماده می‌شود. تا زمان تأیید نسخه بعدی، از نسخه مشخص <code>0.1.0</code> استفاده کنید. نسخه <code>0.0.0-stage</code> فقط Placeholder مربوط به Staging در npm است، نه نسخه واقعی برنامه.</p>
 </div>
 
-~~~bash
-npx -y @bale-engineering/mcp-server@0.1.0
-~~~
+<div dir="rtl" align="right">
+<p>پکیج را به‌صورت مستقل در ترمینال اجرا نکنید؛ MCP Client هنگام نیاز آن را از طریق STDIO اجرا می‌کند. برای Codex Desktop از تنظیمات زیر استفاده کنید.</p>
+</div>
 
 <div dir="rtl" align="right">
 <h3>اتصال به Codex Desktop (بدون CLI)</h3>
