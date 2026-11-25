@@ -1,0 +1,13 @@
+flowchart TD
+    USER["نیاز کاربر"] --> TYPE{"نوع تعامل"}
+    TYPE -->|"گفت‌وگو و Callback"| BOT["Bot API"]
+    TYPE -->|"فرم و داشبورد"| MINI["Mini App"]
+    TYPE -->|"اعلان به چت خصوصی موجود"| BUSINESS["Business API"]
+    TYPE -->|"شماره تلفن و OTP"| SAFIR["Safir"]
+    TYPE -->|"پرداخت کیف پول"| WALLET["Wallet Invoice"]
+    BOT --> BACKEND["Backend برنامه"]
+    MINI --> BACKEND
+    BUSINESS --> BACKEND
+    SAFIR --> BACKEND
+    WALLET --> BACKEND
+    BACKEND --> STATE[("وضعیت و Audit برنامه")]
