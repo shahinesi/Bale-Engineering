@@ -65,10 +65,40 @@ describe("validateInlineKeyboard", () => {
 });
 
 describe("validateSafirPayload", () => {
-  it("accepts a documented text-message shape and warns when request_id is missing", () => {
+  it("accepts documented phone formats with and without plus", () => {
+    const noPlus = validateSafirPayload({
+      request_id: "send-1",
+      bot_id: 123456789,
+      phone_number: "989196111003",
+      message_data: { message: { text: "سلام" } }
+    });
+    const withPlus = validateSafirPayload({
+      request_id: "send-2",
+      bot_id: 123456789,
+      phone_number: "+989196111003",
+      message_data: { message: { text: "سلام" } }
+    });
+
+    expect(noPlus.valid).toBe(true);
+    expect(withPlus.valid).toBe(true);
+  });
+
+  it("rejects phone numbers with separators, wrong prefix or wrong digit count", () => {
+    const candidates = ["+98 919 611 1003", "09196111003", "98919611100"];
+    const results = candidates.map(phone_number => validateSafirPayload({
+      request_id: "test-1",
+      bot_id: 123456789,
+      phone_number,
+      message_data: { message: { text: "سلام" } }
+    }));
+
+    expect(results.every(result => !result.valid)).toBe(true);
+  });
+
+  it("warns when request_id is missing", () => {
     const result = validateSafirPayload({
       bot_id: 123456789,
-      phone_number: "989000000000",
+      phone_number: "989196111003",
       message_data: { message: { text: "سلام" } }
     });
 
@@ -76,34 +106,39 @@ describe("validateSafirPayload", () => {
     expect(result.issues.some(item => item.path === "request_id" && item.severity === "warning")).toBe(true);
   });
 
-  it("rejects phone numbers with separators or a missing 98 prefix", () => {
-    const result = validateSafirPayload({
-      request_id: "test-1",
-      bot_id: 123456789,
-      phone_number: "+98 900 000 0000",
-      message_data: { message: { text: "سلام" } }
-    });
-
-    expect(result.valid).toBe(false);
-    expect(result.issues.some(item => item.path === "phone_number")).toBe(true);
-  });
-
   it("rejects non-numeric OTP values", () => {
     const result = validateSafirPayload({
       request_id: "otp-1",
       bot_id: 123456789,
-      phone_number: "989000000000",
+      phone_number: "989196111003",
       message_data: { otp_message: { otp: "AB1234" } }
     });
 
     expect(result.valid).toBe(false);
   });
 
+  it("accepts a template payload but warns that its field names need approval", () => {
+    const result = validateSafirPayload({
+      request_id: "template-1",
+      bot_id: 123456789,
+      phone_number: "989196111003",
+      message_data: {
+        template_message: {
+          template_id: "approved-template",
+          text_fields: { name: "Test", credit: "50000" }
+        }
+      }
+    });
+
+    expect(result.valid).toBe(true);
+    expect(result.issues.some(item => item.path === "message_data.template_message" && item.severity === "warning")).toBe(true);
+  });
+
   it("warns when Bot API-only callback fields are used in Safir buttons", () => {
     const result = validateSafirPayload({
       request_id: "safir-1",
       bot_id: 123456789,
-      phone_number: "989000000000",
+      phone_number: "989196111003",
       message_data: {
         message: {
           text: "Open",
