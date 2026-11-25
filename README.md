@@ -99,7 +99,7 @@ See [Agent adapters](adapters/README.md) for Codex, Claude Code, Cursor and othe
 
 ## Install the MCP server from npm
 
-The public npm package is available as <code>@bale-engineering/mcp-server</code> (current release: <code>0.1.0</code>). It requires Node.js 20+ and an MCP-compatible client.
+The npm package name is registered, but npm currently shows only the <code>0.0.0-stage</code> placeholder. The source release candidate is <code>0.1.0</code>; it becomes installable only after the GitHub OIDC staging workflow succeeds and a maintainer approves it with 2FA. Do not install the placeholder.
 
 For Codex:
 
@@ -212,7 +212,7 @@ AGENTS.md                Contributor and coding-agent rules
 
 ## Project status
 
-**Foundation release — v0.1.0.** The public npm package <code>@bale-engineering/mcp-server</code> is published. The repository includes canonical skills, source-backed references, a local read-only MCP server, bilingual architecture guides, Mermaid sources and SVG visuals. Remote MCP hosting and live Bale API integrations are not part of this release.
+**Foundation release candidate — v0.1.0.** The npm package name is registered. The visible <code>0.0.0-stage</code> version is only npm's placeholder; the functional package awaits OIDC staging and maintainer approval. The repository includes canonical skills, source-backed references, a local read-only MCP server, bilingual architecture guides, Mermaid sources and SVG visuals.
 
 ## Sources and attribution
 
