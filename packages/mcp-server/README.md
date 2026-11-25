@@ -2,95 +2,107 @@
 
 # Bale Engineering MCP Server
 
-The MCP server exposes the repository's canonical skills and knowledge. It is deliberately read-only.
+A read-only MCP server that gives compatible AI coding agents access to the canonical Bale Engineering skills, source-backed references, templates and diagrams.
 
 ## Requirements
 
 - Node.js 20+
-- pnpm
 - An MCP-compatible host
 
-## Build and run
+## Run from npm
 
-From the repository root:
+After the first public release:
 
 ~~~bash
-pnpm install
-pnpm --filter @bale-engineering/mcp-server build
-node packages/mcp-server/dist/index.js
+npx -y @bale-engineering/mcp-server
 ~~~
 
-The server communicates over stdio. Keep stdout reserved for MCP protocol messages; do not add console.log debugging.
-
-## Configure a client
-
-Use an absolute path to the compiled entry point.
+The command starts the local MCP server over **STDIO**. It does not open a network port and does not call Bale or Safir APIs.
 
 ### Codex
 
 ~~~bash
-codex mcp add bale-engineering -- node /absolute/path/Bale-Engineering/packages/mcp-server/dist/index.js
+codex mcp add bale-engineering -- npx -y @bale-engineering/mcp-server
 ~~~
 
 ### Claude Code
 
 ~~~bash
-claude mcp add bale-engineering -- node /absolute/path/Bale-Engineering/packages/mcp-server/dist/index.js
+claude mcp add bale-engineering -- npx -y @bale-engineering/mcp-server
 ~~~
 
 ### Cursor
 
-Add the following entry to the MCP configuration file used by your Cursor version:
+Add this entry to the MCP configuration used by your Cursor version:
 
 ~~~json
 {
   "mcpServers": {
     "bale-engineering": {
-      "command": "node",
-      "args": [
-        "/absolute/path/Bale-Engineering/packages/mcp-server/dist/index.js"
-      ]
+      "command": "npx",
+      "args": ["-y", "@bale-engineering/mcp-server"]
     }
   }
 }
 ~~~
 
-Client configuration formats can change. Confirm the current host documentation if the command is rejected.
+## Build from source
 
-## Prompts
+From the repository root:
 
-- bale-engineering: starts a task with the main engineering skill and a requested lite/full/ultra mode.
-- bale-engineering-review: starts a review using the canonical review skill.
+~~~bash
+cd packages/mcp-server
+npm install
+npm run typecheck
+npm test
+npm run build
+node dist/index.js
+~~~
 
-## Tools
+For a workspace-level install, the repository root also supports pnpm scripts.
 
-| Tool | Purpose |
-|---|---|
-| bale_list_skills | List skills, optionally filtered by area |
-| bale_get_skill | Read one complete skill |
-| bale_get_reference | Read one complete knowledge reference |
-| bale_search_knowledge | Deterministic keyword search; not semantic search |
-| bale_route_task | Keyword-based first-pass skill routing |
-| bale_validate_inline_keyboard | Validate Bot API inline keyboard structure, styles, disabled and callback_data |
-| bale_validate_safir_payload | Validate Safir send_message shape, phone format, template and button fields |
-| bale_validate_business_api_request | Validate Business API method allowlist, private-chat metadata and file_id-only media |
+## Verify the npm package before publishing
 
-## Resources
+~~~bash
+npm run test:package
+~~~
 
-- bale://catalog
-- bale://skills/{id}
-- bale://knowledge/{id}
-- bale://sources
+This creates the npm tarball, installs it into a temporary consumer directory, starts the installed server through the official MCP client over STDIO, and checks tools, a Persian reference, a resource and a prompt.
+
+## MCP capabilities
+
+### Tools
+- <code>bale_list_skills</code>
+- <code>bale_get_skill</code>
+- <code>bale_get_reference</code>
+- <code>bale_search_knowledge</code>
+- <code>bale_route_task</code>
+- <code>bale_validate_inline_keyboard</code>
+- <code>bale_validate_safir_payload</code>
+- <code>bale_validate_business_api_request</code>
+
+### Resources
+- <code>bale://catalog</code>
+- <code>bale://skills/{id}</code>
+- <code>bale://knowledge/{id}</code>
+- <code>bale://sources</code>
+
+### Prompts
+- <code>bale-engineering</code>
+- <code>bale-engineering-review</code>
 
 ## Security boundary
 
-The server:
-- Does not call Bale or Safir APIs.
-- Does not send messages or trigger real actions.
-- Does not accept bot tokens or Safir API keys.
-- Reads only allowlisted files from this repository.
-- Performs local validation and keyword search only.
+- Read-only: no messages are sent and no bot settings are changed.
+- No production API calls to Bale or Safir.
+- No bot tokens, Safir keys or OTPs are accepted.
+- Content is loaded only from the bundled package data or the repository workspace.
+- STDIO stdout is reserved for MCP protocol messages.
 
-The keyboard validator does not check application authorization. The Business API validator cannot prove the real chat type unless the caller supplies verified chat_type metadata. The Safir validator does not prove that a payload is accepted by the live provider. The keyword router is not semantic reasoning.
+The local validators check payload shape; they do not prove live provider acceptance or replace application-side authorization.
 
-[Persian setup guide](README.fa.md)
+## Publishing
+
+The npm package is prepared as <code>@bale-engineering/mcp-server</code>. The GitHub Actions publish workflow verifies typechecking, unit tests, the build and an installed-tarball STDIO smoke test before publishing. Initial npm scope ownership and authentication must be configured by a package owner; see [the release guide](../../docs/releasing.md).
+
+[Persian setup guide](README.fa.md) · [Repository](https://github.com/shahinesi/Bale-Engineering)
