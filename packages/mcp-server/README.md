@@ -307,7 +307,7 @@ Node.js must be version 20 or newer. Restart the MCP client after installing Nod
 ### The server is not listed or its tools do not appear
 
 1. Check the MCP configuration syntax.
-2. Run <code>codex mcp list</code> or <code>claude mcp list</code>, as applicable.
+2. In Codex Desktop, restart the app and ask the agent to list the tools from <code>bale_engineering</code>; in Claude Code, run <code>claude mcp list</code>.
 3. Confirm the command is <code>npx</code> and the arguments are <code>-y</code> and <code>@bale-engineering/mcp-server@0.1.0</code>.
 4. Restart or reload the client.
 5. Inspect the MCP client's logs for process-startup errors.
