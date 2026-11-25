@@ -4,7 +4,7 @@
 <h1>مهندسی بله | Bale Engineering</h1>
 <p><strong>سامانه دانش و مهندسی برای ساخت ربات‌ها، مینی‌اپ‌ها و یکپارچه‌سازی‌های قابل‌اعتماد روی بله</strong></p>
 <p><strong>Bale Engineering</strong> فقط مجموعه‌ای از توضیحات API نیست؛ یک سیستم مهندسی مبتنی بر مستندات رسمی است که به توسعه‌دهنده و Agent کمک می‌کند مسیر درست را انتخاب کند، معماری را طراحی کند، محدودیت‌ها و مرزهای امنیتی را بشناسد و پیاده‌سازی را با تست و شواهد بررسی کند.</p>
-<p><a href="README.md">نسخه انگلیسی</a> · <a href="docs/architecture.fa.md">معماری پروژه</a> · <a href="packages/mcp-server/README.fa.md">راهنمای MCP</a> · <a href="adapters/README.fa.md">نصب در Agentها</a></p>
+<p><a href="README.md">نسخه انگلیسی</a> · <a href="docs/architecture.fa.md">معماری پروژه</a> · <a href="packages/mcp-server/README.fa.md">راهنمای MCP</a> · <a href="adapters/README.fa.md">نصب در Agentها</a> · <a href="CONTRIBUTING.fa.md">راهنمای مشارکت</a></p>
 <h2>در یک نگاه</h2>
 </div>
 
