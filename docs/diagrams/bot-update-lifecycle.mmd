@@ -1,0 +1,16 @@
+sequenceDiagram
+    participant B as Bale
+    participant I as Webhook or Poller
+    participant Q as Durable Queue
+    participant H as Update Handler
+    participant D as Domain Service
+    participant DB as Application DB
+
+    B->>I: Update
+    I->>H: Validate envelope and deduplicate update_id
+    H->>Q: Persist work item
+    Q->>H: Deliver work
+    H->>D: Execute authorized use case
+    D->>DB: Commit state and audit
+    DB-->>H: Commit result
+    H-->>B: answerCallbackQuery when applicable
