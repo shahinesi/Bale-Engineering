@@ -90,6 +90,17 @@ export function validateInlineKeyboard(markup: unknown): ValidationResult {
         }
       }
 
+      if (button.copy_text !== undefined) {
+        if (!isRecord(button.copy_text) || typeof button.copy_text.text !== "string") {
+          issue(issues, "error", path + ".copy_text", "copy_text must be an object with a text string.");
+        } else {
+          const length = Array.from(button.copy_text.text).length;
+          if (length < 1 || length > 256) {
+            issue(issues, "error", path + ".copy_text.text", "copy_text.text must contain 1–256 characters.");
+          }
+        }
+      }
+
       for (const key of ["url", "web_app"] as const) {
         const candidate = button[key];
         if (candidate === undefined) continue;
@@ -100,10 +111,12 @@ export function validateInlineKeyboard(markup: unknown): ValidationResult {
         }
         try {
           const parsed = new URL(value);
-          if (parsed.protocol !== "https:" && parsed.protocol !== "http:") {
-            issue(issues, "error", path + "." + key, "Only HTTP(S) URLs are accepted by this validator.");
-          } else if (parsed.protocol !== "https:") {
-            issue(issues, "warning", path + "." + key, "HTTPS is recommended for user-facing links.");
+          if (key === "web_app" && parsed.protocol !== "https:") {
+            issue(issues, "error", path + ".web_app.url", "Bale documents WebAppInfo.url as HTTPS.");
+          } else if (key === "url" && parsed.protocol !== "https:" && parsed.protocol !== "http:") {
+            issue(issues, "error", path + ".url", "Only HTTP(S) URLs are accepted by this validator.");
+          } else if (key === "url" && parsed.protocol !== "https:") {
+            issue(issues, "warning", path + ".url", "HTTPS is recommended for user-facing links.");
           }
         } catch {
           issue(issues, "error", path + "." + key, "Expected an absolute URL.");
@@ -125,7 +138,7 @@ export function validateSafirPayload(payload: unknown): ValidationResult {
     };
   }
 
-  if (payload.request_id === undefined || payload.request_id === null || payload.request_id === "") {
+  if (payload.request_id === undefined || payload.request_id === null || (typeof payload.request_id === "string" && payload.request_id.trim() === "")) {
     issue(issues, "warning", "request_id", "Safir documents request_id as optional, but recommends it to prevent duplicate delivery.");
   } else if (typeof payload.request_id !== "string") {
     issue(issues, "error", "request_id", "request_id must be a string.");
@@ -167,8 +180,37 @@ export function validateSafirPayload(payload: unknown): ValidationResult {
   if (messageData.message !== undefined) {
     if (!isRecord(messageData.message)) {
       issue(issues, "error", "message_data.message", "message must be an object.");
-    } else if (!["text", "file_id", "copy_text", "reply_markup"].some(key => messageData.message[key] !== undefined)) {
-      issue(issues, "error", "message_data.message", "Provide at least one documented message field.");
+    } else {
+      const message = messageData.message;
+      if (!["text", "file_id", "copy_text", "reply_markup"].some(key => message[key] !== undefined)) {
+        issue(issues, "error", "message_data.message", "Provide at least one documented message field.");
+      }
+      if (message.reply_markup !== undefined) {
+        if (!isRecord(message.reply_markup) || !Array.isArray(message.reply_markup.inline_keyboard)) {
+          issue(issues, "error", "message_data.message.reply_markup", "Safir reply_markup must contain an inline_keyboard array.");
+        } else {
+          message.reply_markup.inline_keyboard.forEach((row, rowIndex) => {
+            if (!Array.isArray(row)) {
+              issue(issues, "error", "message_data.message.reply_markup.inline_keyboard[" + rowIndex + "]", "Each row must be an array.");
+              return;
+            }
+            row.forEach((button, buttonIndex) => {
+              const path = "message_data.message.reply_markup.inline_keyboard[" + rowIndex + "][" + buttonIndex + "]";
+              if (!isRecord(button) || typeof button.text !== "string" || button.text.trim() === "") {
+                issue(issues, "error", path + ".text", "Safir inline buttons require non-empty text.");
+                return;
+              }
+              const actions = ["url", "web_app", "copy_text"].filter(key => button[key] !== undefined);
+              if (actions.length === 0) {
+                issue(issues, "error", path, "Safir documents at least one of url, web_app or copy_text.");
+              }
+              if (button.callback_data !== undefined || button.style !== undefined || button.disabled !== undefined) {
+                issue(issues, "warning", path, "callback_data, style and disabled are not listed in Safir's InlineKeyboardButton schema; do not assume Bot API parity.");
+              }
+            });
+          });
+        }
+      }
     }
   }
 
