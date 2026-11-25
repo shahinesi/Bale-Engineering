@@ -1,0 +1,13 @@
+flowchart TD
+    USER["User need"] --> TYPE{"Interaction type"}
+    TYPE -->|"Conversation and callbacks"| BOT["Bot API"]
+    TYPE -->|"Rich forms and dashboards"| MINI["Mini App"]
+    TYPE -->|"Existing private chat notification"| BUSINESS["Business API"]
+    TYPE -->|"Phone number / OTP"| SAFIR["Safir"]
+    TYPE -->|"Wallet checkout"| WALLET["Wallet invoice"]
+    BOT --> BACKEND["Application-owned backend"]
+    MINI --> BACKEND
+    BUSINESS --> BACKEND
+    SAFIR --> BACKEND
+    WALLET --> BACKEND
+    BACKEND --> STATE[("Application state and audit")]
