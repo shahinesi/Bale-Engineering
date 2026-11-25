@@ -1,13 +1,13 @@
 ---
 name: bale-bot-api
-description: Use when building or debugging Bale bots, commands, updates, webhooks, long polling, messages, reply keyboards, inline keyboards or callback interactions.
+description: Use when building or debugging Bale bots, commands, updates, webhooks, long polling, messages, reply keyboards, inline keyboards, callbacks, media or chat administration.
 ---
 
 # Bale Bot API Engineering
 
-Use this skill for chat-native workflows: commands, incoming messages, contact/location sharing, inline actions, groups, files, message editing and payment-related updates.
+Use this skill for chat-native workflows: commands, incoming messages, contact/location sharing, inline actions, groups, files, message editing, topics, sticker operations and payment-related updates.
 
-Do not use it as a substitute for a Mini App when the user needs a dense visual interface. Do not use Bot API as a substitute for Safir outbound delivery to a phone number.
+Do not use it as a substitute for a Mini App when the user needs a dense visual interface. Do not use Bot API as a substitute for Business API notifications outside active chat or Safir phone-number delivery.
 
 ## Verify the platform contract
 
@@ -21,7 +21,7 @@ https://tapi.bale.ai/bot<token>/METHOD_NAME
 
 Never log the complete URL because it contains the token. Use HTTPS, UTF-8 and a supported request encoding. JSON is supported except for file upload; multipart/form-data is used for file upload.
 
-A successful response has ok=true and result. A failure has ok=false and error_code, and may include description and parameters. Handle both transport errors and API-level failures.
+A successful response has ok=true and result. A failure has ok=false and error_code, and may include description and parameters. When retry_after is returned in ResponseParameters, respect it instead of guessing a retry delay.
 
 ## Choose update delivery
 
@@ -32,7 +32,7 @@ Do not run getUpdates and webhook as competing consumers. Deduplicate webhook de
 
 ## Model updates explicitly
 
-An Update has update_id and one optional event payload such as message, edited_message, callback_query or pre_checkout_query. Route by the actual field present; do not assume every update is a text message.
+An Update has update_id and at most one optional event payload such as message, edited_message, callback_query or pre_checkout_query. Route by the actual field present; do not assume every update is a text message.
 
 Persist processing outcomes when duplicate delivery could repeat a business action. Advance offset only after the intended durable processing point.
 
@@ -58,9 +58,26 @@ Only one action field should be used on an InlineKeyboardButton. callback_data i
 7. Call answerCallbackQuery for every callback, even when no user-facing notification is needed.
 8. Update the original message or keyboard when appropriate.
 
-Bale says a pressed inline button remains in a waiting state until answerCallbackQuery is called. Treat callback data as untrusted: the docs note that data may arrive even when the message no longer has a button with that data.
+Bale says a pressed inline button remains in a waiting state until answerCallbackQuery is called. The method is unavailable in older clients; the docs say callback_query_id beginning with 1 indicates an older client. Provide a fallback such as a normal bot message for those clients.
 
-Never encode secrets, personal data or authoritative permissions in callback_data.
+Treat callback data as untrusted: the docs note that data may arrive even when the message no longer has a button with that data.
+
+## Media and file limits
+
+Bale documents these current limits:
+- Reusing file_id: no upload limit is documented for this path.
+- Sending by HTTP URL: images up to 5 MB; other content up to 20 MB.
+- Uploading with multipart/form-data: images up to 10 MB; other files up to 50 MB.
+- getFile downloads: up to 20 MB; generated download URL is guaranteed for one hour.
+- file_id belongs to one bot and cannot be transferred to another bot.
+- sendAudio accepts MP3 or M4A up to 50 MB.
+- sendDocument, sendVideo, sendAnimation and sendVoice currently document 50 MB limits.
+
+Limits may change. Read the relevant method's current table before implementing a specific media workflow.
+
+## Payment updates
+
+answerPreCheckoutQuery must be called within 10 seconds. Receiving pre_checkout_query does not prove payment success. Fulfil only after receiving SuccessfulPayment and validating the invoice payload.
 
 ## Example: confirm or cancel
 
@@ -89,11 +106,15 @@ The callback format is an application convention, not a Bale-defined syntax. The
 - Unsupported method copied from Telegram.
 - Webhook timeout, restart or out-of-order updates.
 - File upload encoded as JSON instead of multipart/form-data.
+- File ID reused with another bot.
+- Order fulfilled from pre_checkout_query before SuccessfulPayment.
 
 ## Verification
-Check the response envelope, persisted offset, callback acknowledgement, server-side permission check and state transition. Test success and rejection paths.
+Check the response envelope, persisted offset, callback acknowledgement, server-side permission check, file constraints and state transition. Test success and rejection paths.
 
 ## References
 - ../../knowledge/bot-api/overview.md
+- ../../knowledge/bot-api/methods-catalog.md
 - ../../knowledge/bot-api/keyboards-and-callbacks.md
+- ../../knowledge/bot-api/payments-and-wallet.md
 - https://docs.bale.ai/
