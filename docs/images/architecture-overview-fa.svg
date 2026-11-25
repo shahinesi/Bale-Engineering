@@ -1,0 +1,26 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="760" viewBox="0 0 1200 760" role="img" aria-labelledby="title desc">
+<title id="title">معماری مفهومی مهندسی بله</title>
+<desc id="desc">کاربران بله و Agentها از مسیرهای جدا استفاده می‌کنند؛ منطق کسب‌وکار در Backend برنامه و دانش Agent در MCP فقط‌خواندنی قرار دارد.</desc>
+<defs>
+  <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#0B1326"/><stop offset="1" stop-color="#132B4B"/></linearGradient>
+  <filter id="shadow"><feDropShadow dx="0" dy="8" stdDeviation="10" flood-color="#000" flood-opacity=".24"/></filter>
+  <marker id="arrow" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto"><path d="M0 0L0 6L9 3z" fill="#9AB8DE"/></marker>
+</defs>
+<rect width="1200" height="760" rx="28" fill="url(#bg)"/>
+<g fill="#F4F8FF" font-family="Vazirmatn,Arial,sans-serif"><text x="1140" y="58" font-size="28" font-weight="800" text-anchor="end">مهندسی بله | BALE ENGINEERING</text><text x="1140" y="88" font-size="14" fill="#A9BEDB" text-anchor="end">معماری مفهومی · مسیر یکپارچه‌سازی محصول از مسیر دانش Agent جداست</text></g>
+<g filter="url(#shadow)">
+  <rect x="60" y="135" width="280" height="120" rx="18" fill="#172D4C" stroke="#6B9DE0"/>
+  <rect x="460" y="135" width="280" height="120" rx="18" fill="#172D4C" stroke="#6B9DE0"/>
+  <rect x="860" y="135" width="280" height="120" rx="18" fill="#172D4C" stroke="#E4AE63"/>
+  <rect x="60" y="330" width="680" height="220" rx="22" fill="#10243F" stroke="#4AC8B2" stroke-width="2"/>
+  <rect x="860" y="330" width="280" height="220" rx="22" fill="#10243F" stroke="#E4AE63" stroke-width="2"/>
+  <rect x="250" y="620" width="700" height="90" rx="18" fill="#172D4C" stroke="#5B91E6"/>
+</g>
+<g font-family="Vazirmatn,Arial,sans-serif" text-anchor="middle">
+  <g fill="#F4F8FF"><text x="200" y="174" font-size="18" font-weight="700">کاربران بله</text><text x="200" y="204" font-size="13" fill="#A9BEDB">گفت‌وگو · مینی‌اپ · چت خصوصی</text><text x="600" y="174" font-size="18" font-weight="700">سطوح ارتباط بله</text><text x="600" y="204" font-size="13" fill="#A9BEDB">Bot API · Business API · Safir</text><text x="1000" y="174" font-size="18" font-weight="700">Agentها</text><text x="1000" y="204" font-size="13" fill="#A9BEDB">Codex · Claude Code · Cursor</text><text x="400" y="371" font-size="20" font-weight="800">Backend تحت مالکیت برنامه</text><text x="1000" y="371" font-size="20" font-weight="800">MCP Server محلی</text><text x="600" y="675" font-size="20" font-weight="700">دیتابیس برنامه · صف · Audit</text></g>
+<g fill="#D8E8FF" font-family="Vazirmatn,Arial,sans-serif" font-size="13" text-anchor="middle"><text x="400" y="415">احراز هویت و مجوزدهی</text><text x="400" y="455">سرویس دامنه و قواعد کسب‌وکار</text><text x="400" y="495">State Machine · Idempotency · Observability</text><text x="1000" y="415">کاتالوگ مجاز</text><text x="1000" y="455">Skillها · دانش · قالب‌ها</text><text x="1000" y="495">فقط‌خواندنی · بدون فراخوانی Production</text></g>
+<g stroke="#9AB8DE" stroke-width="3" fill="none" marker-end="url(#arrow)"><path d="M340 195H452"/><path d="M600 255V320"/><path d="M860 195H748"/><path d="M400 550V610"/><path d="M1000 550V590"/></g>
+<g stroke="#E4AE63" stroke-width="2.5" stroke-dasharray="8 8" fill="none"><path d="M740 195H850"/></g>
+<g fill="#F2C47D" font-family="Vazirmatn,Arial,sans-serif" font-size="12" text-anchor="middle"><text x="795" y="178">دسترسی دانش MCP</text><text x="1000" y="585">بدون اتصال به سرویس عملیاتی</text></g>
+<text x="1140" y="735" fill="#7894B7" font-family="Vazirmatn,Arial,sans-serif" font-size="11" text-anchor="end">نمودار مرجع مفهومی · نه دیاگرام استقرار Production</text>
+</svg>
