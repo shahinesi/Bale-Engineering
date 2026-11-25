@@ -89,7 +89,7 @@ npx skills add shahinesi/Bale-Engineering --skill bale-wallet-payments
 
 <div dir="rtl" align="right">
 <h2>نصب MCP Server از npm</h2>
-<p>نام پکیج <code>@bale-engineering/mcp-server</code> در npm ثبت شده، اما فعلاً فقط Placeholder با نسخه <code>0.0.0-stage</code> نمایش داده می‌شود. نسخه کاندید سورس <code>0.1.0</code> است و پس از اجرای موفق Workflow مبتنی بر OIDC و تأیید Maintainer با 2FA قابل نصب خواهد بود. Placeholder را نصب نکنید.</p>
+<p>نام پکیج <code>@bale-engineering/mcp-server</code> در npm ثبت شده، اما فعلاً فقط Placeholder با نسخه <code>0.0.0-stage</code> نمایش داده می‌شود. نسخه کاندید سورس <code>0.1.0</code> است و پس از اجرای موفق Workflow مبتنی بر OIDC و تأیید Maintainer با 2FA قابل نصب خواهد بود. Placeholder را نصب نکنید؛ دستورهای نصب زیر برای بعد از تأیید نسخه واقعی هستند.</p>
 </div>
 
 ~~~bash
