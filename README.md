@@ -86,6 +86,7 @@ Initial tools include:
 - bale_route_task
 - bale_validate_inline_keyboard
 - bale_validate_safir_payload
+- bale_validate_business_api_request
 
 ## Important knowledge already covered
 
