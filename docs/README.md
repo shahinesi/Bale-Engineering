@@ -22,7 +22,7 @@ This directory contains the architecture guide and editable diagrams for Bale En
 
 ## Visual assets
 
-- <code>assets/brand/</code> — project mark and README hero artwork.
+- <code>../assets/brand/</code> — project mark and README hero artwork.
 - <code>images/</code> — architecture overview illustrations in English and Persian.
 
 ## Contribution rules
