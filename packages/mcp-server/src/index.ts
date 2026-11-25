@@ -1,6 +1,7 @@
 #!/usr/bin/env node
 import { McpServer, ResourceTemplate } from "@modelcontextprotocol/server";
 import { serveStdio } from "@modelcontextprotocol/server/stdio";
+import { createRequire } from "node:module";
 import * as z from "zod/v4";
 import { references, skills, templates } from "./catalog.js";
 import { readCatalogFile, searchCatalog } from "./content.js";
@@ -19,7 +20,7 @@ function errorResult(message: string) {
 }
 
 function createServer() {
-  const server = new McpServer({ name: "bale-engineering", version: "0.1.0" });
+  const server = new McpServer({ name: "bale-engineering", version: packageMetadata.version });
 
   server.registerTool(
     "bale_list_skills",
