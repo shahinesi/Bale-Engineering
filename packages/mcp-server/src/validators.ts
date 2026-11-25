@@ -11,6 +11,21 @@ type ValidationResult = {
 
 const styles = new Set(["primary", "success", "danger"]);
 const inlineActions = ["url", "callback_data", "web_app", "copy_text"];
+const businessMethods = new Set([
+  "getme",
+  "sendmessage",
+  "forwardmessage",
+  "sendphoto",
+  "sendvideo",
+  "sendaudio",
+  "senddocument"
+]);
+const businessMediaFields: Record<string, string> = {
+  sendphoto: "photo",
+  sendvideo: "video",
+  sendaudio: "audio",
+  senddocument: "document"
+};
 
 function isRecord(value: unknown): value is Record<string, unknown> {
   return typeof value === "object" && value !== null && !Array.isArray(value);
@@ -244,6 +259,60 @@ export function validateSafirPayload(payload: unknown): ValidationResult {
         issue(issues, "error", "message_data.template_message.text_fields", "text_fields must be an object whose keys match the approved template fields.");
       }
       issue(issues, "warning", "message_data.template_message", "template_message is documented in a dedicated Safir section but omitted from the MessageData summary table; ensure the template is approved and field names match exactly.");
+    }
+  }
+
+  return { valid: !issues.some(item => item.severity === "error"), issues };
+}
+
+export function validateBusinessApiRequest(
+  method: string,
+  payload: unknown,
+  chatType?: string
+): ValidationResult {
+  const issues: ValidationIssue[] = [];
+  const normalizedMethod = method.toLowerCase();
+
+  if (!businessMethods.has(normalizedMethod)) {
+    issue(issues, "error", "method", "Method is not in the documented Business API allowlist.");
+  }
+
+  if (!isRecord(payload)) {
+    issue(issues, "error", "payload", "Expected a JSON object.");
+    return { valid: false, issues };
+  }
+
+  if (normalizedMethod !== "getme") {
+    if (!Number.isSafeInteger(payload.chat_id)) {
+      issue(issues, "error", "payload.chat_id", "Business API chat_id must be a lossless integer.");
+    }
+    if (chatType === undefined) {
+      issue(issues, "warning", "chat_type", "The Business API is limited to private chats. Supply chat_type=private or verify the recipient outside this validator.");
+    } else if (chatType !== "private") {
+      issue(issues, "error", "chat_type", "Business API chat_id is documented for private chats only.");
+    }
+  }
+
+  if (normalizedMethod === "sendmessage" && (typeof payload.text !== "string" || payload.text.trim() === "")) {
+    issue(issues, "error", "payload.text", "sendMessage requires non-empty text.");
+  }
+
+  if (normalizedMethod === "forwardmessage") {
+    if (!Number.isSafeInteger(payload.from_chat_id)) {
+      issue(issues, "error", "payload.from_chat_id", "forwardMessage requires a lossless from_chat_id integer.");
+    }
+    if (!Number.isSafeInteger(payload.message_id)) {
+      issue(issues, "error", "payload.message_id", "forwardMessage requires a lossless message_id integer.");
+    }
+  }
+
+  const mediaField = businessMediaFields[normalizedMethod];
+  if (mediaField !== undefined) {
+    const fileValue = payload[mediaField];
+    if (typeof fileValue !== "string" || fileValue.trim() === "") {
+      issue(issues, "error", "payload." + mediaField, "Business API media methods require an existing file_id string.");
+    } else if (/^(https?:\/\/|attach:\/\/)/i.test(fileValue)) {
+      issue(issues, "error", "payload." + mediaField, "Business API media delivery supports file_id only; URL and multipart upload are not supported.");
     }
   }
 
