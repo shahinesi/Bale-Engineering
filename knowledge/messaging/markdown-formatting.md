@@ -56,7 +56,7 @@ Do not tell an agent these are supported. For tabular data, use concise text row
 ## Example message
 
 ~~~text
-سلام *دوست من* ،
+سلام *دوست من* امیدوارم خوب باشید.
 
 این یک متن _توضیحی_ با لینک [مستندات بله](https://docs.bale.ai) است.
 
