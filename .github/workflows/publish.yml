@@ -36,6 +36,18 @@ jobs:
         working-directory: packages/mcp-server
         run: npm install --no-audit --no-fund
 
+      - name: Verify tag matches package version
+        if: github.event_name == 'push'
+        working-directory: packages/mcp-server
+        shell: bash
+        run: |
+          PACKAGE_VERSION="$(node -p "require('./package.json').version")"
+          TAG_VERSION="${GITHUB_REF_NAME#v}"
+          test "$TAG_VERSION" = "$PACKAGE_VERSION" || {
+            echo "Tag v$TAG_VERSION does not match package version $PACKAGE_VERSION"
+            exit 1
+          }
+
       - name: Typecheck
         working-directory: packages/mcp-server
         run: npm run typecheck
